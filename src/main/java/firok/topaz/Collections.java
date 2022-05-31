@@ -1,10 +1,13 @@
 package firok.topaz;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 
 /**
  * @author Firok
+ *
+ * @since 1.0.0
  */
 public class Collections
 {
@@ -16,7 +19,7 @@ public class Collections
 	 * @param <TypeEntity> 实体类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey,TypeEntity> Map<TypeKey, TypeEntity> mapping(
+	public static <TypeKey,TypeEntity> Map<TypeKey, TypeEntity> mappingKeyEntity(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity,TypeKey> keyFunction
 	)
@@ -37,25 +40,25 @@ public class Collections
 	 * 提取若干实体数据中的一对一映射关系
 	 * @param items 实体集
 	 * @param keyFunction 如何获取键
-	 * @param targetFunction 如何获取值
+	 * @param valueFunction 如何获取值
 	 * @param <TypeKey> 键类型
 	 * @param <TypeEntity> 实体类型
-	 * @param <TypeTarget> 值类型
+	 * @param <TypeValue> 值类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey,TypeEntity,TypeTarget> Map<TypeKey,TypeTarget> mapping(
+	public static <TypeKey,TypeEntity, TypeValue> Map<TypeKey, TypeValue> mappingKeyValue(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity,TypeKey> keyFunction,
-			Function<TypeEntity,TypeTarget> targetFunction
+			Function<TypeEntity, TypeValue> valueFunction
 	)
 	{
 		Objects.requireNonNull(items);
 		Objects.requireNonNull(keyFunction);
-		Objects.requireNonNull(targetFunction);
+		Objects.requireNonNull(valueFunction);
 
-		var map = new HashMap<TypeKey,TypeTarget>();
+		var map = new HashMap<TypeKey, TypeValue>();
 
-		for(TypeEntity item : items) map.put(keyFunction.apply(item), targetFunction.apply(item));
+		for(TypeEntity item : items) map.put(keyFunction.apply(item), valueFunction.apply(item));
 
 		return java.util.Collections.unmodifiableMap(map);
 	}
@@ -64,30 +67,30 @@ public class Collections
 	 * 提取若干实体数据中的一对多映射关系
 	 * @param items 实体集
 	 * @param keyFunction 如何获取键
-	 * @param targetFunction 如何获取值
+	 * @param valueFunction 如何获取值
 	 * @param <TypeKey> 键类型
 	 * @param <TypeEntity> 实体类型
-	 * @param <TypeTarget> 值类型
+	 * @param <TypeValue> 值类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey, TypeEntity, TypeTarget> Map<TypeKey, List<TypeTarget>> mappingMultiList(
+	public static <TypeKey, TypeEntity, TypeValue> Map<TypeKey, List<TypeValue>> mappingKeyMultiValueList(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity, TypeKey> keyFunction,
-			Function<TypeEntity, TypeTarget> targetFunction
+			Function<TypeEntity, TypeValue> valueFunction
 	)
 	{
 		Objects.requireNonNull(items);
 		Objects.requireNonNull(keyFunction);
-		Objects.requireNonNull(targetFunction);
+		Objects.requireNonNull(valueFunction);
 
-		var map = new HashMap<TypeKey, List<TypeTarget>>();
+		var map = new HashMap<TypeKey, List<TypeValue>>();
 
 		for(TypeEntity item : items)
 		{
 			TypeKey key = keyFunction.apply(item);
-			TypeTarget target = targetFunction.apply(item);
+			TypeValue target = valueFunction.apply(item);
 
-			List<TypeTarget> list = map.computeIfAbsent(key, k -> new ArrayList<>());
+			List<TypeValue> list = map.computeIfAbsent(key, k -> new ArrayList<>());
 			list.add(target);
 		}
 
@@ -99,30 +102,30 @@ public class Collections
 	 * 提取若干实体数据中的一对多映射关系
 	 * @param items 实体集
 	 * @param keyFunction 如何获取键
-	 * @param targetFunction 如何获取值
+	 * @param valueFunction 如何获取值
 	 * @param <TypeKey> 键类型
 	 * @param <TypeEntity> 实体类型
-	 * @param <TypeTarget> 值类型
+	 * @param <TypeValue> 值类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey, TypeEntity, TypeTarget> Map<TypeKey, Set<TypeTarget>> mappingMultiSet(
+	public static <TypeKey, TypeEntity, TypeValue> Map<TypeKey, Set<TypeValue>> mappingKeyMultiValueSet(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity, TypeKey> keyFunction,
-			Function<TypeEntity, TypeTarget> targetFunction
+			Function<TypeEntity, TypeValue> valueFunction
 	)
 	{
 		Objects.requireNonNull(items);
 		Objects.requireNonNull(keyFunction);
-		Objects.requireNonNull(targetFunction);
+		Objects.requireNonNull(valueFunction);
 
-		var map = new HashMap<TypeKey, Set<TypeTarget>>();
+		var map = new HashMap<TypeKey, Set<TypeValue>>();
 
 		for(TypeEntity item : items)
 		{
 			TypeKey key = keyFunction.apply(item);
-			TypeTarget target = targetFunction.apply(item);
+			TypeValue target = valueFunction.apply(item);
 
-			Set<TypeTarget> list = map.computeIfAbsent(key, k -> new HashSet<>());
+			Set<TypeValue> list = map.computeIfAbsent(key, k -> new HashSet<>());
 			list.add(target);
 		}
 
@@ -137,12 +140,12 @@ public class Collections
 	 * @param <TypeEntity> 实体类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey, TypeEntity> Map<TypeKey, List<TypeEntity>> mappingMultiList(
+	public static <TypeKey, TypeEntity> Map<TypeKey, List<TypeEntity>> mappingKeyMultiEntityList(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity, TypeKey> keyFunction
 	)
 	{
-		return mappingMultiList(items, keyFunction, i->i);
+		return mappingKeyMultiValueList(items, keyFunction, i->i);
 	}
 
 
@@ -154,12 +157,12 @@ public class Collections
 	 * @param <TypeEntity> 实体类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey, TypeEntity> Map<TypeKey, Set<TypeEntity>> mappingMultiSet(
+	public static <TypeKey, TypeEntity> Map<TypeKey, Set<TypeEntity>> mappingKeyMultiEntitySet(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity, TypeKey> keyFunction
 	)
 	{
-		return mappingMultiSet(items, keyFunction, i->i);
+		return mappingKeyMultiValueSet(items, keyFunction, i->i);
 	}
 
 	/**
@@ -220,6 +223,36 @@ public class Collections
 		var ret = new HashSet<T>();
 		if(items != null && items.length > 0)
 			java.util.Collections.addAll(ret, items);
+		return ret;
+	}
+
+	/**
+	 * 长整型求和
+	 */
+	public static long sumLong(Iterable<? extends Number> numbers)
+	{
+		long ret = 0;
+		for(var num : numbers) ret += num.longValue();
+		return ret;
+	}
+
+	/**
+	 * 双浮点型求和
+	 */
+	public static double sumDouble(Iterable<? extends Number> numbers)
+	{
+		double ret = 0;
+		for(var num : numbers) ret += num.doubleValue();
+		return ret;
+	}
+
+	/**
+	 * 精确求和
+	 */
+	public static java.math.BigDecimal sumDecimal(Iterable<? extends Number> numbers)
+	{
+		var ret = BigDecimal.ZERO;
+		for(var num : numbers) ret = ret.add(new BigDecimal(num.toString()));
 		return ret;
 	}
 }

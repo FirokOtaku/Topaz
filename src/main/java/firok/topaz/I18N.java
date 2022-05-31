@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 /**
  * i18n 工具
+ *
+ * @author Firok
+ * @since 1.0.0
  */
 public final class I18N
 {
