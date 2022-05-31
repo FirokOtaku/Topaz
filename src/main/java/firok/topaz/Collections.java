@@ -1,4 +1,4 @@
-package topaz;
+package firok.topaz;
 
 import java.util.*;
 import java.util.function.Function;
