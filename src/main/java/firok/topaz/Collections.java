@@ -6,7 +6,6 @@ import java.util.function.Function;
 
 /**
  * @author Firok
- *
  * @since 1.0.0
  */
 public class Collections
@@ -253,6 +252,53 @@ public class Collections
 	{
 		var ret = BigDecimal.ZERO;
 		for(var num : numbers) ret = ret.add(new BigDecimal(num.toString()));
+		return ret;
+	}
+
+	/**
+	 * 移除某集合中的空元素
+	 * @param collection 集合
+	 * @param <TypeCollection> 集合类型
+	 * @param <TypeItem> 集合元素类型
+	 * @return 处理之后的集合. 如果传入的值为null, 则返回null
+	 * @implNote 至于为什么封装一个这个接口, 不直接用<code>Collection::removeIf</code>, 因为那东西返回的是boolean类型, 不好直接用进函数式编程
+	 */
+	public static <TypeCollection extends Collection<TypeItem>,TypeItem> TypeCollection removeNullElements(TypeCollection collection)
+	{
+		if(collection == null) return null;
+		collection.removeIf(Objects::isNull);
+		return collection;
+	}
+
+	/**
+	 * @param collection 原集合
+	 * @param sizeGroup 切分大小
+	 * @param <TypeCollection> 集合类型
+	 * @param <TypeItem> 元素类型
+	 * @return 切分后的分组列表
+	 * @deprecated 未开发完成, 存在逻辑错误
+	 */
+	@Deprecated
+	public static <TypeCollection extends Iterable<TypeItem>, TypeItem> List<TypeCollection> trimGroup(TypeCollection collection, int sizeGroup)
+	{
+		if(sizeGroup < 1) throw new IllegalArgumentException("分组大小必须大于1");
+
+		var ret = new ArrayList<TypeCollection>();
+
+		var stepGroup = 0;
+		var sub = new ArrayList<TypeItem>(sizeGroup);
+		for (TypeItem typeItem : collection)
+		{
+			sub.add(typeItem);
+			sub.size();
+			stepGroup++;
+			if(stepGroup == sizeGroup)
+			{
+				ret.add((TypeCollection) sub);
+				sub = new ArrayList<>(sizeGroup);
+			}
+		}
+
 		return ret;
 	}
 }
