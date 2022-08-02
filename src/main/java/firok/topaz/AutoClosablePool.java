@@ -3,7 +3,6 @@ package firok.topaz;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -12,7 +11,7 @@ import java.util.function.Function;
 public class AutoClosablePool<TypeKey extends Record, TypeItem extends java.lang.AutoCloseable> implements java.lang.AutoCloseable
 {
 	private boolean isClosed;
-	private final int timeout;
+	private final long timeout;
 	private final Function<TypeKey, TypeItem> generator;
 	private final Closer<TypeItem> closer;
 	private Map<TypeKey, TypeItem> poolItem;
@@ -21,25 +20,34 @@ public class AutoClosablePool<TypeKey extends Record, TypeItem extends java.lang
 
 	public interface Closer<TypeItem extends java.lang.AutoCloseable> { void closeItem(TypeItem item) throws Exception; }
 	/**
+	 * @param timeout 超时时间，单位毫秒. 如果为 {@code Long.MAX_VALUE} 则不会自动关闭资源
 	 * @param generator 映射函数. 不要返回 null
 	 * @param closer 关闭函数. 如果为 null, 则使用 {@link java.lang.AutoCloseable#close()}
 	 * */
-	public AutoClosablePool(int timeout, Function<TypeKey, TypeItem> generator, Closer<TypeItem> closer)
+	public AutoClosablePool(long timeout, Function<TypeKey, TypeItem> generator, Closer<TypeItem> closer)
 	{
-		this.isClosed = true;
+		if(timeout <= 0)
+			throw new IllegalArgumentException("timeout must be greater than 0");
+		if(generator == null)
+			throw new IllegalArgumentException("generator must not be null");
+
+		this.isClosed = false;
 		this.timeout = timeout;
 		this.generator = generator;
 		this.closer = closer;
 		this.poolItem = new HashMap<>();
 		this.poolPing = new HashMap<>();
 
-		this.threadPool = new ThreadPool();
-		this.threadPool.start();
+		if(timeout != Long.MAX_VALUE)
+		{
+			this.threadPool = new ThreadPool();
+			this.threadPool.start();
+		}
 	}
 	/**
-	 * @see AutoClosablePool#AutoClosablePool(int, Function, Closer)
+	 * @see AutoClosablePool#AutoClosablePool(long, Function, Closer)
 	 * */
-	public AutoClosablePool(int timeout, Function<TypeKey, TypeItem> generator)
+	public AutoClosablePool(long timeout, Function<TypeKey, TypeItem> generator)
 	{
 		this(timeout, generator, null);
 	}
@@ -48,9 +56,9 @@ public class AutoClosablePool<TypeKey extends Record, TypeItem extends java.lang
 	{
 		this.checkNoClosed();
 
+		TypeItem item = this.poolItem.get(key);
 		try
 		{
-			TypeItem item = this.poolItem.get(key);
 			if(item == null)
 			{
 				item = this.generator.apply(key);
