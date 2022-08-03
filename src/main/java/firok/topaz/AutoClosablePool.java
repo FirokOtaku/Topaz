@@ -97,6 +97,11 @@ public class AutoClosablePool<TypeKey extends Record, TypeItem extends java.lang
 			throw new IllegalStateException("pool is closed");
 	}
 
+	public synchronized boolean isClosed()
+	{
+		return this.isClosed;
+	}
+
 	@Override
 	public synchronized void close() throws Exception
 	{
