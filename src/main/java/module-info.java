@@ -1,7 +1,7 @@
 open module firok.topaz {
 	requires lombok;
-	requires org.graalvm.js.scriptengine;
-	requires java.scripting;
+
+	requires transitive org.graalvm.js.scriptengine;
 
 	exports firok.topaz;
 }

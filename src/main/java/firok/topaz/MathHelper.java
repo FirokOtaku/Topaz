@@ -31,20 +31,20 @@ public class MathHelper
 	 * */
 	public double cos(double radian)
 	{
-		return tableCos[(int)( tableCos.length * Math.abs(radian) / 2 / Math.PI )];
+		return tableCos[(int)( tableCos.length * Math.abs(radian) / 2 / Math.PI ) % tableSin.length];
 	}
 	/**
 	 * @param radian 弧度
 	 * */
 	public double sin(double radian)
 	{
-		return (radian < 0 ? -1 : 1) * tableSin[(int)( tableSin.length * Math.abs(radian) / 2 / Math.PI )];
+		return (radian < 0 ? -1 : 1) * tableSin[(int)( tableSin.length * Math.abs(radian) / 2 / Math.PI ) % tableSin.length];
 	}
 	/**
 	 * @param radian 弧度
 	 * */
 	public double tan(double radian)
 	{
-		return (radian < 0 ? -1 : 1) * tableTan[(int)( tableTan.length * Math.abs(radian) / 2 / Math.PI )];
+		return (radian < 0 ? -1 : 1) * tableTan[(int)( tableTan.length * Math.abs(radian) / 2 / Math.PI ) % tableSin.length];
 	}
 }

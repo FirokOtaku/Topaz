@@ -1,17 +1,10 @@
 package firok.topaz;
 
-import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
-import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 
-import javax.script.Bindings;
-import javax.script.SimpleBindings;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * JavaScript 脚本执行器
@@ -21,25 +14,40 @@ import java.util.Scanner;
  * */
 public class JavascriptInvoker implements AutoCloseable
 {
-	final GraalJSScriptEngine engine;
-	final Bindings context;
-
-	public JavascriptInvoker(Map<String, Object> context)
+	final Context engine;
+	public JavascriptInvoker(Map<String, Object> map)
 	{
-		Context.Builder builder = Context.newBuilder().allowHostAccess(HostAccess.ALL).allowAllAccess(true);
-		this.engine = GraalJSScriptEngine.create(null, builder);
-		this.context = new SimpleBindings(context);
+		engine = Context.newBuilder()
+				.allowHostAccess(HostAccess.ALL)
+				.allowAllAccess(true)
+				.build();
+		var bindings = engine.getBindings("js");
+		for(var entry : map.entrySet())
+		{
+			bindings.putMember(
+					entry.getKey(),
+					entry.getValue()
+			);
+		}
+
 	}
 
 	@SneakyThrows
 	public Object eval(String command)
 	{
-		return engine.eval(command, context);
+		return engine.eval("js", command);
+	}
+
+	public <T> T getValue(String name)
+	{
+		var value = engine.getBindings("js").getMember(name);
+		return value.asHostObject();
 	}
 
 	@Override
+	@SneakyThrows
 	public void close()
 	{
-		this.engine.close();
+		engine.close();
 	}
 }
