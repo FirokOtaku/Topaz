@@ -32,8 +32,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * @author Firok
  * @since 2020/04/14 15:57
  */
-public class Encrypts
+public final class Encrypts
 {
+	private Encrypts() { }
+
 	private static final byte[] DES_KEY = {55, 32, -15, 23, -24, 65, 47, -28};
 
 	/**

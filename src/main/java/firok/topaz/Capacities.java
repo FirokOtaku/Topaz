@@ -6,8 +6,10 @@ package firok.topaz;
  * @author Firok
  * @since 2.1.0
  */
-public class Capacities
+public final class Capacities
 {
+	private Capacities() { }
+
 	public static double kb(long bytes)
 	{
 		return bytes / 1024.0D;

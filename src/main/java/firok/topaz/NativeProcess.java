@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit;
  * @author Firok
  * @since 2.0.0
  */
-public class NativeProcess implements AutoCloseable
+public final class NativeProcess implements AutoCloseable
 {
-	Process process;
-	ThreadStream threadOut, threadErr;
-	OutputStream os;
-	PrintStream ps;
+	private final Process process;
+	private final ThreadStream threadOut, threadErr;
+	private final OutputStream os;
+	private final PrintStream ps;
 
 	/**
 	 * @param command 需要执行的命令

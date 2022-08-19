@@ -8,8 +8,10 @@ import java.util.function.Function;
  * @author Firok
  * @since 1.0.0
  */
-public class Collections
+public final class Collections
 {
+	private Collections() { }
+
 	/**
 	 * 提取若干实体数据中的一对一映射关系
 	 * @param items 实体集
