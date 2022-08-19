@@ -16,7 +16,7 @@ public class EncryptTests
 		var listContentTime = new ArrayList<Long>();
 		IntStream.range(0, 100).parallel().forEach(stepKey-> {
 			var key = "key-hmac-" + stepKey;
-			var mac = Encrypts.initMac(key);
+			var mac = Encrypts.initHMACMac(key);
 
 			var startkey = System.currentTimeMillis();
 			IntStream.range(0, 100).parallel().forEach(stepContent -> {
@@ -76,5 +76,27 @@ public class EncryptTests
 		System.out.println("min-time-content: " + minTimeContent);
 		System.out.println("total-time-content: " + totalTimeContent);
 		System.out.println("aver-time-content: " + totalTimeContent / listContentTime.size());
+	}
+
+	@Test
+	void testHMACLength()
+	{
+		var mac = Encrypts.initHMACMac("pass-mac-000");
+
+		for(int i = 0; i < 10; i++)
+		{
+			var sb = new StringBuilder("pswd-");
+			for(int step = -5; step < i; step++)
+			{
+				sb.append(step);
+			}
+			var password = sb.toString();
+			var bytes = password.getBytes(StandardCharsets.UTF_8);
+			var signature = Encrypts.encodeHMAC(bytes, mac);
+
+			System.out.println("加密前长度: " + bytes.length);
+			System.out.println("加密后长度: " + signature.length);
+		}
+
 	}
 }

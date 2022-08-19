@@ -259,7 +259,7 @@ public class Encrypts
 	 * 初始化一个 HMAC 密钥
 	 * */
 	@SneakyThrows
-	public static Mac initMac(String key)
+	public static Mac initHMACMac(String key)
 	{
 		var sk = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HMAC_ALGORITHM);
 		var mac = Mac.getInstance(HMAC_ALGORITHM);
@@ -267,17 +267,17 @@ public class Encrypts
 		return mac;
 	}
 	/**
-	 * @see #initMac(String)
+	 * @see #initHMACMac(String)
 	 * @see #encodeHMAC(byte[], Mac)
 	 * */
 	@Deprecated
 	public static byte[] encodeHMAC(byte[] content, String key)
 	{
-		var mac = initMac(key);
+		var mac = initHMACMac(key);
 		return encodeHMAC(content, mac);
 	}
 	/**
-	 * @see #initMac(String)
+	 * @see #initHMACMac(String)
 	 * */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 	public static byte[] encodeHMAC(byte[] content, Mac mac)
@@ -288,17 +288,17 @@ public class Encrypts
 		}
 	}
 	/**
-	 * @see #initMac(String)
+	 * @see #initHMACMac(String)
 	 * @see #matchHMAC(byte[], byte[], String)
 	 * */
 	@Deprecated
 	public static boolean matchHMAC(byte[] content, byte[] signature, String key)
 	{
-		var mac = initMac(key);
+		var mac = initHMACMac(key);
 		return matchHMAC(content, signature, mac);
 	}
 	/**
-	 * @see #initMac(String)
+	 * @see #initHMACMac(String)
 	 * */
 	@SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
 	public static boolean matchHMAC(byte[] content, byte[] signature, Mac mac)
