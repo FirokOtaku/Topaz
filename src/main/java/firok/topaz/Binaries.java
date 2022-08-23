@@ -4,13 +4,13 @@ public final class Binaries
 {
 	private Binaries() { }
 
-	private static final char[] chars = new char[] {
+	private static final char[] HexChar = new char[] {
 			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'A', 'B', 'C', 'D', 'E', 'F'
 	};
 	private static char toHexChar(int b)
 	{
-		return chars[b & 0xF];
+		return HexChar[b & 0xF];
 	}
 	private static byte toHexByte(char c)
 	{
@@ -43,4 +43,22 @@ public final class Binaries
 		}
 		return ret;
 	}
+
+	/**
+	 * user-friendly-chars-both
+	 * no '0', '1', 'l', 'L', 'i', 'I', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z'
+	 * */
+//	private static final char[] UfcCharBoth = new char[] {
+//			'2', '3', '4', '5', '6', '7', '8', '9',
+//			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 't',
+//			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'P', 'Q', 'R', 'T',
+//	};
+
+	/**
+	 * user-friendly-chars-single
+	 * */
+//	private static final char[] UfcCharSingle = new char[] {
+//			'2', '3', '4', '5', '6', '7', '8', '9',
+//			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'R', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+//	};
 }
