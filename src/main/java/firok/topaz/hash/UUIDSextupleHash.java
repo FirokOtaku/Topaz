@@ -3,6 +3,10 @@ package firok.topaz.hash;
 import firok.topaz.IHashMapper;
 import firok.topaz.IMappedHash;
 
+/**
+ * @since 3.10.0
+ * @author Firok
+ * */
 public record UUIDSextupleHash(
 		UUIDSextupleMapper mapper,
 		String p1,

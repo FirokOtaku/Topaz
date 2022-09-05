@@ -3,6 +3,8 @@ open module firok.topaz {
 
 	requires transitive org.graalvm.sdk;
 
+	requires java.desktop;
+
 	exports firok.topaz;
 	exports firok.topaz.hash;
 

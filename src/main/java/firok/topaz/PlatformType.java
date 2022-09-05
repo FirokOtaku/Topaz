@@ -6,6 +6,8 @@ import static firok.topaz.PlatformType.*;
  * 操作系统类型
  *
  * @see PlatformTypes
+ * @since 3.9.0
+ * @author Firok
  */
 public abstract sealed class PlatformType permits Unknown, Windows, Linux, MacOS
 {
@@ -31,8 +33,6 @@ public abstract sealed class PlatformType permits Unknown, Windows, Linux, MacOS
 	protected abstract boolean equalsCurrent();
 
 	protected abstract String getName();
-
-
 
 	/**
 	 * 未知操作系统

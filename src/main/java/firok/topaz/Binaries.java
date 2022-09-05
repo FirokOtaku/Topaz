@@ -1,5 +1,9 @@
 package firok.topaz;
 
+/**
+ * @since 3.6.0
+ * @author Firok
+ * */
 public final class Binaries
 {
 	private Binaries() { }

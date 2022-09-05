@@ -5,6 +5,9 @@ import java.util.Objects;
 /**
  * 简单计算某个字符串中的哈希值,
  * 用于文件储存路径散列等
+ *
+ * @since 3.10.0
+ * @author Firok
  */
 public interface IHashMapper<TypeHash extends IMappedHash>
 {

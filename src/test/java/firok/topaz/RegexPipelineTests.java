@@ -25,5 +25,10 @@ public class RegexPipelineTests
 				line2
 				line3
 				line-end""", pp.replaceFirst(raw, "line", "line-test"));
+
+		var str = "a.b.c.D";
+		var index = str.lastIndexOf('.');
+
+		System.out.println(str.substring(index + 1));
 	}
 }

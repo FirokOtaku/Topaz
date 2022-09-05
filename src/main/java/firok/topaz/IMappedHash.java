@@ -2,6 +2,9 @@ package firok.topaz;
 
 /**
  * 计算映射后的哈希值
+ *
+ * @since 3.10.0
+ * @author Firok
  */
 public interface IMappedHash
 {

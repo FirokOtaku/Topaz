@@ -10,6 +10,9 @@ import firok.topaz.IMappedHash;
  * 8d6b5f5a-dc3b-4513-b504-e4de2d594751
  * 提取后:
  * 8d6b5f5a-dc3b-4513-b504-e4de2d594751
+ *
+ * @since 3.10.0
+ * @author Firok
  */
 public record NoHash(
 		NoHashMapper mapper,

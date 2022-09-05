@@ -9,6 +9,9 @@ import firok.topaz.IHashMapper;
  * 8d6b5f5a-dc3b-4513-b504-e4de2d594751
  * 提取后:
  * 8d/6b/5f/5a/dc/3b/8d6b5f5a-dc3b-4513-b504-e4de2d594751
+ *
+ * @since 3.10.0
+ * @author Firok
  */
 public class UUIDSextupleMapper implements IHashMapper<UUIDSextupleHash>
 {

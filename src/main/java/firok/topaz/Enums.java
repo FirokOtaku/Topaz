@@ -2,6 +2,10 @@ package firok.topaz;
 
 import java.lang.reflect.Array;
 
+/**
+ * @since 3.7.0
+ * @author Firok
+ * */
 public class Enums
 {
 	public static <TypeEnum extends Enum<TypeEnum>> TypeEnum valueOf(Class<TypeEnum> classEnum, String str)

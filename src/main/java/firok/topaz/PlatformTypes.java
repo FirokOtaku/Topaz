@@ -1,5 +1,9 @@
 package firok.topaz;
 
+/**
+ * @since 3.9.0
+ * @author Firok
+ * */
 public class PlatformTypes
 {
 	public static final PlatformType Unknown = new PlatformType.Unknown();

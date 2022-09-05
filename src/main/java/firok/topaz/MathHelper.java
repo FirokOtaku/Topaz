@@ -2,7 +2,10 @@ package firok.topaz;
 
 /**
  * 一个用数组缓存加速数学运算的工具类
+ *
  * @implNote 多谢 Minecraft
+ * @since 2.3.0
+ * @author Firok
  * */
 public class MathHelper
 {
