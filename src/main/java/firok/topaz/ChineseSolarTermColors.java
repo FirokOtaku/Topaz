@@ -1,7 +1,9 @@
 package firok.topaz;
 
 /**
- * 中国传统色 - 故宫 24 节气
+ * 中国传统色 - 故宫 24 节气 <br>
+ *
+ * <b>数据提取自 utools 插件</b>
  *
  * @since 3.11.0
  * @author Firok
