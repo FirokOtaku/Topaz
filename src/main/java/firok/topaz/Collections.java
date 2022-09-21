@@ -198,7 +198,7 @@ public final class Collections
 	}
 
 	/**
-	 * 裁剪数组至指定最大长度
+	 * 把数组前若干个元素取出
 	 * @param maxSize 最大长度
 	 * @param items 数据集
 	 * @param <T> 数据类型
@@ -210,6 +210,25 @@ public final class Collections
 		return items == null ? null :
 				items.length > maxSize ? Arrays.copyOf(items,maxSize) :
 						items;
+	}
+
+	/**
+	 * 从指定迭代器取出前若干个元素
+	 * */
+	public static <T> Collection<T> cut(int maxSize, Iterable<T> items)
+	{
+		var ret = new ArrayList<T>();
+
+		int index = 0;
+		for(T item : items)
+		{
+			ret.add(item);
+			index++;
+			if(index >= maxSize)
+				break;
+		}
+
+		return ret;
 	}
 
 	/**

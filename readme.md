@@ -4,9 +4,69 @@
 > 托帕石，矿物学中也称黄玉或黄晶，含氟铝硅酸盐矿物，英文称*Topaz*。  
 > 因为托帕石的透明度很高，又很坚硬，所以反光效应很好，加之颜色美丽，颇受青睐。
 
-储存各类代码碎片的小项目. 代码基于 Java 17.
+储存各类代码碎片的小项目. **代码基于 Java 17**.
+
+## 工具列表
+
+* Spring 相关
+  * `Ret` _Restful 返回值封装_
+* 通用代码
+  * `Enums` _无异常枚举转换_
+  * `RegexPipeline` _正则批量替换加速_
+  * `NativeProcess` _本地进程调用辅助工具_
+  * `IHashMapper` _简易哈希运算, 用于文件储存散列_
+  * `Encrypts` _RSA, DES, HMAC, Base64 加密解密封装_
+  * `Collections` _高级集合操作封装_
+  * `I18N` _简易本地化支持_
+  * `EnumerationMultiFileInputStream` _文件流枚举器_
+  * `AutoClosablePool` _自动资源缓存池_
+  * `PlatformTypes` _运行平台检测封装_
+  * `JavascriptInvoker` _提供 Javascript 脚本与 Java 环境的交互_
+  * `StreamLineEmitter` _以行为单位的流数据监听器_
+* 数学运算相关
+  * `MathHelper` _数组缓存加速三角函数运算_
+  * `Capacities` _储存容量计算_
+  * `Binaries` _二进制数据与十六进制字符串的转换_
+* 设计相关
+  * `Colors` _简易 RGB 空间色彩运算_
+  * `ChineseSolarTermColors` _中国传统色 - 故宫 24 节气_
+    * `chinese-solar-term-colors.json` _JSON 格式数据_
+  * `JapaneseTraditionalColors` _日本传统色_
+  * `CssColors` CSS 常用色
+    * `css-colors.json` _JSON 格式数据_
+
+> 色彩数据来源自 [uTools](https://www.u.tools/)
+
+## 安装
+
+目前可以使用如下方式安装依赖:
+
+* `clone repo` 并 `mvn install`
+* 使用 GitHub Maven Packages
+  ```xml
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/FirokOtaku/Topaz</url>
+    </repository>
+  </repositories>
+  
+  <dependencies>
+    <dependency>
+      <groupId>firok</groupId>
+      <artifactId>topaz</artifactId>
+      <version>{VERSION}</version>
+    </dependency>
+  </dependencies>
+  ```
+  
+> 正常使用 GitHub Maven Packages 需 [配置验证](https://docs.github.com/cn/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 
 ## 改动记录
+
+### 3.12.0
+
+* 新增集合操作工具方法
 
 ### 3.11.1
 
