@@ -31,7 +31,6 @@
   * `Colors` _简易 RGB 空间色彩运算_
   * `ChineseSolarTermColors` _中国传统色 - 故宫 24 节气_
     * `chinese-solar-term-colors.json` _JSON 格式数据_
-  * `JapaneseTraditionalColors` _日本传统色_
   * `CssColors` CSS 常用色
     * `css-colors.json` _JSON 格式数据_
 
@@ -63,6 +62,10 @@
 > 正常使用 GitHub Maven Packages 需 [配置验证](https://docs.github.com/cn/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 
 ## 改动记录
+
+### 3.12.1
+
+* 新增枚举工具方法
 
 ### 3.12.0
 
