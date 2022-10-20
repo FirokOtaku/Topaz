@@ -25,6 +25,7 @@
   * `StreamLineEmitter` _以行为单位的流数据监听器_
   * `SimpleMultiThread` _简易多线程创建工具_
   * `Threads` _多线程工具方法_
+  * `Shapes` _多边形处理相关方法_
 * 数学运算相关
   * `MathHelper` _数组缓存加速三角函数运算_
   * `Capacities` _储存容量计算_
@@ -64,6 +65,11 @@
 > 正常使用 GitHub Maven Packages 需 [配置验证](https://docs.github.com/cn/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 
 ## 改动记录
+
+### 3.15.0
+
+* 新增多边形计算工具
+* 新增注释型注解
 
 ### 3.14.0
 

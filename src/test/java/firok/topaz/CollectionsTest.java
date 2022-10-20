@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class CollectionsTest
 {
@@ -68,5 +70,28 @@ public class CollectionsTest
 		var list2cut3 = Collections.cut(3, list2);
 		Assertions.assertEquals(2, list2cut3.size());
 		System.out.println(list2cut3);
+	}
+
+	@Test
+	public void testReverse()
+	{
+		var res1 = new int[] { 5, 4, 3, 2, 1, };
+		Collections.makeReverse(res1);
+		Assertions.assertArrayEquals(new int[] { 1, 2, 3, 4, 5, }, res1);
+
+		var res2 = new int[] { 6, 5, 4, 3, 2, 1, };
+		Collections.makeReverse(res2);
+		Assertions.assertArrayEquals(new int[] { 1, 2, 3, 4, 5, 6, }, res2);
+
+		var l1 = new ArrayList<Integer>();
+		var l2 = new ArrayList<Integer>();
+		IntStream.range(0, 100).forEach(num -> {
+			l1.add(99 - num);
+			l2.add(num);
+		});
+		var a1 = l1.toArray(new Integer[0]);
+		var a2 = l2.toArray(new Integer[0]);
+		Collections.makeReverse(a2);
+		Assertions.assertArrayEquals(a1, a2);
 	}
 }

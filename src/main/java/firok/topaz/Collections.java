@@ -1,6 +1,11 @@
 package firok.topaz;
 
+import firok.topaz.annotation.Level;
+import firok.topaz.annotation.PerformanceIssue;
+import firok.topaz.annotation.Resource;
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 
@@ -8,6 +13,7 @@ import java.util.function.Function;
  * @author Firok
  * @since 1.0.0
  */
+@SuppressWarnings("DuplicatedCode")
 public final class Collections
 {
 	private Collections() { }
@@ -321,5 +327,223 @@ public final class Collections
 		}
 
 		return ret;
+	}
+
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(byte[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(short[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(char[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(int[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(float[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(long[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static void makeReverse(double[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+	/**
+	 * 就地翻转
+	 * */
+	public static <T> void makeReverse(T[] arr)
+	{
+		int size = arr.length;
+		for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+		{
+			var t = arr[i];
+			arr[i] = arr[j];
+			arr[j] = t;
+		}
+	}
+
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, byte[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new byte[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, short[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new short[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, int[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new int[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, float[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new float[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, double[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new double[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, long[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new long[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, BigDecimal[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new BigDecimal[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
+	}
+	/**
+	 * 使指定数组从给定位置开始排列
+	 * */
+	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
+	public static void makeStartIndex(int index, BigInteger[] arr)
+	{
+		if(index == 0) return;
+		@PerformanceIssue var tmp = new BigInteger[arr.length];
+		for(int step = 0; step < arr.length; step++)
+		{
+			tmp[step] = arr[(index + step) % arr.length];
+		}
+		System.arraycopy(tmp, 0, arr, 0, arr.length);
 	}
 }
