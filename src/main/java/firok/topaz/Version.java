@@ -29,6 +29,15 @@ public class Version implements Comparable<Version>
 	}
 
 	/**
+	 * 生成一个不带 meta 信息的版本号
+	 * @since 3.18.0
+	 * */
+	public Version withoutMeta()
+	{
+		return new Version(major, minor, patch);
+	}
+
+	/**
 	 * 把一个字符串转换为版本号
 	 * @param raw 接受格式: "1", "1.2", "1.2.3", "1-xxx", "1.2-xxx", "1.2.3-xxx"
 	 * @throws IllegalArgumentException 格式错误
