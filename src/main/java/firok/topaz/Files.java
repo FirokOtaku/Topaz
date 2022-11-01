@@ -37,7 +37,7 @@ public class Files
 	/**
 	 * 指定文件不应存在
 	 * */
-	public static void assertNoExist(String path, Boolean isDirectory, String msg) throws IOException
+	public static void assertNoExist(String path, String msg) throws IOException
 	{
 		var file = new File(path);
 		assertNoExist(file, msg);
