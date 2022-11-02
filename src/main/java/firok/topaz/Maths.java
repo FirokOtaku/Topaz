@@ -5,6 +5,9 @@ import java.math.BigInteger;
 
 /**
  * 一些数学运算工具方法
+ *
+ * @since 3.16.0
+ * @author Firok
  * */
 public final class Maths
 {
@@ -69,5 +72,105 @@ public final class Maths
 		if(value.compareTo(max) > 0) return max;
 		else if(value.compareTo(min) < 0) return min;
 		return value;
+	}
+
+	/**
+	 * @since 3.20.0
+	 * @author Firok
+	 * */
+	public static BigDecimal min(BigDecimal init, BigDecimal... numbers)
+	{
+		if(init == null)
+			throw new IllegalArgumentException("init number cannot be null");
+
+		var ret = init;
+
+		if(numbers != null && numbers.length > 0)
+		{
+			for(var number : numbers)
+			{
+				if(number == null) continue;
+
+				if(ret.compareTo(number) > 0)
+					ret = number;
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * @since 3.20.0
+	 * @author Firok
+	 * */
+	public static BigDecimal max(BigDecimal init, BigDecimal... numbers)
+	{
+		if(init == null)
+			throw new IllegalArgumentException("init number cannot be null");
+
+		var ret = init;
+
+		if(numbers != null && numbers.length > 0)
+		{
+			for(var number : numbers)
+			{
+				if(number == null) continue;
+
+				if(ret.compareTo(number) < 0)
+					ret = number;
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * @since 3.20.0
+	 * @author Firok
+	 * */
+	public static BigInteger min(BigInteger init, BigInteger... numbers)
+	{
+		if(init == null)
+			throw new IllegalArgumentException("init number cannot be null");
+
+		var ret = init;
+
+		if(numbers != null && numbers.length > 0)
+		{
+			for(var number : numbers)
+			{
+				if(number == null) continue;
+
+				if(ret.compareTo(number) > 0)
+					ret = number;
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * @since 3.20.0
+	 * @author Firok
+	 * */
+	public static BigInteger max(BigInteger init, BigInteger... numbers)
+	{
+		if(init == null)
+			throw new IllegalArgumentException("init number cannot be null");
+
+		var ret = init;
+
+		if(numbers != null && numbers.length > 0)
+		{
+			for(var number : numbers)
+			{
+				if(number == null) continue;
+
+				if(ret.compareTo(number) < 0)
+					ret = number;
+			}
+		}
+
+		return ret;
 	}
 }
