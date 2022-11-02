@@ -113,6 +113,18 @@ public class SimpleMultiThread
 		return null;
 	}
 	/**
+	 * 如果内部出现异常 则抛出
+	 *
+	 * @since 3.21.0
+	 * @author Firok
+	 * */
+	public void throwAnyException() throws Exception
+	{
+		var exception = anyException();
+		if(exception != null)
+			throw exception;
+	}
+	/**
 	 * 是否所有子线程都已经停止
 	 * */
 	public boolean hasAllEnd()
