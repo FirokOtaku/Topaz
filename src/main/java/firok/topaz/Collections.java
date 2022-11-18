@@ -546,4 +546,22 @@ public final class Collections
 		}
 		System.arraycopy(tmp, 0, arr, 0, arr.length);
 	}
+
+	/**
+	 * @author Firok
+	 * @since 3.23.0
+	 * */
+	public static <TypeEntity> int sizeOf(Collection<TypeEntity> collection)
+	{
+		return collection == null ? 0 : collection.size();
+	}
+
+	/**
+	 * @author Firok
+	 * @since 3.23.0
+	 * */
+	public static <TypeEntity> boolean isEmpty(Collection<TypeEntity> collection)
+	{
+		return collection == null || collection.isEmpty();
+	}
 }
