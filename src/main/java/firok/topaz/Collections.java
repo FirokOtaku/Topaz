@@ -564,4 +564,27 @@ public final class Collections
 	{
 		return collection == null || collection.isEmpty();
 	}
+
+	/**
+	 * @since 3.24.0
+	 * @author Firok
+	 * */
+	public static <TypeEntity> boolean isNotEmpty(Collection<TypeEntity> collection)
+	{
+		return collection != null && !collection.isEmpty();
+	}
+
+	/**
+	 * @since 3.24.0
+	 * @author Firok
+	 * */
+	public static List<String> trimAllOf(Collection<String> strings)
+	{
+		var ret = new ArrayList<String>();
+		for(var string : strings)
+		{
+			ret.add(string.trim());
+		}
+		return ret;
+	}
 }
