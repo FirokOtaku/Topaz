@@ -10,4 +10,23 @@ package firok.topaz;
 public interface MayRunnable
 {
 	void run() throws Exception;
+
+	/**
+	 * 生成一个不关心内部异常的玩意
+	 * @since 3.25.0
+	 * */
+	default Runnable anyway()
+	{
+		return anyway(false);
+	}
+	/**
+	 * @since 3.25.0
+	 * */
+	default Runnable anyway(final boolean throwInternalException)
+	{
+		return () -> {
+			try { this.run(); }
+			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
+		};
+	}
 }
