@@ -1,12 +1,11 @@
-open module firok.topaz {
+module firok.topaz {
 	requires lombok;
-
-	requires transitive org.graalvm.sdk;
 
 	requires java.desktop;
 
 	exports firok.topaz;
 	exports firok.topaz.hash;
+	exports firok.topaz.annotation;
 
 	uses firok.topaz.IHashMapper;
 	provides firok.topaz.IHashMapper
