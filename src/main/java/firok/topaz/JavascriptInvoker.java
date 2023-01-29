@@ -10,12 +10,13 @@ import java.util.Map;
  * JavaScript 脚本执行器
  *
  * <p>
- *     在 <code>3.26.0</code> 版本, 此类为空实现类
+ *     自 <code>3.26.0</code> 版本之后, 此类为空实现类
  * </p>
  *
  * @since 3.2.0
  * @author Firok
  * */
+@Deprecated
 public class JavascriptInvoker implements AutoCloseable
 {
 //	final Context engine;
