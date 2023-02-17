@@ -1,5 +1,7 @@
 package firok.topaz.resource;
 
+import firok.topaz.function.MayConsumer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public final class StreamLineEmitter implements java.io.Closeable
 {
 	private transient final InputStream is;
 	private transient final Scanner in;
-	private transient final List<Consumer<String>> listListener;
+	private transient final List<MayConsumer<String>> listListener;
 	private transient boolean isClosed = false;
 	private transient final Thread thread;
 	/**
@@ -32,6 +34,11 @@ public final class StreamLineEmitter implements java.io.Closeable
 		this.thread = new LineReceiveThread();
 		if(isDaemon) this.thread.setDaemon(true);
 		this.thread.start();
+	}
+	public StreamLineEmitter(InputStream is, boolean isDaemon, MayConsumer<String> lineConsumer)
+	{
+		this(is, isDaemon);
+		this.addListener(lineConsumer);
 	}
 
 	/**
@@ -54,7 +61,7 @@ public final class StreamLineEmitter implements java.io.Closeable
 	/**
 	 * 增加监听器
 	 * */
-	public synchronized void addListener(Consumer<String> lineConsumer)
+	public synchronized void addListener(MayConsumer<String> lineConsumer)
 	{
 		checkNoClosed();
 		this.listListener.add(lineConsumer);
@@ -62,7 +69,7 @@ public final class StreamLineEmitter implements java.io.Closeable
 	/**
 	 * 移除监听器
 	 * */
-	public synchronized void removeListener(Consumer<String> lineConsumer)
+	public synchronized void removeListener(MayConsumer<String> lineConsumer)
 	{
 		checkNoClosed();
 		this.listListener.remove(lineConsumer);
