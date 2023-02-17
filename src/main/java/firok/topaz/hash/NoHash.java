@@ -1,8 +1,5 @@
 package firok.topaz.hash;
 
-import firok.topaz.IHashMapper;
-import firok.topaz.IMappedHash;
-
 /**
  * 将字符串直接作为哈希值
  * <p>

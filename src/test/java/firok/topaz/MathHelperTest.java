@@ -1,5 +1,6 @@
 package firok.topaz;
 
+import firok.topaz.math.MathHelper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

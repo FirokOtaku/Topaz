@@ -1,5 +1,6 @@
 package firok.topaz;
 
+import firok.topaz.hash.IHashMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,7 @@
 package firok.topaz;
 
+import firok.topaz.design.ChineseSolarTermColors;
+import firok.topaz.design.CssColors;
 import org.junit.jupiter.api.Test;
 
 public class ColorGen

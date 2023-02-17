@@ -1,7 +1,5 @@
 package firok.topaz.hash;
 
-import firok.topaz.IHashMapper;
-
 /**
  * @since 3.10.0
  * @author Firok

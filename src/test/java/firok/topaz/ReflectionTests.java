@@ -1,11 +1,12 @@
 package firok.topaz;
 
+import firok.topaz.function.TriConsumer;
+import firok.topaz.reflection.Reflections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public class ReflectionTests
 {

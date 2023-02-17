@@ -1,7 +1,5 @@
 package firok.topaz.hash;
 
-import firok.topaz.IHashMapper;
-
 /**
  * 将 UUID 字符串提取 4 部分作为哈希值
  * <p>
