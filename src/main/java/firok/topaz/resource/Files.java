@@ -1,8 +1,6 @@
 package firok.topaz.resource;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.NoSuchFileException;
 
@@ -75,5 +73,24 @@ public class Files
 //		var pathParent = fileParent.getAbsolutePath();
 //		var pathChild = fileChild.getAbsolutePath();
 //		return pathChild.startsWith(pathParent);
+//	}
+
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+	public FileOutputStream writeTo(File file) throws IOException
+	{
+		var parent = file.getParentFile();
+		parent.mkdirs();
+		file.createNewFile();
+		return new FileOutputStream(file);
+	}
+
+//	public void transferTo(File fileFrom, File fileTo) throws IOException
+//	{
+//		try(
+//				var ifs = new FileInputStream(fileFrom);
+//				var ofs = new FileOutputStream(fileTo)
+//		){
+//			ifs.transferTo(ofs);
+//		}
 //	}
 }

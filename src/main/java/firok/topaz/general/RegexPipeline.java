@@ -1,5 +1,7 @@
 package firok.topaz.general;
 
+import org.intellij.lang.annotations.RegExp;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
@@ -10,7 +12,7 @@ import java.util.regex.Pattern;
  * */
 public class RegexPipeline
 {
-	public String replaceFirst(String content, String regex, String replacement)
+	public String replaceFirst(String content, @RegExp String regex, String replacement)
 	{
 		return getPattern(regex)
 				.matcher(content)
@@ -27,7 +29,7 @@ public class RegexPipeline
 		return content;
 	}
 
-	public String replaceAll(String content, String regex, String replacement)
+	public String replaceAll(String content, @RegExp String regex, String replacement)
 	{
 		return getPattern(regex)
 				.matcher(content)
@@ -46,7 +48,7 @@ public class RegexPipeline
 
 	// 正则缓存
 	private final Map<String, Pattern> mapCachedPattern = new ConcurrentHashMap<>();
-	public Pattern getPattern(String regex)
+	public Pattern getPattern(@RegExp String regex)
 	{
 		return mapCachedPattern.computeIfAbsent(regex, Pattern::compile);
 	}

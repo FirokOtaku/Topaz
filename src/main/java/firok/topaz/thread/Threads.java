@@ -1,5 +1,7 @@
 package firok.topaz.thread;
 
+import firok.topaz.function.MayRunnable;
+
 /**
  * 多线程工具方法
  * @since 3.14.0
@@ -24,5 +26,16 @@ public class Threads
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * 直接启动一个线程
+	 * */
+	public static Thread start(boolean isDaemon, MayRunnable function)
+	{
+		var thread = new Thread(function.anyway(true));
+		thread.setDaemon(isDaemon);
+		thread.start();
+		return thread;
 	}
 }

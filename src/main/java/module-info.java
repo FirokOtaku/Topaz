@@ -2,7 +2,7 @@ import firok.topaz.hash.IHashMapper;
 
 module firok.topaz {
 	requires lombok;
-
+	requires org.jetbrains.annotations;
 	requires java.desktop;
 
 	exports firok.topaz;
