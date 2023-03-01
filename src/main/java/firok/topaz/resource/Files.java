@@ -1,6 +1,8 @@
 package firok.topaz.resource;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.NoSuchFileException;
 
@@ -76,7 +78,7 @@ public class Files
 //	}
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
-	public FileOutputStream writeTo(File file) throws IOException
+	public static FileOutputStream writeTo(File file) throws IOException
 	{
 		var parent = file.getParentFile();
 		parent.mkdirs();
@@ -84,7 +86,19 @@ public class Files
 		return new FileOutputStream(file);
 	}
 
-//	public void transferTo(File fileFrom, File fileTo) throws IOException
+	public static void writeTo(File file, String content, Charset charset) throws IOException
+	{
+		try(var ofs = writeTo(file))
+		{
+			ofs.write(content.getBytes(charset));
+		}
+	}
+	public static void writeTo(File file, String content) throws IOException
+	{
+		writeTo(file, content, StandardCharsets.UTF_8);
+	}
+
+//	public static void transferTo(File fileFrom, File fileTo) throws IOException
 //	{
 //		try(
 //				var ifs = new FileInputStream(fileFrom);
