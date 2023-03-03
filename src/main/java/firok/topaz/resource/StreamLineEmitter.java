@@ -1,12 +1,11 @@
 package firok.topaz.resource;
 
 import firok.topaz.function.MayConsumer;
+import firok.topaz.thread.Threads;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -37,8 +36,23 @@ public final class StreamLineEmitter implements java.io.Closeable
 	}
 	public StreamLineEmitter(InputStream is, boolean isDaemon, MayConsumer<String> lineConsumer)
 	{
-		this(is, isDaemon);
-		this.addListener(lineConsumer);
+		this.is = is;
+		this.in = new Scanner(is);
+		this.listListener = new ArrayList<>();
+		this.listListener.add(lineConsumer);
+		this.thread = new LineReceiveThread();
+		if(isDaemon) this.thread.setDaemon(true);
+		this.thread.start();
+	}
+	public StreamLineEmitter(InputStream is, boolean isDaemon, Collection<MayConsumer<String>> lineConsumers)
+	{
+		this.is = is;
+		this.in = new Scanner(is);
+		this.listListener = new ArrayList<>();
+		this.listListener.addAll(lineConsumers);
+		this.thread = new LineReceiveThread();
+		if(isDaemon) this.thread.setDaemon(true);
+		this.thread.start();
 	}
 
 	/**
