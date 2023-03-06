@@ -107,4 +107,9 @@ public class Files
 //			ifs.transferTo(ofs);
 //		}
 //	}
+
+	public static String unixPathOf(File file) throws IOException
+	{
+		return file.getCanonicalPath().replaceAll("\\\\", "/");
+	}
 }
