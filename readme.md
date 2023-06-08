@@ -26,15 +26,16 @@
   * `SimpleMultiThread` _简易多线程创建工具_
   * `Threads` _多线程工具方法_
   * `Shapes` _多边形处理相关方法_
-  * `Maths` _数学运算工具方法_
   * `Version` _语义化版本号简易实现_
   * `Files` _文件操作辅助工具_
   * `CodeException` _自定义异常工具类_
   * `Reflections` _反射工具类_
 * 数学运算相关
+  * `Maths` _数学运算工具方法_
   * `MathHelper` _数组缓存加速三角函数运算_
   * `Capacities` _储存容量计算_
   * `Binaries` _二进制数据与十六进制字符串的转换_
+  * `Easings` _渐变计算工具方法_
 * 设计相关
   * `Colors` _简易 RGB 空间色彩运算_
   * `ChineseSolarTermColors` _中国传统色 - 故宫 24 节气_
@@ -71,6 +72,8 @@
 
 ## 改动记录
 
+* 5.2.0
+  * 新增渐变计算工具方法
 * 5.1.0
   * 新增文件路径工具方法
 * 5.0.0
