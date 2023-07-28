@@ -2,6 +2,9 @@ package firok.topaz.math;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 一些数学运算工具方法
@@ -172,5 +175,63 @@ public final class Maths
 		}
 
 		return ret;
+	}
+
+	/**
+	 * 计算最大值
+	 * @since 5.3.0
+	 * @author Firok
+	 * */
+	public static <T extends Number & Comparable<T>> T max(T... nums)
+	{
+		if(nums == null || nums.length == 0)
+			throw new IllegalArgumentException("nums cannot be null");
+		if(nums.length == 1) return nums[0];
+		T max = null;
+		for(var num : nums)
+		{
+			if(max == null || num.compareTo(max) > 0)
+			{
+				max = num;
+			}
+		}
+		return max;
+	}
+	/**
+	 * 计算最小值
+	 * @since 5.3.0
+	 * @author Firok
+	 * */
+	public static <T extends Number & Comparable<T>> T min(T... nums)
+	{
+		if(nums == null || nums.length == 0)
+			throw new IllegalArgumentException("nums cannot be null");
+		if(nums.length == 1) return nums[0];
+		T min = null;
+		for(var num : nums)
+		{
+			if(min == null || num.compareTo(min) < 0)
+			{
+				min = num;
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * 计算中间值
+	 * @since 5.3.0
+	 * @author Firok
+	 * */
+	public static <T extends Number & Comparable<T>> T mid(T n1, T n2, T n3)
+	{
+		if(n1 == null || n2 == null || n3 == null)
+			throw new IllegalArgumentException("numbers cannot be null");
+		var list = new ArrayList<T>(3);
+		list.add(n1);
+		list.add(n2);
+		list.add(n3);
+		Collections.sort(list); // 这一切值得吗 那当然是能用就行了
+		return list.get(1);
 	}
 }
