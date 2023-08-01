@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 /**
  * @author Firok
@@ -557,6 +559,15 @@ public final class Collections
 	}
 
 	/**
+	 * @since 5.5.0
+	 * @author Firok
+	 * */
+	public static <TypeEntity> int sizeOf(TypeEntity[] array)
+	{
+		return array == null ? 0 : array.length;
+	}
+
+	/**
 	 * @author Firok
 	 * @since 3.23.0
 	 * */
@@ -566,12 +577,30 @@ public final class Collections
 	}
 
 	/**
+	 * @since 5.5.0
+	 * @author Firok
+	 * */
+	public static <TypeEntity> boolean isEmpty(TypeEntity[] array)
+	{
+		return array == null || array.length == 0;
+	}
+
+	/**
 	 * @since 3.24.0
 	 * @author Firok
 	 * */
 	public static <TypeEntity> boolean isNotEmpty(Collection<TypeEntity> collection)
 	{
 		return collection != null && !collection.isEmpty();
+	}
+
+	/**
+	 * @since 5.5.0
+	 * @author Firok
+	 * */
+	public static <TypeEntity> boolean isNotEmpty(TypeEntity[] array)
+	{
+		return array != null && array.length > 0;
 	}
 
 	/**
@@ -586,5 +615,23 @@ public final class Collections
 			ret.add(string.trim());
 		}
 		return ret;
+	}
+
+	/**
+	 * 填充数组
+	 * @since 5.5.0
+	 * @author Firok
+	 * @implNote 当前是同步填充实现方式, 后续可能有并行填充
+	 * */
+	public static <T> T[] fill(T[] array, Supplier<T> supplier)
+	{
+		Objects.requireNonNull(array, "数组不可为空");
+		Objects.requireNonNull(supplier, "值构造器不可为空");
+		if(array.length == 0) return array;
+		for(var step = 0; step < array.length; step++)
+		{
+			array[step] = supplier.get();
+		}
+		return array;
 	}
 }
