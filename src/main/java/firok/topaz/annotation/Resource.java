@@ -31,6 +31,16 @@ public enum Resource
 	Network,
 
 	/**
+	 * 时间资源
+	 * */
+	Time, // time is money
+
+	/**
+	 * 金钱资源
+	 * */
+	Money, // can money buy time?
+
+	/**
 	 * 其它资源
 	 * */
 	Other,
