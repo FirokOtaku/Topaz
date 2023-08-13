@@ -1,6 +1,9 @@
 package firok.topaz.thread;
 
 import firok.topaz.function.MayRunnable;
+import firok.topaz.general.Collections;
+
+import java.util.concurrent.CountDownLatch;
 
 /**
  * 多线程工具方法
@@ -37,5 +40,45 @@ public class Threads
 		thread.setDaemon(isDaemon);
 		thread.start();
 		return thread;
+	}
+
+	/**
+	 * 等待一组任务执行完毕
+	 * @return 是否成功执行完毕
+	 * @since 5.9.0
+	 * */
+	public static boolean waitFor(MayRunnable... functions)
+	{
+		final int size = Collections.sizeOf(functions);
+		if(size == 0) return true;
+
+		var latch = new CountDownLatch(size);
+		for(var step = 0; step < size; step++)
+		{
+			var function = functions[step];
+			start(false, () -> {
+				try
+				{
+					function.anyway().run();
+				}
+				finally
+				{
+					latch.countDown();
+				}
+			});
+		}
+
+		try
+		{
+			synchronized (latch)
+			{
+				latch.await();
+			}
+			return true;
+		}
+		catch (InterruptedException shutdown)
+		{
+			return false;
+		}
 	}
 }
