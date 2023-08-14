@@ -108,16 +108,37 @@ public final class NativeProcess implements AutoCloseable
 		ps.println(content);
 	}
 
-	@Override
-	public void close() throws IOException
+	public long pid() { return process.pid(); }
+
+	/**
+	 * @since 5.10.0
+	 * */
+	public void killTreeForcibly()
+	{
+		Processes.killProcessTreeForcibly(this.process);
+	}
+
+	/**
+	 * @since 5.10.0
+	 * */
+	public void close(boolean isForcibly) throws IOException
 	{
 		if(process != null && process.isAlive())
-			process.destroy();
+		{
+			if(!isForcibly) process.destroy();
+			else process.destroyForcibly();
+		}
 
 		if(sleStdOut != null && !sleStdOut.isClosed()) sleStdOut.close();
 		if(sleStdErr != null && !sleStdErr.isClosed()) sleStdErr.close();
 
 		if(ps != null) ps.close();
 		if(os != null) os.close();
+	}
+
+	@Override
+	public void close() throws IOException
+	{
+		this.close(false);
 	}
 }

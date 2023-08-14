@@ -16,8 +16,10 @@ import java.util.zip.ZipOutputStream;
  * @author Firok
  * */
 @Indev(description = "尚未经过测试")
-public class Zips
+public final class Zips
 {
+    private Zips() { }
+
     private static void zipOne(File raw, String[] levels, Set<String> structures, ZipOutputStream ozs)
             throws IOException, InvalidPathException
     {

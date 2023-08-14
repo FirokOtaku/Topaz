@@ -12,8 +12,10 @@ import java.nio.file.NoSuchFileException;
  * @since 3.19.0
  * @author Firok
  * */
-public class Files
+public final class Files
 {
+	private Files() { }
+
 	/**
 	 * 检查文件是否存在
 	 * */

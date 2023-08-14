@@ -9,8 +9,10 @@ import java.util.List;
  * @since 5.8.0
  * @author Firok
  * */
-public class Processes
+public final class Processes
 {
+    private Processes() { }
+
     /**
      * 直接停止进程树
      * */
