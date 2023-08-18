@@ -25,7 +25,7 @@ public interface MayRunnable
 	default Runnable anyway(final boolean throwInternalException)
 	{
 		return () -> {
-			try { this.run(); }
+			try { MayRunnable.this.run(); }
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
 	}

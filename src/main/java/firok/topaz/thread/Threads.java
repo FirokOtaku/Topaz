@@ -3,6 +3,7 @@ package firok.topaz.thread;
 import firok.topaz.function.MayRunnable;
 import firok.topaz.general.Collections;
 
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -10,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
  * @since 3.14.0
  * @author Firok
  * */
+@SuppressWarnings("UnusedReturnValue")
 public class Threads
 {
 	/**
@@ -43,6 +45,18 @@ public class Threads
 	}
 
 	/**
+	 * 直接启动一个线程
+	 * @since 5.11.0
+	 * */
+	public static Thread start(boolean isDaemon, String name, MayRunnable function)
+	{
+		var thread = new Thread(function.anyway(true), name);
+		thread.setDaemon(isDaemon);
+		thread.start();
+		return thread;
+	}
+
+	/**
 	 * 等待一组任务执行完毕
 	 * @return 是否成功执行完毕
 	 * @since 5.9.0
@@ -52,11 +66,13 @@ public class Threads
 		final int size = Collections.sizeOf(functions);
 		if(size == 0) return true;
 
+		var batchName = "topaz.batch-" + UUID.randomUUID().toString().substring(0, 8) + '-';
+
 		var latch = new CountDownLatch(size);
 		for(var step = 0; step < size; step++)
 		{
 			var function = functions[step];
-			start(false, () -> {
+			start(false, batchName + step, () -> {
 				try
 				{
 					function.anyway().run();
