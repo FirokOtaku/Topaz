@@ -1,5 +1,6 @@
 package firok.topaz.general;
 
+import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
@@ -9,13 +10,12 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 /**
  * @author Firok
  * @since 1.0.0
  */
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "unused"})
 public final class Collections
 {
 	private Collections() { }
@@ -300,33 +300,36 @@ public final class Collections
 	}
 
 	/**
+	 * 将一个集合按照指定大小切分
 	 * @param collection 原集合
 	 * @param sizeGroup 切分大小
 	 * @param <TypeCollection> 集合类型
 	 * @param <TypeItem> 元素类型
 	 * @return 切分后的分组列表
-	 * @deprecated 未开发完成, 存在逻辑错误
 	 */
-	@Deprecated
-	public static <TypeCollection extends Iterable<TypeItem>, TypeItem> List<TypeCollection> trimGroup(TypeCollection collection, int sizeGroup)
+	@SuppressWarnings("unchecked")
+	public static <TypeCollection extends Iterable<TypeItem>, TypeItem>
+	List<TypeCollection> trimGroup(TypeCollection collection, int sizeGroup)
 	{
-		if(sizeGroup < 1) throw new IllegalArgumentException("分组大小必须大于1");
+		if(sizeGroup <= 1) throw new IllegalArgumentException("分组大小必须大于1");
 
 		var ret = new ArrayList<TypeCollection>();
 
 		var stepGroup = 0;
-		var sub = new ArrayList<TypeItem>(sizeGroup);
+		var subGroup = new ArrayList<TypeItem>(sizeGroup);
 		for (TypeItem typeItem : collection)
 		{
-			sub.add(typeItem);
-			sub.size();
+			subGroup.add(typeItem);
 			stepGroup++;
 			if(stepGroup == sizeGroup)
 			{
-				ret.add((TypeCollection) sub);
-				sub = new ArrayList<>(sizeGroup);
+				ret.add((TypeCollection) subGroup);
+				subGroup = new ArrayList<>(sizeGroup);
+				stepGroup = 0;
 			}
 		}
+		if(!subGroup.isEmpty())
+			ret.add((TypeCollection) subGroup);
 
 		return ret;
 	}
@@ -568,6 +571,14 @@ public final class Collections
 	}
 
 	/**
+	 * @since 5.13.0
+	 * */
+	public static int sizeOf(Map<?, ?> map)
+	{
+		return map == null ? 0 : map.size();
+	}
+
+	/**
 	 * @author Firok
 	 * @since 3.23.0
 	 * */
@@ -586,6 +597,14 @@ public final class Collections
 	}
 
 	/**
+	 * @since 5.13.0
+	 * */
+	public static boolean isEmpty(Map<?, ?> map)
+	{
+		return map == null || map.isEmpty();
+	}
+
+	/**
 	 * @since 3.24.0
 	 * @author Firok
 	 * */
@@ -601,6 +620,14 @@ public final class Collections
 	public static <TypeEntity> boolean isNotEmpty(TypeEntity[] array)
 	{
 		return array != null && array.length > 0;
+	}
+
+	/**
+	 * @since 5.13.0
+	 * */
+	public static boolean isNotEmpty(Map<?, ?> map)
+	{
+		return map != null && !map.isEmpty();
 	}
 
 	/**

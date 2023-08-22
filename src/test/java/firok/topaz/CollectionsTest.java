@@ -20,13 +20,14 @@ public class CollectionsTest
 		list21 = new ArrayList<>();
 		for(var step = 0; step < 21; step ++)
 		{
-			if(step < 5) list5.add("");
-			if(step < 20) list20.add("");
-			list21.add("");
+			var str = String.valueOf(step);
+			if(step < 5) list5.add(str);
+			if(step < 20) list20.add(str);
+			list21.add(str);
 		}
 	}
 
-//	@Test
+	@Test
 	public void trimGroup_20_2()
 	{
 		var groups = Collections.trimGroup(list20, 2);
@@ -37,14 +38,25 @@ public class CollectionsTest
 		}
 	}
 
-//	@Test
+	@Test
 	public void trimGroup_21_2()
 	{
 		var groups = Collections.trimGroup(list21, 2);
 		Assertions.assertEquals(11, groups.size());
 		for(var step = 0; step < 11; step++)
 		{
-			Assertions.assertEquals(step == 10 ? 1 : 2, groups.size());
+			Assertions.assertEquals(step == 10 ? 1 : 2, groups.get(step).size());
+		}
+	}
+
+	@Test
+	public void trimGroup_20_6()
+	{
+		var groups = Collections.trimGroup(list20, 6);
+		Assertions.assertEquals(4, groups.size());
+		for(var step = 0; step < 4; step++)
+		{
+			Assertions.assertEquals(step == 3 ? 2 : 6, groups.get(step).size());
 		}
 	}
 
