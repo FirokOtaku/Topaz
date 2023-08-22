@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class CollectionsTest
@@ -46,6 +48,32 @@ public class CollectionsTest
 		for(var step = 0; step < 11; step++)
 		{
 			Assertions.assertEquals(step == 10 ? 1 : 2, groups.get(step).size());
+		}
+	}
+
+	@Test
+	public void trimGroupReturnType()
+	{
+		var set = new HashSet<Integer>();
+		var list = new ArrayList<Integer>();
+		for(var step = 0; step < 15; step++)
+		{
+			set.add(step);
+			list.add(step);
+		}
+		var groupsSet = Collections.trimGroup(set, 3);
+		var groupsList = Collections.trimGroup(list, 3);
+		Assertions.assertEquals(5, groupsSet.size());
+		Assertions.assertEquals(5, groupsList.size());
+		Assertions.assertInstanceOf(List.class, groupsSet);
+		Assertions.assertInstanceOf(List.class, groupsList);
+		for(var group : groupsSet)
+		{
+			Assertions.assertInstanceOf(Set.class, group);
+		}
+		for(var group : groupsList)
+		{
+			Assertions.assertInstanceOf(List.class, list);
 		}
 	}
 

@@ -301,7 +301,7 @@ public final class Collections
 
 	/**
 	 * 将一个集合按照指定大小切分
-	 * @param collection 原集合
+	 * @param collection 原集合. <b>目前支持 List 或 Set 类型</b>
 	 * @param sizeGroup 切分大小
 	 * @param <TypeCollection> 集合类型
 	 * @param <TypeItem> 元素类型
@@ -315,8 +315,13 @@ public final class Collections
 
 		var ret = new ArrayList<TypeCollection>();
 
+		Function<Integer, Collection<TypeItem>> cons;
+		if(collection instanceof Set<?>) cons = HashSet::new;
+		else if(collection instanceof List<?>) cons = ArrayList::new;
+		else throw new IllegalArgumentException("不支持的集合类型");
+
 		var stepGroup = 0;
-		var subGroup = new ArrayList<TypeItem>(sizeGroup);
+		var subGroup = cons.apply(sizeGroup);
 		for (TypeItem typeItem : collection)
 		{
 			subGroup.add(typeItem);
@@ -324,7 +329,7 @@ public final class Collections
 			if(stepGroup == sizeGroup)
 			{
 				ret.add((TypeCollection) subGroup);
-				subGroup = new ArrayList<>(sizeGroup);
+				subGroup = cons.apply(sizeGroup);
 				stepGroup = 0;
 			}
 		}
