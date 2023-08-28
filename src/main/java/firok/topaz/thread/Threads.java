@@ -77,6 +77,10 @@ public class Threads
 				{
 					function.anyway().run();
 				}
+				catch (Exception any)
+				{
+					any.printStackTrace(System.err);
+				}
 				finally
 				{
 					latch.countDown();
