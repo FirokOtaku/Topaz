@@ -1,6 +1,8 @@
 package firok.topaz;
 
+import firok.topaz.annotation.Indev;
 import firok.topaz.function.TriConsumer;
+import firok.topaz.reflection.ReflectionDirection;
 import firok.topaz.reflection.Reflections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -61,5 +63,14 @@ public class ReflectionTests
 		assertField.accept(lf3.get(0), "f2", Integer.class); // 先获取到子类字段
 		assertField.accept(lf3.get(1), "f1", String.class);
 		assertField.accept(lf3.get(2), "f2", int.class); // 被隐藏的字段也会被返回
+	}
+
+	@Test
+	public void testFindPackageAnnotation()
+	{
+		var packageReflections = Reflections.class.getPackage();
+		var clReflections = Reflections.class.getClassLoader();
+		Reflections.findAnnotationsOf(packageReflections, clReflections, Indev.class, ReflectionDirection.ParentToChild);
+		Reflections.findAnnotationsOf(packageReflections, clReflections, Indev.class, ReflectionDirection.ChildToParent);
 	}
 }

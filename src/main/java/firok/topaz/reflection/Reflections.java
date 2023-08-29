@@ -51,8 +51,57 @@ public final class Reflections
 	}
 
 	@Indev
-	public static <TypeAnnotation extends Annotation> List<TypeAnnotation> findAnnotationsOf(Package certainPackage)
+	public static List<Package> getPackages(Package certainPackage, ClassLoader cl, ReflectionDirection direction)
 	{
-		return null;
+		var packageName = certainPackage.getName();
+		var packageParts = packageName.split("\\.");
+		var pp = packageParts.length;
+		var ret = new ArrayList<Package>(pp);
+
+		var cur = direction == ReflectionDirection.ParentToChild ? 1 : pp;
+		do
+		{
+			var packageNameCur = String.join(".", firok.topaz.general.Collections.cut(cur, packageParts));
+			var packageCur = cl.getDefinedPackage(packageNameCur);
+
+			ret.add(packageCur);
+
+			if(direction == ReflectionDirection.ParentToChild) cur++;
+			else cur--;
+		}
+		while(direction == ReflectionDirection.ParentToChild ? cur <= pp : cur > 0);
+
+		return ret;
+	}
+
+	@Indev
+	public static <TypeAnnotation extends Annotation>
+	List<TypeAnnotation> findAnnotationsOf(Package certainPackage, ClassLoader cl, Class<TypeAnnotation> classAnnotation, ReflectionDirection direction)
+	{
+		var packages = getPackages(certainPackage, cl, direction);
+		var ret = new ArrayList<TypeAnnotation>(packages.size());
+		for(var packageCur : packages)
+		{
+			var annotation = packageCur.getAnnotation(classAnnotation);
+			ret.add(annotation);
+		}
+		return ret;
+	}
+
+	@Indev
+	public static <TypeAnnotation extends Annotation>
+	List<TypeAnnotation> findAnnotationsOfPackage(String certainPackage, ClassLoader cl, Class<TypeAnnotation> classAnnotation, ReflectionDirection direction)
+	{
+		var packageCur = cl.getDefinedPackage(certainPackage);
+		return findAnnotationsOf(packageCur, cl, classAnnotation, direction);
+	}
+
+	@Indev
+	public static <TypeAnnotation extends Annotation>
+	List<TypeAnnotation> findAnnotationsOfPackage(Class<?> classAny, Class<TypeAnnotation> classAnnotation, ReflectionDirection direction)
+	{
+		var packageCur = classAny.getPackage();
+		var cl = classAny.getClassLoader();
+		return findAnnotationsOf(packageCur, cl, classAnnotation, direction);
 	}
 }
