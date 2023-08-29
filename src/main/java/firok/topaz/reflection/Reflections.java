@@ -1,5 +1,8 @@
 package firok.topaz.reflection;
 
+import firok.topaz.annotation.Indev;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.Collections;
@@ -45,5 +48,11 @@ public final class Reflections
 			classNow = classNow.getSuperclass();
 		}
 		return listField;
+	}
+
+	@Indev
+	public static <TypeAnnotation extends Annotation> List<TypeAnnotation> findAnnotationsOf(Package certainPackage)
+	{
+		return null;
 	}
 }

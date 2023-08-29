@@ -15,6 +15,12 @@ public @interface Indev
 	boolean usable() default false;
 
 	/**
+	 * 是否是实验性 (如使用了不稳定的特性)
+	 * @since 5.16.0
+	 * */
+	boolean experimental() default false;
+
+	/**
 	 * 描述信息
 	 * */
 	String[] description() default {};
