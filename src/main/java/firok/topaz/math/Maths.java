@@ -234,4 +234,193 @@ public final class Maths
 		Collections.sort(list); // 这一切值得吗 那当然是能用就行了
 		return list.get(1);
 	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Boolean parseBoolean(String raw)
+	{
+		try { return Boolean.parseBoolean(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Boolean parseBoolean(String raw, boolean defaultValue)
+	{
+		try { return Boolean.parseBoolean(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Byte parseByte(String raw)
+	{
+		try { return Byte.parseByte(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Byte parseByte(String raw, byte defaultValue)
+	{
+		try { return Byte.parseByte(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Short parseShort(String raw)
+	{
+		try { return Short.parseShort(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Short parseShort(String raw, short defaultValue)
+	{
+		try { return Short.parseShort(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Integer parseInt(String raw)
+	{
+		try { return Integer.parseInt(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Integer parseInt(String raw, int defaultValue)
+	{
+		try { return Integer.parseInt(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Long parseLong(String raw)
+	{
+		try { return Long.parseLong(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Long parseLong(String raw, long defaultValue)
+	{
+		try { return Long.parseLong(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Float parseFloat(String raw)
+	{
+		try { return Float.parseFloat(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Float parseFloat(String raw, float defaultValue)
+	{
+		try { return Float.parseFloat(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static Double parseDouble(String raw)
+	{
+		try { return Double.parseDouble(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static Double parseDouble(String raw, double defaultValue)
+	{
+		try { return Double.parseDouble(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static BigInteger parseBigInteger(String raw)
+	{
+		try { return new BigInteger(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static BigInteger parseBigInteger(String raw, BigInteger defaultValue)
+	{
+		try { return new BigInteger(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 不抛出异常的转换方法
+	 * @return 如果转换失败就返回 null
+	 * @since 5.18.0
+	 * */
+	public static BigDecimal parseBigDecimal(String raw)
+	{
+		try { return new BigDecimal(raw); }
+		catch (Exception ignored) { return null; }
+	}
+
+	/**
+	 * 转换方法, 转换失败就返回默认值
+	 * @since 5.18.0
+	 * */
+	public static BigDecimal parseBigDecimal(String raw, BigDecimal defaultValue)
+	{
+		try { return new BigDecimal(raw); }
+		catch (Exception ignored) { return defaultValue; }
+	}
 }

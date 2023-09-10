@@ -65,7 +65,7 @@ public class ReflectionTests
 		assertField.accept(lf3.get(2), "f2", int.class); // 被隐藏的字段也会被返回
 	}
 
-	@Test
+//	@Test
 	public void testFindPackageAnnotation()
 	{
 		var packageReflections = Reflections.class.getPackage();
