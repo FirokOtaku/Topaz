@@ -1,15 +1,19 @@
 package firok.topaz.general;
 
-import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static firok.topaz.reflection.Reflections.constructorOf;
+import static firok.topaz.reflection.Reflections.newInstanceOf;
 
 /**
  * @author Firok
@@ -636,6 +640,7 @@ public final class Collections
 	}
 
 	/**
+	 * 对集合中所有所有字符串去头去尾
 	 * @since 3.24.0
 	 * @author Firok
 	 * */
@@ -665,5 +670,40 @@ public final class Collections
 			array[step] = supplier.get();
 		}
 		return array;
+	}
+
+	/**
+	 * 去除集合中的空元素
+	 * @since 5.19.0
+	 * */
+	public static <T> List<T> squeeze(Collection<T> collection)
+	{
+		var ret = new ArrayList<T>();
+		if(collection != null) for(var obj : collection)
+		{
+			if(obj == null) continue;
+			ret.add(obj);
+		}
+		return ret;
+	}
+
+	/**
+	 * 去除数组中的空元素
+	 * @param array 不可为空
+	 * @since 5.19.0
+	 * */
+	@SuppressWarnings("unchecked")
+	public static <T> T[] squeeze(T[] array)
+	{
+		Objects.requireNonNull(array);
+		var countNoneNull = 0;
+		for(var obj : array) if(obj != null) countNoneNull++;
+		var ret = (T[]) Array.newInstance(array.getClass().getComponentType(), countNoneNull);
+		for(var obj : array) if(obj != null)
+		{
+			ret[ret.length - countNoneNull] = obj;
+			countNoneNull--;
+		}
+		return ret;
 	}
 }

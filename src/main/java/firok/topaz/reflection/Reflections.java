@@ -3,7 +3,9 @@ package firok.topaz.reflection;
 import firok.topaz.annotation.Indev;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.Collections;
 import java.util.function.Predicate;
@@ -48,6 +50,118 @@ public final class Reflections
 			classNow = classNow.getSuperclass();
 		}
 		return listField;
+	}
+
+	/**
+	 * 获取一个类的某个方法, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static Method methodOf(Class<?> classTarget, String methodName, Class<?>... classParams)
+	{
+		try
+		{
+			return classTarget.getMethod(methodName, classParams);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取一个类的某个方法, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static Method declaredMethodOf(Class<?> classTarget, String methodName, Class<?>... classParams)
+	{
+		try
+		{
+			return classTarget.getDeclaredMethod(methodName, classParams);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取一个类的某个字段, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static Field fieldOf(Class<?> classTarget, String fieldName)
+	{
+		try
+		{
+			return classTarget.getField(fieldName);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取一个类的某个字段, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static Field declaredFieldOf(Class<?> classTarget, String fieldName)
+	{
+		try
+		{
+			return classTarget.getDeclaredField(fieldName);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取一个类的某个构造器, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static <T> Constructor<T> constructorOf(Class<T> classTarget, Class<?>... classParams)
+	{
+		try
+		{
+			return classTarget.getConstructor(classParams);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取一个类的某个构造器, 不抛出异常
+	 * @since 5.19.0
+	 * */
+	public static <T> Constructor<T> declaredConstructorOf(Class<T> classTarget, Class<?>... classParams)
+	{
+		try
+		{
+			return classTarget.getDeclaredConstructor(classParams);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 构造一个新实例, 不跑出异常
+	 * @since 5.19.0
+	 * */
+	public static <T> T newInstanceOf(Constructor<T> constructor, Object... params)
+	{
+		try
+		{
+			return constructor.newInstance(params);
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
 	}
 
 	@Indev
@@ -102,6 +216,12 @@ public final class Reflections
 	{
 		var packageCur = classAny.getPackage();
 		var cl = classAny.getClassLoader();
-		return findAnnotationsOf(packageCur, cl, classAnnotation, direction);
+		var ret = findAnnotationsOf(packageCur, cl, classAnnotation, direction);
+		switch (direction)
+		{
+			case ParentToChild -> ret.add(classAny.getAnnotation(classAnnotation));
+			case ChildToParent -> ret.add(0, classAny.getAnnotation(classAnnotation));
+		}
+		return ret;
 	}
 }
