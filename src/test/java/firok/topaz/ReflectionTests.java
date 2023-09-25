@@ -1,6 +1,7 @@
 package firok.topaz;
 
 import firok.topaz.annotation.Indev;
+import firok.topaz.annotation.SupportedMinimalVersion;
 import firok.topaz.function.TriConsumer;
 import firok.topaz.reflection.ReflectionDirection;
 import firok.topaz.reflection.Reflections;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class ReflectionTests
@@ -72,5 +74,13 @@ public class ReflectionTests
 		var clReflections = Reflections.class.getClassLoader();
 		Reflections.findAnnotationsOf(packageReflections, clReflections, Indev.class, ReflectionDirection.ParentToChild);
 		Reflections.findAnnotationsOf(packageReflections, clReflections, Indev.class, ReflectionDirection.ChildToParent);
+	}
+
+	@Test
+	public void testMethodClass() throws Exception
+	{
+		Method m = SupportedMinimalVersion.class.getMethod("value");
+		System.out.println(m);
+		System.out.println(m.getDeclaringClass());
 	}
 }

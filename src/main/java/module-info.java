@@ -4,8 +4,9 @@ module firok.topaz {
 	requires lombok;
 	requires org.jetbrains.annotations;
 	requires java.desktop;
+    requires java.compiler;
 
-	exports firok.topaz;
+    exports firok.topaz;
 	exports firok.topaz.hash;
 	exports firok.topaz.annotation;
 	exports firok.topaz.function;

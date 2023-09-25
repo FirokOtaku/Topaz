@@ -1,7 +1,10 @@
 package firok.topaz.reflection;
 
 import firok.topaz.annotation.Indev;
+import firok.topaz.annotation.SupportedMaximalVersion;
+import firok.topaz.annotation.SupportedMinimalVersion;
 
+import javax.lang.model.SourceVersion;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -162,6 +165,117 @@ public final class Reflections
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * 读取某个实体的注解值
+	 * @since 5.20.0
+	 * */
+	@Indev
+	@SuppressWarnings("unchecked")
+	public static <TypeResult> TypeResult annotatedValueOf(Field fieldAny, Method annotationMethod)
+	{
+		try
+		{
+			var classAnnotation = annotationMethod.getDeclaringClass();
+			if (!classAnnotation.isAnnotation())
+				throw new IllegalArgumentException("指定方法不属于注解");
+			var anno = fieldAny.getAnnotation((Class<? extends Annotation>) classAnnotation);
+			return anno != null ? (TypeResult) annotationMethod.invoke(anno) : null;
+		}
+		catch (Exception any)
+		{
+			throw new RuntimeException(any);
+		}
+	}
+
+	/**
+	 * 读取某个实体的注解值
+	 * @since 5.20.0
+	 * */
+	@Indev
+	@SuppressWarnings("unchecked")
+	public static <TypeResult> TypeResult annotatedValueOf(Method methodAny, Method annotationMethod)
+	{
+		try
+		{
+			var classAnnotation = annotationMethod.getDeclaringClass();
+			if (!classAnnotation.isAnnotation())
+				throw new IllegalArgumentException("指定方法不属于注解");
+			var anno = methodAny.getAnnotation((Class<? extends Annotation>) classAnnotation);
+			return anno != null ? (TypeResult) annotationMethod.invoke(anno) : null;
+		}
+		catch (Exception any)
+		{
+			throw new RuntimeException(any);
+		}
+	}
+
+	/**
+	 * 读取某个实体的注解值
+	 * @since 5.20.0
+	 * */
+	@Indev
+	@SuppressWarnings("unchecked")
+	public static <TypeResult> TypeResult annotatedValueOf(Class<?> classAny, Method annotationMethod)
+	{
+		try
+		{
+			var classAnnotation = annotationMethod.getDeclaringClass();
+			if (!classAnnotation.isAnnotation())
+				throw new IllegalArgumentException("指定方法不属于注解");
+			var anno = classAny.getAnnotation((Class<? extends Annotation>) classAnnotation);
+			return anno != null ? (TypeResult) annotationMethod.invoke(anno) : null;
+		}
+		catch (Exception any)
+		{
+			throw new RuntimeException(any);
+		}
+	}
+
+	/**
+	 * @since 5.20.0
+	 * */
+	private static SupportStatus supportStatusOf(
+			SupportedMinimalVersion minimal,
+			SupportedMaximalVersion maximum
+	)
+	{
+		var min =  minimal != null ? minimal.value().ordinal() : -1;
+		var max = maximum != null ? maximum.value().ordinal() : -1;
+		var cur = SourceVersion.latest().ordinal();
+
+		if(min == -1 && max == -1) return SupportStatus.NotDeclared;
+		else if(min != -1 && cur < min) return SupportStatus.Unsupported;
+		else if(max != -1 && cur > max) return SupportStatus.Unsupported;
+		else return SupportStatus.Supported;
+	}
+
+	/**
+	 * 判断某个字段是否可用
+	 * @since 5.20.0
+	 * */
+	public static SupportStatus supportStatusOf(Field fieldAny)
+	{
+		return supportStatusOf(fieldAny.getAnnotation(SupportedMinimalVersion.class), fieldAny.getAnnotation(SupportedMaximalVersion.class));
+	}
+
+	/**
+	 * 判断某个方法是否可用
+	 * @since 5.20.0
+	 * */
+	public static SupportStatus supportStatusOf(Method methodAny)
+	{
+		return supportStatusOf(methodAny.getAnnotation(SupportedMinimalVersion.class), methodAny.getAnnotation(SupportedMaximalVersion.class));
+	}
+
+	/**
+	 * 判断某个类是否可用
+	 * @since 5.20.0
+	 * */
+	public static SupportStatus supportStatusOf(Class<?> classAny)
+	{
+		return supportStatusOf(classAny.getAnnotation(SupportedMinimalVersion.class), classAny.getAnnotation(SupportedMaximalVersion.class));
 	}
 
 	@Indev

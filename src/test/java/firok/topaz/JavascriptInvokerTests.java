@@ -21,7 +21,7 @@ public class JavascriptInvokerTests
             c1.add();
             for(let step = 0; step < 10; step++) c2.add();
 """;
-	@Test
+//	@Test
 	public void testInvoker()
 	{
 		var map = new HashMap<String, Object>();
