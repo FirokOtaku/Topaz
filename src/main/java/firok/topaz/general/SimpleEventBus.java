@@ -35,6 +35,9 @@ public class SimpleEventBus<TypeEvent>
 			listeners.add(index, listener);
 		}
 	}
+	/**
+	 * 移除一个监听器
+	 * */
 	public void removeListener(Predicate<TypeEvent> listener)
 	{
 		Objects.requireNonNull(listener);
@@ -43,6 +46,9 @@ public class SimpleEventBus<TypeEvent>
 			listeners.remove(listener);
 		}
 	}
+	/**
+	 * 移除指定监听器
+	 * */
 	public void removeListener(int index)
 	{
 		synchronized (this)
@@ -50,6 +56,9 @@ public class SimpleEventBus<TypeEvent>
 			listeners.remove(index);
 		}
 	}
+	/**
+	 * 清空所有监听器
+	 * */
 	public void clear()
 	{
 		synchronized (this)
@@ -57,6 +66,10 @@ public class SimpleEventBus<TypeEvent>
 			this.listeners.clear();
 		}
 	}
+	/**
+	 * 获取监听器列表
+	 * @apiNote 这会返回一个拷贝列表
+	 * */
 	public List<Predicate<TypeEvent>> getListeners()
 	{
 		synchronized (this)

@@ -63,6 +63,7 @@ public class Ret<TypeData>
 	public static <TypeData> Ret<TypeData> fail(Exception e) { return fail(e.getMessage()); }
 
 	/**
+	 * 基于函数式编程简化代码
 	 * @since 5.8.0
 	 * */
 	public static <TypeData> Ret<TypeData> now(Callable<TypeData> function)
@@ -77,6 +78,7 @@ public class Ret<TypeData>
 		}
 	}
 	/**
+	 * 基于函数式编程简化代码
 	 * @since 5.8.0
 	 * */
 	public static Ret<Void> now(MayRunnable function)
@@ -92,6 +94,7 @@ public class Ret<TypeData>
 		}
 	}
 	/**
+	 * 用于支持 Spring 异步方法
 	 * @since 5.8.0
 	 * */
 	public static <TypeData> CompletableFuture<Ret<TypeData>> later(Callable<TypeData> function)
@@ -99,6 +102,7 @@ public class Ret<TypeData>
 		return CompletableFuture.supplyAsync(() -> Ret.now(function));
 	}
 	/**
+	 * 用于支持 Spring 异步方法
 	 * @since 5.8.0
 	 * */
 	public static CompletableFuture<Ret<Void>> later(MayRunnable function)
