@@ -1,10 +1,27 @@
 package firok.topaz.resource;
 
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.imageio.*;
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataFormatImpl;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.NoSuchFileException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import static firok.topaz.general.Collections.isEmpty;
 
 /**
  * 文件操作辅助类
@@ -113,5 +130,200 @@ public final class Files
 	public static String unixPathOf(File file) throws IOException
 	{
 		return file.getCanonicalPath().replaceAll("\\\\", "/");
+	}
+
+	private static String createOutputName(final File file) {
+		String name = file.getName();
+		int dotIndex = name.lastIndexOf('.');
+
+		String baseName = name.substring(0, dotIndex);
+		String extension = name.substring(dotIndex);
+
+		return baseName + "_copy" + extension;
+	}
+
+	/**
+	 * 为 PNG 文件添加元数据
+	 * @since 5.21.0
+	 * */
+	private static void addTextEntry(final IIOMetadata metadata, final String key, final String value) throws IIOInvalidTreeException
+	{
+		IIOMetadataNode textEntry = new IIOMetadataNode("TextEntry");
+		textEntry.setAttribute("keyword", key);
+		textEntry.setAttribute("value", value);
+
+		IIOMetadataNode text = new IIOMetadataNode("Text");
+		text.appendChild(textEntry);
+
+		IIOMetadataNode root = new IIOMetadataNode(IIOMetadataFormatImpl.standardMetadataFormatName);
+		root.appendChild(text);
+
+		metadata.mergeTree(IIOMetadataFormatImpl.standardMetadataFormatName, root);
+	}
+
+	private static String getTextEntry(final IIOMetadata metadata, final String key)
+	{
+		IIOMetadataNode root = (IIOMetadataNode) metadata.getAsTree(IIOMetadataFormatImpl.standardMetadataFormatName);
+		NodeList entries = root.getElementsByTagName("TextEntry");
+
+		for (int i = 0; i < entries.getLength(); i++) {
+			IIOMetadataNode node = (IIOMetadataNode) entries.item(i);
+			if (node.getAttribute("keyword").equals(key)) {
+				return node.getAttribute("value");
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * 获取图片文件读取器
+	 * @since 5.21.0
+	 * */
+	public static ImageReader getImageReader(ImageInputStream iis)
+	{
+		var iterReader = ImageIO.getImageReaders(iis);
+		if(!iterReader.hasNext())
+			throw new IllegalArgumentException("无法确定文件读取器");
+		var reader = iterReader.next();
+		if(reader == null)
+			throw new IllegalArgumentException("文件读取器加载错误");
+		reader.setInput(iis);
+		return reader;
+	}
+
+	/**
+	 * 获取图片文件写入器
+	 * @since 5.21.0
+	 * */
+	public static ImageWriter getImageWriter(ImageReader reader, ImageOutputStream ois)
+	{
+		var writer = ImageIO.getImageWriter(reader);
+		writer.setOutput(ois);
+		return writer;
+	}
+
+	/**
+	 * 从 PNG 格式文件获取文本格式的元数据
+	 * @since 5.21.0
+	 * */
+	public static Map<String, String> getPngTextMetadata(IIOMetadata metadata)
+	{
+		var ret = new HashMap<String, String>();
+		var root = metadata.getAsTree(IIOMetadataFormatImpl.standardMetadataFormatName);
+		var rootNodes = root.getChildNodes();
+		var countNodes = rootNodes.getLength();
+		for(var step = 0; step < countNodes; step++)
+		{
+			var node = rootNodes.item(step);
+			if(!"Text".equals(node.getNodeName())) continue;
+
+			var teNodes = node.getChildNodes();
+			var countTeNode = teNodes.getLength();
+			for(var stepTe = 0; stepTe < countTeNode; stepTe++)
+			{
+				var teNode = teNodes.item(stepTe);
+				if(!"TextEntry".equals(teNode.getNodeName())) continue;
+
+				var key = teNode.getAttributes().getNamedItem("keyword").getNodeValue();
+				var value = teNode.getAttributes().getNamedItem("value").getNodeValue();
+				ret.put(key, value);
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * 为 PNG 格式文件设定文字格式的元数据
+	 * @param mapTextMetadata 如果为空, 则会删除所有 Text 节点而不添加数据
+	 * @since 5.21.0
+	 * */
+	public static void setPngTextMetadata(IIOMetadata metadata, Map<String, String> mapTextMetadata)
+	{
+		var root = metadata.getAsTree(IIOMetadataFormatImpl.standardMetadataFormatName);
+
+		// 先移除掉所有先前的节点
+		var rootNodes = root.getChildNodes();
+		var listNode2remove = new ArrayList<Node>();
+		var countNode = rootNodes.getLength();
+		for(var step = 0; step < countNode; step++)
+		{
+			var rootNode = rootNodes.item(step);
+			if(!"Text".equals(rootNode.getNodeName())) continue;
+			listNode2remove.add(rootNode);
+		}
+		for(var node2remove : listNode2remove)
+		{
+			root.removeChild(node2remove);
+		}
+
+		// 写入新的节点
+		if(!isEmpty(mapTextMetadata))
+		{
+			var nodeText = new IIOMetadataNode("Text");
+			for(var entry : mapTextMetadata.entrySet())
+			{
+				var nodeTextEntry = new IIOMetadataNode("TextEntry");
+				nodeTextEntry.setAttribute("keyword", entry.getKey());
+				nodeTextEntry.setAttribute("value", entry.getValue());
+				nodeText.appendChild(nodeTextEntry);
+			}
+			root.appendChild(nodeText);
+		}
+
+		try
+		{
+			metadata.setFromTree(IIOMetadataFormatImpl.standardMetadataFormatName, root);
+		}
+		catch (Exception any)
+		{
+			throw new RuntimeException(any);
+		}
+	}
+
+	/**
+	 * 更新 PNG 图片元数据
+	 * @since 5.21.0
+	 * */
+	public static void updatePngMetadata(File file, Function<Map<String, String>, Map<String, String>> updater)
+		throws Exception
+	{
+		IIOMetadata metadata;
+		ImageReader reader;
+		IIOImage image;
+		try(var iis = ImageIO.createImageInputStream(file))
+		{
+			reader = getImageReader(iis);
+			image = reader.readAll(0, null);
+			metadata = image.getMetadata();
+		}
+		var mapTextMetadata = getPngTextMetadata(metadata);
+		var mapTextMetadataNew = updater.apply(mapTextMetadata);
+		setPngTextMetadata(metadata, mapTextMetadataNew);
+		try(var ois = ImageIO.createImageOutputStream(file))
+		{
+			var writer = getImageWriter(reader, ois);
+			image.setMetadata(metadata);
+			writer.write(image);
+			ois.flush();
+		}
+	}
+
+	/**
+	 * 创建一个带有元数据的 PNG 文件
+	 * @since 5.21.0
+	 * */
+	public static void writePngWithMetadata(File file, BufferedImage image, Map<String, String> mapMetadata)
+		throws IOException
+	{
+		try(var ois = ImageIO.createImageOutputStream(file))
+		{
+			var writer = ImageIO.getImageWritersByFormatName("png").next();
+			var root = writer.getDefaultImageMetadata(ImageTypeSpecifier.createFromRenderedImage(image), null);
+			setPngTextMetadata(root, mapMetadata);
+			var imageWithMetadata = new IIOImage(image, null, root);
+			writer.setOutput(ois);
+			writer.write(imageWithMetadata);
+		}
 	}
 }
