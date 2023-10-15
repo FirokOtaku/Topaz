@@ -1,6 +1,6 @@
 # 托帕石
 
-> ![topaz](docs/topaz.jpg)  
+> ![topaz](https://github.com/FirokOtaku/Topaz/blob/main/docs/topaz.jpg?raw=true)  
 > 托帕石，矿物学中也称黄玉或黄晶，含氟铝硅酸盐矿物，英文称*Topaz*。  
 > 因为托帕石的透明度很高，又很坚硬，所以反光效应很好，加之颜色美丽，颇受青睐。
 
