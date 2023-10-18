@@ -51,8 +51,8 @@ public class FilesTests
 	@Test
 	void testAppendMetadata() throws IOException
 	{
-		var fileOrigin = new File("./topaz.jpg");
-		var fileOutput = new File("./topaz.output.png");
+		var fileOrigin = new File("./docs/topaz.jpg");
+		var fileOutput = new File("./docs/topaz.output.png");
 		var bi = ImageIO.read(fileOrigin);
 		var map = new HashMap<String, String>();
 		map.put("test_key", "test_value");

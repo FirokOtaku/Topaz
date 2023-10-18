@@ -88,8 +88,7 @@ public class SimpleMultiThreadTests
 		for(int step = 0; step < 3; step++)
 		{
 			var exception = pool3.exceptionOf(step);
-			System.out.println("打印错误: " + step);
-			exception.printStackTrace(System.out);
+			System.out.println("错误: " + step + " = " + (exception != null));
 			Assertions.assertNotNull(exception);
 		}
 
@@ -120,6 +119,6 @@ public class SimpleMultiThreadTests
 		pool4.start();
 		pool4.waitEnd();
 		System.out.println("pool4 done");
-		Assertions.assertArrayEquals(new int[] { 0, 2, 0 }, results4);
+		Assertions.assertArrayEquals(new int[] { 0, 2, 3 }, results4);
 	}
 }

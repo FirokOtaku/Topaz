@@ -1,0 +1,3 @@
+firok.topaz.hash.NoHashMapper
+firok.topaz.hash.UUIDQuadrupleMapper
+firok.topaz.hash.UUIDSextupleMapper

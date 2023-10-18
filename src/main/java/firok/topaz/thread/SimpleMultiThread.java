@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
  * @since 3.14.0
  * @author Firok
  * */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection"})
 public class SimpleMultiThread
 {
 	/**
@@ -74,7 +74,7 @@ public class SimpleMultiThread
 	public void stop()
 	{
 		for(var thread : threads)
-			thread.stop();
+			thread.interrupt();
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class SimpleMultiThread
 					{
 						if(step == index) continue;
 
-						SimpleMultiThread.this.threads[step].stop();
+						SimpleMultiThread.this.threads[step].interrupt();
 						SimpleMultiThread.this.ends[step] = true;
 					}
 				}

@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 
 public class EncryptTests
 {
+	@SuppressWarnings("deprecation")
 	@Test
 	void testHMAC()
 	{

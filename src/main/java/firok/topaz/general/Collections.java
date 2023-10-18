@@ -32,7 +32,7 @@ public final class Collections
 	 * @param <TypeEntity> 实体类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey,TypeEntity> Map<TypeKey, TypeEntity> mappingKeyEntity(
+	public static <TypeKey, TypeEntity> Map<TypeKey, TypeEntity> mappingKeyEntity(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity,TypeKey> keyFunction
 	)
@@ -47,8 +47,6 @@ public final class Collections
 		return java.util.Collections.unmodifiableMap(map);
 	}
 
-
-
 	/**
 	 * 提取若干实体数据中的一对一映射关系
 	 * @param items 实体集
@@ -59,7 +57,7 @@ public final class Collections
 	 * @param <TypeValue> 值类型
 	 * @return 映射关系, 不可变表
 	 */
-	public static <TypeKey,TypeEntity, TypeValue> Map<TypeKey, TypeValue> mappingKeyValue(
+	public static <TypeKey, TypeEntity, TypeValue> Map<TypeKey, TypeValue> mappingKeyValue(
 			Iterable<TypeEntity> items,
 			Function<TypeEntity,TypeKey> keyFunction,
 			Function<TypeEntity, TypeValue> valueFunction
@@ -110,7 +108,6 @@ public final class Collections
 		return java.util.Collections.unmodifiableMap(map);
 	}
 
-
 	/**
 	 * 提取若干实体数据中的一对多映射关系
 	 * @param items 实体集
@@ -160,7 +157,6 @@ public final class Collections
 	{
 		return mappingKeyMultiValueList(items, keyFunction, i->i);
 	}
-
 
 	/**
 	 * 提取若干实体数据中的一对多映射关系
