@@ -175,6 +175,26 @@ public final class Collections
 	}
 
 	/**
+	 * 将某个映射变换为另一个映射
+	 * @return 映射关系, 不可变表
+	 * @since 6.3.0
+	 * */
+	public static <TypeKey, TypeOld, TypeNew> Map<TypeKey, TypeNew> mappingMap(
+			Map<TypeKey, TypeOld> map, Function<TypeOld, TypeNew> mappingFunction
+	)
+	{
+		var ret = new HashMap<TypeKey, TypeNew>();
+		for(var entry : map.entrySet())
+		{
+			var key = entry.getKey();
+			var valueOld = entry.getValue();
+			var valueNew = mappingFunction.apply(valueOld);
+			ret.put(key, valueNew);
+		}
+		return java.util.Collections.unmodifiableMap(ret);
+	}
+
+	/**
 	 * 为数组创建一个迭代器
 	 * @param values 要迭代的数据
 	 * @param <T> 数据类型
