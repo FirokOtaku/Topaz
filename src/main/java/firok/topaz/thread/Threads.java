@@ -3,6 +3,7 @@ package firok.topaz.thread;
 import firok.topaz.function.MayRunnable;
 import firok.topaz.general.Collections;
 
+import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
@@ -100,5 +101,16 @@ public class Threads
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * 等待一组任务执行完毕
+	 * @return 是否成功执行完毕
+	 * @since 6.4.0
+	 * */
+	public static boolean waitFor(Collection<MayRunnable> functions)
+	{
+		var arrFunctions = functions.toArray(new MayRunnable[0]);
+		return waitFor(arrFunctions);
 	}
 }
