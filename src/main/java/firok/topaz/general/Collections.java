@@ -3,6 +3,7 @@ package firok.topaz.general;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
+import org.intellij.lang.annotations.Language;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static firok.topaz.reflection.Reflections.constructorOf;
@@ -721,5 +723,84 @@ public final class Collections
 			countNoneNull--;
 		}
 		return ret;
+	}
+
+	/**
+	 * 提取出数据中符合条件的区间:
+	 * [1, 2, 3, 4, 3, 2, 1] + (i)->i>=3 = [2, 4]
+	 * @since 6.5.0
+	 * */
+	public static <T> int[][] rangesOf(T[] array, Predicate<T> predicate)
+	{
+		Objects.requireNonNull(array);
+		Objects.requireNonNull(predicate);
+		if(isEmpty(array)) return new int[0][];
+		var status = predicate.test(array[0]);
+		var startIndex = status ? 0 : -1;
+		var ret = new ArrayList<int[]>();
+		for(var step = 1; step < array.length; step++)
+		{
+			var currentStatus = predicate.test(array[step]);
+			if(currentStatus != status)
+			{
+				if(status)
+				{
+					ret.add(new int[]{startIndex, step - 1});
+				}
+				else
+				{
+					startIndex = step;
+				}
+				status = currentStatus;
+			}
+		}
+		if(status)
+		{
+			ret.add(new int[]{startIndex, array.length - 1});
+		}
+
+		return ret.toArray(new int[0][]);
+	}
+
+	/**
+	 * 提取出数据中符合条件的区间:
+	 * [1, 2, 3, 4, 3, 2, 1] + (i)->i>=3 = [2, 4]
+	 * @since 6.5.0
+	 * */
+	public static <T> int[][] rangesOf(Iterable<T> data, Predicate<T> predicate)
+	{
+		Objects.requireNonNull(data);
+		Objects.requireNonNull(predicate);
+		var iter = data.iterator();
+		if(!iter.hasNext()) return new int[0][];
+
+		var first = iter.next();
+		var status = predicate.test(first);
+		var startIndex = status ? 0 : -1;
+		var ret = new ArrayList<int[]>();
+		var step = 1;
+		while(iter.hasNext())
+		{
+			var currentStatus = predicate.test(iter.next());
+			if(currentStatus != status)
+			{
+				if(status)
+				{
+					ret.add(new int[]{startIndex, step - 1});
+				}
+				else
+				{
+					startIndex = step;
+				}
+				status = currentStatus;
+			}
+			step++;
+		}
+		if(status)
+		{
+			ret.add(new int[]{startIndex, step - 1});
+		}
+
+		return ret.toArray(new int[0][]);
 	}
 }

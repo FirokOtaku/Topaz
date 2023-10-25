@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class CollectionsTest
@@ -184,5 +185,52 @@ public class CollectionsTest
 		Assertions.assertEquals(6, arr6s.length);
 		Assertions.assertEquals(13, arr6s[0]);
 		Assertions.assertEquals(18, arr6s[5]);
+	}
+
+	private <T> void testOneRangeCut(T[] data, Predicate<T> predicate, int[][] expected)
+	{
+		var ranges = Collections.rangesOf(data, predicate);
+		Assertions.assertEquals(expected.length, ranges.length);
+		for(var step = 0; step < expected.length; step++)
+		{
+			Assertions.assertArrayEquals(expected[step], ranges[step]);
+		}
+	}
+
+	@Test
+	void testRangesCut()
+	{
+		var arr = new Integer[] { 0, 1, 3, 2, 1, 2, 2, 1, 1, 0, };
+		testOneRangeCut(
+				arr,
+				i -> i >= 2,
+				new int[][] {
+						new int[] { 2, 3, },
+						new int[] { 5, 6, },
+				}
+		);
+		testOneRangeCut(
+				arr,
+				i -> i == 2,
+				new int[][] {
+						new int[] { 3, 3, },
+						new int[] { 5, 6, },
+				}
+		);
+		testOneRangeCut(
+				arr,
+				i -> i > 2 && i < 5,
+				new int[][] {
+						new int[] { 2, 2, },
+				}
+		);
+		testOneRangeCut(
+				new Integer[] { 0, 0, 0, 1, 2, 3, 0, 0, 0, },
+				i -> i == 0,
+				new int[][] {
+						new int[] { 0, 2, },
+						new int[] { 6, 8, },
+				}
+		);
 	}
 }
