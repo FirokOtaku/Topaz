@@ -216,4 +216,47 @@ public class Easings
 			};
 		};
 	}
+
+	/**
+	 * 根据字符串名称计算
+	 * @return 如果传入的方法名不在包含范围内, 这个方法只会返回 {@code Double.NaN}, 但是不会抛出异常
+	 * @since 6.6.0
+	 * */
+	public static double calculate(
+			String method,
+			double x
+	)
+	{
+		return switch(method)
+		{
+			case "easeInCirc" -> easeInCirc(x);
+			case "easeInExpo" -> easeInExpo(x);
+			case "easeInBack" -> easeInBack(x);
+			case "easeInSine" -> easeInSine(x);
+			case "easeInQuad" -> easeInQuad(x);
+			case "easeOutCubic" -> easeOutCubic(x);
+			case "easeOutQuad" -> easeOutQuad(x);
+			case "easeOutExpo" -> easeOutExpo(x);
+			case "easeInOutBack" -> easeInOutBack(x);
+			case "easeInOutBounce" -> easeInOutBounce(x);
+			case "easeInQuint" -> easeInQuint(x);
+			case "easeInOutSine" -> easeInOutSine(x);
+			case "easeInOutCubic" -> easeInOutCubic(x);
+			case "easeInBounce" -> easeInBounce(x);
+			case "easeInOutCirc" -> easeInOutCirc(x);
+			case "easeInOutElastic" -> easeInOutElastic(x);
+			case "easeOutElastic" -> easeOutElastic(x);
+			case "easeOutSine" -> easeOutSine(x);
+			case "easeOutQuint" -> easeOutQuint(x);
+			case "easeOutBounce" -> easeOutBounce(x);
+			case "easeInElastic" -> easeInElastic(x);
+			case "easeInOutQuad" -> easeInOutQuad(x);
+			case "easeOutCirc" -> easeOutCirc(x);
+			case "easeInOutQuint" -> easeInOutQuint(x);
+			case "easeInCubic" -> easeInCubic(x);
+			case "easeInOutExpo" -> easeInOutExpo(x);
+			case "easeOutBack" -> easeOutBack(x);
+			default -> Double.NaN;
+		};
+	}
 }
