@@ -88,6 +88,50 @@ public final class Reflections
 	}
 
 	/**
+	 * 根据名称获取类的某个方法, 不抛出异常.
+	 * 请注意, 由于仅提供方法名而没有更多参数信息, 这个工具方法无法区分同名的重载方法.
+	 * @since 6.8.0
+	 * */
+	public static Method namedMethodOf(Class<?> classTarget, String methodName)
+	{
+		try
+		{
+			for(var method : classTarget.getMethods())
+			{
+				if(Objects.equals(methodName, method.getName()))
+					return method;
+			}
+			return null;
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * 根据名称获取类的某个方法, 不抛出异常.
+	 * 请注意, 由于仅提供方法名而没有更多参数信息, 这个工具方法无法区分同名的重载方法.
+	 * @since 6.8.0
+	 * */
+	public static Method namedDeclaredMethodOf(Class<?> classTarget, String methodName)
+	{
+		try
+		{
+			for(var method : classTarget.getDeclaredMethods())
+			{
+				if(Objects.equals(methodName, method.getName()))
+					return method;
+			}
+			return null;
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
+	/**
 	 * 获取一个类的某个字段, 不抛出异常
 	 * @since 5.19.0
 	 * */
@@ -337,5 +381,30 @@ public final class Reflections
 			case ChildToParent -> ret.add(0, classAny.getAnnotation(classAnnotation));
 		}
 		return ret;
+	}
+
+	/**
+	 * 获取调用者类
+	 * @since 6.8.0
+	 * */
+	@Indev(experimental = true)
+	public static Class<?> getCallerClass() throws ClassNotFoundException
+	{
+		var traces = Thread.currentThread().getStackTrace();
+		var trace = traces[3];
+		return Class.forName(trace.getClassName());
+	}
+
+	/**
+	 * 获取调用者方法
+	 * @since 6.8.0
+	 * */
+	@Indev(experimental = true)
+	public static Method getCallerMethod() throws ClassNotFoundException, NoSuchMethodException
+	{
+		var traces = Thread.currentThread().getStackTrace();
+		var trace = traces[3];
+		var callerClass = Class.forName(trace.getClassName());
+		return callerClass.getMethod(trace.getMethodName());
 	}
 }

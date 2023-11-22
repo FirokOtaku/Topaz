@@ -83,4 +83,43 @@ public class ReflectionTests
 		System.out.println(m);
 		System.out.println(m.getDeclaringClass());
 	}
+
+	@Test
+	public void testCallerClass() throws Exception
+	{
+		System.out.println(Reflections.getCallerClass());
+		System.out.println(Reflections.getCallerMethod());
+	}
+
+	/**
+	 * 测试类结构反射信息
+	 * */
+//	@Test
+	public void testClassStructure() throws Exception
+	{
+		interface InterfaceTest { void test(); }
+		interface InterfaceTest2 { default void test2() { } }
+		class ClassWith12 implements InterfaceTest, InterfaceTest2
+		{
+			public void test() { }
+		}
+
+		System.out.println("getDeclaredMethods");
+		for(var method : ClassWith12.class.getDeclaredMethods())
+		{
+			System.out.println(method);
+		}
+		System.out.println("getMethods");
+		for(var method : ClassWith12.class.getMethods())
+		{
+			System.out.println(method);
+		}
+		System.out.println("getInterfaces");
+		for(var in : ClassWith12.class.getInterfaces())
+		{
+			System.out.println(in);
+		}
+		System.out.println("getSuperClass");
+		System.out.println(ClassWith12.class.getSuperclass());
+	}
 }
