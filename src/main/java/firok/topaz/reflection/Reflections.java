@@ -3,6 +3,8 @@ package firok.topaz.reflection;
 import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMaximalVersion;
 import firok.topaz.annotation.SupportedMinimalVersion;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.lang.model.SourceVersion;
 import java.lang.annotation.Annotation;
@@ -59,6 +61,7 @@ public final class Reflections
 	 * 获取一个类的某个方法, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static Method methodOf(Class<?> classTarget, String methodName, Class<?>... classParams)
 	{
 		try
@@ -75,6 +78,7 @@ public final class Reflections
 	 * 获取一个类的某个方法, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static Method declaredMethodOf(Class<?> classTarget, String methodName, Class<?>... classParams)
 	{
 		try
@@ -91,7 +95,10 @@ public final class Reflections
 	 * 根据名称获取类的某个方法, 不抛出异常.
 	 * 请注意, 由于仅提供方法名而没有更多参数信息, 这个工具方法无法区分同名的重载方法.
 	 * @since 6.8.0
+	 * @see #findNamedMethodsFrom(Class, String)
 	 * */
+	@Deprecated(since = "6.9.0")
+	@Nullable
 	public static Method namedMethodOf(Class<?> classTarget, String methodName)
 	{
 		try
@@ -113,7 +120,10 @@ public final class Reflections
 	 * 根据名称获取类的某个方法, 不抛出异常.
 	 * 请注意, 由于仅提供方法名而没有更多参数信息, 这个工具方法无法区分同名的重载方法.
 	 * @since 6.8.0
+	 * @see #findNamedMethodsFrom(Class, String)
 	 * */
+	@Deprecated(since = "6.9.0")
+	@Nullable
 	public static Method namedDeclaredMethodOf(Class<?> classTarget, String methodName)
 	{
 		try
@@ -131,10 +141,55 @@ public final class Reflections
 		}
 	}
 
+	private static void findNamedMethodFromInternal(Class<?> classTarget, String methodName, List<Method> list, boolean enableObject)
+	{
+		if(classTarget == null) return;
+		if(classTarget == Object.class && !enableObject) return;
+
+		for(var method : classTarget.getDeclaredMethods())
+		{
+			if(Objects.equals(methodName, method.getName()))
+				list.add(method);
+		}
+
+		// 先遍历接口
+		for(var interfaceCur : classTarget.getInterfaces())
+		{
+			findNamedMethodFromInternal(interfaceCur, methodName, list, enableObject);
+		}
+		// 再遍历父类
+		findNamedMethodFromInternal(classTarget.getSuperclass(), methodName, list, enableObject);
+	}
+
+	/**
+	 * 在给定的类上搜索指定名称的方法, 这会遍历类和其所有父类和接口类.
+	 * @return 这个方法会返回所有找到的方法的列表, 但是对顺序不做保证.
+	 *         如果没找到, 这个方法会返回空列表; 如果出现错误, 这个方法会返回 null
+	 * @since 6.9.0
+	 * */
+	@Nullable
+	public static List<Method> findNamedMethodsFrom(@NotNull Class<?> classTarget, @NotNull String methodName)
+	{
+		try
+		{
+			var ret = new ArrayList<Method>(8);
+
+			findNamedMethodFromInternal(classTarget, methodName, ret, false);
+			findNamedMethodFromInternal(Object.class, methodName, ret, true);
+
+			return ret;
+		}
+		catch (Exception any)
+		{
+			return null;
+		}
+	}
+
 	/**
 	 * 获取一个类的某个字段, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static Field fieldOf(Class<?> classTarget, String fieldName)
 	{
 		try
@@ -151,6 +206,7 @@ public final class Reflections
 	 * 获取一个类的某个字段, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static Field declaredFieldOf(Class<?> classTarget, String fieldName)
 	{
 		try
@@ -163,10 +219,42 @@ public final class Reflections
 		}
 	}
 
+	private static void findNamedFieldFromInternal(Class<?> classTarget, String fieldName, List<Field> list, boolean enableObject)
+	{
+		if(classTarget == null) return;
+		if(classTarget == Object.class && !enableObject) return;
+
+		for(var field : classTarget.getDeclaredFields())
+		{
+			if(Objects.equals(fieldName, field.getName()))
+				list.add(field);
+		}
+		// 不用遍历接口类, 接口类不包含字段
+		// 再遍历父类
+		findNamedFieldFromInternal(classTarget.getSuperclass(), fieldName, list, enableObject);
+	}
+
+	/**
+	 * 在给定的类上搜索指定名称的字段, 这会遍历类和其所有父类和接口类.
+	 * @return 这个方法会返回所有找到的字段的列表, 但是对顺序不做保证.
+	 *         如果没找到, 这个方法会返回空列表; 如果出现错误, 这个方法会返回 null
+	 * @since 6.9.0
+	 * */
+	public static List<Field> findNamedFieldsFrom(@NotNull Class<?> classTarget, @NotNull String fieldName)
+	{
+		var ret = new ArrayList<Field>(8);
+
+		findNamedFieldFromInternal(classTarget, fieldName, ret, false);
+		findNamedFieldFromInternal(Object.class, fieldName, ret, true);
+
+		return ret;
+	}
+
 	/**
 	 * 获取一个类的某个构造器, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static <T> Constructor<T> constructorOf(Class<T> classTarget, Class<?>... classParams)
 	{
 		try
@@ -183,6 +271,7 @@ public final class Reflections
 	 * 获取一个类的某个构造器, 不抛出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static <T> Constructor<T> declaredConstructorOf(Class<T> classTarget, Class<?>... classParams)
 	{
 		try
@@ -199,6 +288,7 @@ public final class Reflections
 	 * 构造一个新实例, 不跑出异常
 	 * @since 5.19.0
 	 * */
+	@Nullable
 	public static <T> T newInstanceOf(Constructor<T> constructor, Object... params)
 	{
 		try
@@ -217,6 +307,7 @@ public final class Reflections
 	 * */
 	@Indev
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public static <TypeResult> TypeResult annotatedValueOf(Field fieldAny, Method annotationMethod)
 	{
 		try
@@ -239,6 +330,7 @@ public final class Reflections
 	 * */
 	@Indev
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public static <TypeResult> TypeResult annotatedValueOf(Method methodAny, Method annotationMethod)
 	{
 		try
@@ -261,6 +353,7 @@ public final class Reflections
 	 * */
 	@Indev
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public static <TypeResult> TypeResult annotatedValueOf(Class<?> classAny, Method annotationMethod)
 	{
 		try

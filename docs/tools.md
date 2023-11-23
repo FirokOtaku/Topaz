@@ -23,6 +23,7 @@
     * `Shapes` _多边形处理相关方法_
     * `Version` _语义化版本号简易实现_
     * `VersionRange` _版本号范围工具类_
+    * `ProgramMeta` _程序元数据工具类_
     * `Files` _文件操作辅助工具_
     * `CodeException` _自定义异常工具类_
     * `Reflections` _反射工具类_

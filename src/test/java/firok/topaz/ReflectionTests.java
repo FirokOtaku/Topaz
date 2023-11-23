@@ -94,7 +94,7 @@ public class ReflectionTests
 	/**
 	 * 测试类结构反射信息
 	 * */
-//	@Test
+	@Test
 	public void testClassStructure() throws Exception
 	{
 		interface InterfaceTest { void test(); }
@@ -104,22 +104,9 @@ public class ReflectionTests
 			public void test() { }
 		}
 
-		System.out.println("getDeclaredMethods");
-		for(var method : ClassWith12.class.getDeclaredMethods())
-		{
-			System.out.println(method);
-		}
-		System.out.println("getMethods");
-		for(var method : ClassWith12.class.getMethods())
-		{
-			System.out.println(method);
-		}
-		System.out.println("getInterfaces");
-		for(var in : ClassWith12.class.getInterfaces())
-		{
-			System.out.println(in);
-		}
-		System.out.println("getSuperClass");
-		System.out.println(ClassWith12.class.getSuperclass());
+		System.out.println("find test()");
+		var listTest = Reflections.findNamedMethodsFrom(ClassWith12.class, "test");
+		System.out.println(listTest);
+
 	}
 }
