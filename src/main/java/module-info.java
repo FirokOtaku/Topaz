@@ -1,5 +1,8 @@
 import firok.topaz.hash.IHashMapper;
 
+/**
+ * Topaz 主模块
+ * */
 module firok.topaz {
 	requires lombok;
 	requires org.jetbrains.annotations;
@@ -11,7 +14,7 @@ module firok.topaz {
 	exports firok.topaz.annotation;
 	exports firok.topaz.function;
 	exports firok.topaz.design;
-	exports firok.topaz.indev;
+	exports firok.topaz.indev to firok.topaz.test;
 	exports firok.topaz.resource;
 	exports firok.topaz.general;
 	exports firok.topaz.thread;

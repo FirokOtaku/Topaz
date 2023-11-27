@@ -4,7 +4,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 标注某个内容仍在开发
+ * 标注某个内容仍在开发.<br>
+ * <i>对于 Topaz 自身来说, 任何标注了 Indev 注解的内容产生的 breaking change 都不会影响主版本号.</i>
  * */
 @Retention(RetentionPolicy.SOURCE)
 public @interface Indev

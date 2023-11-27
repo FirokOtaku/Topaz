@@ -77,6 +77,47 @@ public final class Maths
 		return value;
 	}
 
+	public static boolean isInRange(byte value, byte min, byte max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(short value, short min, short max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(char value, char min, char max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(int value, int min, int max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(float value, float min, float max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(long value, long min, long max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(double value, double min, double max)
+	{
+		return value >= min && value <= max;
+	}
+	public static boolean isInRange(BigDecimal value, BigDecimal min, BigDecimal max)
+	{
+		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
+	}
+	public static boolean isInRange(BigInteger value, BigInteger min, BigInteger max)
+	{
+		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
+	}
+	public static boolean isInRange(java.util.Date value, java.util.Date min, java.util.Date max)
+	{
+		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
+	}
+
 	/**
 	 * @since 3.20.0
 	 * @author Firok

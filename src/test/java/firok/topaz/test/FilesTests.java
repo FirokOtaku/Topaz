@@ -1,4 +1,4 @@
-package firok.topaz;
+package firok.topaz.test;
 
 import firok.topaz.resource.Files;
 import org.junit.jupiter.api.Test;

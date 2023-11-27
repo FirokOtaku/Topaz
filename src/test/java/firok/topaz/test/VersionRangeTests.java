@@ -1,4 +1,4 @@
-package firok.topaz;
+package firok.topaz.test;
 
 import firok.topaz.general.Version;
 import firok.topaz.general.VersionRange;

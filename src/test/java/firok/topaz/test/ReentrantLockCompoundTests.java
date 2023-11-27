@@ -1,4 +1,4 @@
-package firok.topaz;
+package firok.topaz.test;
 
 import firok.topaz.thread.ReentrantLockCompound;
 import firok.topaz.thread.Threads;
