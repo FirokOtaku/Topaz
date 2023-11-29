@@ -8,7 +8,6 @@ module firok.topaz {
 	requires org.jetbrains.annotations;
 	requires java.desktop;
     requires java.compiler;
-    requires org.graalvm.polyglot;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
