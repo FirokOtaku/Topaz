@@ -6,7 +6,8 @@
 
     <groupId>firok</groupId>
     <artifactId>topaz</artifactId>
-    <version>6.10.0</version>
+    <version>6.11.0</version>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -19,7 +20,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.0</version>
+            <version>24.0.1</version>
         </dependency>
 
         <dependency>

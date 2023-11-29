@@ -1,4 +1,4 @@
-# 托帕石
+# Topaz 托帕石
 
 > ![topaz](https://github.com/FirokOtaku/Topaz/blob/main/docs/topaz.jpg?raw=true)  
 > 托帕石，矿物学中也称黄玉或黄晶，含氟铝硅酸盐矿物，英文称*Topaz*。  
@@ -12,11 +12,12 @@
 
 * [工具列表](docs/tools.md)
 * [改动记录](docs/changelog.md)
+* [相关项目 - 琥珀](https://github.com/FirokOtaku/Amber)
 
 最新改动:
 
-* 6.10.0
-  * 新增色彩空间转换工具类
+* 6.11.0
+  * 新增线程锁代理工具类
 * **6.0.0**
   * **Java 支持版本从 Java 17 更新至 Java 21**
     * 此升级不包含底层代码和 API 变动, 仅需升级 JDK

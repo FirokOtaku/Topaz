@@ -8,6 +8,7 @@ module firok.topaz {
 	requires org.jetbrains.annotations;
 	requires java.desktop;
     requires java.compiler;
+    requires org.graalvm.polyglot;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
@@ -23,7 +24,7 @@ module firok.topaz {
 	exports firok.topaz.platform;
 	exports firok.topaz.spring;
 
-	uses IHashMapper;
+    uses IHashMapper;
 	provides IHashMapper
 	with firok.topaz.hash.NoHashMapper,
 			firok.topaz.hash.UUIDQuadrupleMapper,
