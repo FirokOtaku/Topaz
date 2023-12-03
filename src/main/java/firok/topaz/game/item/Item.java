@@ -8,7 +8,9 @@ import org.jetbrains.annotations.NotNull;
  * @param <TypeEntity> 调用此库时, 相关的实体基类类型
  * @since 6.12.0
  * @author Firok
+ * @deprecated 在 7.0.0 中将会被重命名为 AbstractItem
  * */
+@Deprecated(forRemoval = true)
 @SuppressWarnings({"unused", "SpellCheckingInspection"})
 public abstract class Item<
         TypeStack extends ItemStack,

@@ -4,7 +4,9 @@ import lombok.Getter;
 
 /**
  * 物品摞
+ * @deprecated 在 7.0.0 中将会被重命名为 AbstractItemStack
  * */
+@Deprecated(forRemoval = true)
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ItemStack<TypeItem extends Item>
 {

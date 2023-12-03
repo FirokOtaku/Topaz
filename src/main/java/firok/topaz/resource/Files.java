@@ -326,4 +326,54 @@ public final class Files
 			writer.write(imageWithMetadata);
 		}
 	}
+
+	/**
+	 * 列出目录下的文件名, 不会返回 null
+	 * @since 6.14.0
+	 * */
+	public static String[] listFilenames(File folder)
+	{
+		var ret = folder.list();
+		return ret == null ? new String[0] : ret;
+	}
+
+	/**
+	 * 列出目录下的文件名, 不会返回 null
+	 * @since 6.14.0
+	 * */
+	public static String[] listFilenames(File folder, FilenameFilter filter)
+	{
+		var ret = folder.list(filter);
+		return ret == null ? new String[0] : ret;
+	}
+
+	/**
+	 * 列出目录下的文件, 不会返回 null
+	 * @since 6.14.0
+	 * */
+	public static File[] listFiles(File folder)
+	{
+		var ret = folder.listFiles();
+		return ret == null ? new File[0] : ret;
+	}
+
+	/**
+	 * 列出目录下的文件, 不会返回 null
+	 * @since 6.14.0
+	 * */
+	public static File[] listFiles(File folder, FileFilter filter)
+	{
+		var ret = folder.listFiles(filter);
+		return ret == null ? new File[0] : ret;
+	}
+
+	/**
+	 * 列出目录下的文件, 不会返回 null
+	 * @since 6.14.0
+	 * */
+	public static File[] listFiles(File folder, FilenameFilter filter)
+	{
+		var ret = folder.listFiles(filter);
+		return ret == null ? new File[0] : ret;
+	}
 }
