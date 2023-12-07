@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static firok.topaz.general.Collections.isEmpty;
+
 /**
  * 一些数学运算工具方法
  *
  * @since 3.16.0
  * @author Firok
  * */
+@SuppressWarnings({"unused", "RedundantLengthCheck", "DuplicatedCode"})
 public final class Maths
 {
 	private Maths() { }
@@ -223,6 +226,7 @@ public final class Maths
 	 * @since 5.3.0
 	 * @author Firok
 	 * */
+	@SafeVarargs
 	public static <T extends Number & Comparable<T>> T max(T... nums)
 	{
 		if(nums == null || nums.length == 0)
@@ -243,6 +247,7 @@ public final class Maths
 	 * @since 5.3.0
 	 * @author Firok
 	 * */
+	@SafeVarargs
 	public static <T extends Number & Comparable<T>> T min(T... nums)
 	{
 		if(nums == null || nums.length == 0)
@@ -463,5 +468,37 @@ public final class Maths
 	{
 		try { return new BigDecimal(raw); }
 		catch (Exception ignored) { return defaultValue; }
+	}
+
+	/**
+	 * 均值拟合
+	 * @param values 需要拟合的数据, 长度需要大于 0
+	 * @param range 拟合范围, 需要大于参数 range
+	 * @return 拟合之后的数据, 数组长度与参数 values 相同
+	 * @since 6.15.0
+	 * */
+	public static double[] meanFit(double[] values, int range)
+	{
+		if(range <= 1) throw new IllegalArgumentException("range must be greater than 1");
+		if(values == null || values.length <= range) throw new IllegalArgumentException("values length must be greater than range");
+
+		double[] ret = new double[values.length];
+
+		for(var step = 0; step < values.length; step++)
+		{
+			double sum = 0;
+			for(var index = step - range; index <= step + range; index++)
+			{
+				if(index < 0)
+					sum += 2 * values[0] - values[-index];
+				else if(index > values.length - 1)
+					sum += 2 * values[values.length - 1] - values[2 * (values.length - 1) - index];
+				else
+					sum += values[index];
+			}
+			ret[step] = sum / (range * 2 + 1);
+		}
+
+		return ret;
 	}
 }

@@ -4,6 +4,8 @@ import firok.topaz.math.Maths;
 
 import java.awt.*;
 
+import static firok.topaz.math.Maths.isInRange;
+
 /**
  * util class for color computing
  *
@@ -17,20 +19,41 @@ public final class Colors
 
 	/**
 	 * 非常简易的中间色计算工具方法
+	 * @since 6.15.0
 	 * */
-	public static Color getColorBetween(Color c1,Color c2)
+	public static Color getColorBetween(Color c1, Color c2, double factor)
 	{
-		return new Color(
-				(c1.getRed()+c2.getRed())/2,
-				(c1.getGreen()+c2.getGreen())/2,
-				(c1.getBlue()+c2.getBlue())/2);
+		if(!isInRange(factor, 0, 1)) throw new IllegalArgumentException("factor must be in range [0,1]");
+
+		int r1 = c1.getRed(), r2 = c2.getRed(), fr = Math.abs(r1 - r2), tr = (int) (fr * factor + Math.min(r2, r1));
+		int g1 = c1.getGreen(), g2 = c2.getGreen(), fg = Math.abs(g1 - g2), tg = (int) (fg * factor + Math.min(g2, g1));
+		int b1 = c1.getBlue(), b2 = c2.getBlue(), fb = Math.abs(b1 - b2), tb = (int) (fb * factor + Math.min(b2, b1));
+		int a1 = c1.getAlpha(), a2 = c2.getAlpha(), fa = Math.abs(a1 - a2), ta = (int) (fa * factor + Math.min(a2, a1));
+		return new Color(tr, tg, tb, ta);
 	}
+
 	/**
 	 * 非常简易的中间色计算工具方法
-	 * */
-	public static int getColorRGBBetween(int c1,int c2)
+	 */
+	public static Color getColorBetween(Color c1, Color c2)
 	{
-		return getColorBetween(new Color(c1),new Color(c2)).getRGB();
+		return getColorBetween(c1, c2, 0.5);
+	}
+
+	/**
+	 * 非常简易的中间色计算工具方法
+	 */
+	public static int getColorRGBBetween(int c1, int c2, double factor)
+	{
+		return getColorBetween(new Color(c1), new Color(c2), factor).getRGB();
+	}
+
+	/**
+	 * 非常简易的中间色计算工具方法
+	 */
+	public static int getColorRGBBetween(int c1, int c2)
+	{
+		return getColorRGBBetween(c1, c2, 0.5);
 	}
 
 	/**
