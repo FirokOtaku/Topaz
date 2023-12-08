@@ -14,9 +14,9 @@ public record ColorRGB(float r, float g, float b)
 {
     public ColorRGB
     {
-        var okay = Maths.isInRange(r, 0, 1)
-                && Maths.isInRange(g, 0, 1)
-                && Maths.isInRange(b, 0, 1);
+        var okay = Maths.isInRange(r, 0F, 1F)
+                && Maths.isInRange(g, 0F, 1F)
+                && Maths.isInRange(b, 0F, 1F);
         if(!okay) throw new IllegalArgumentException("RGB value out of range");
     }
 

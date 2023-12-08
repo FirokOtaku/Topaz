@@ -233,4 +233,30 @@ public class CollectionsTest
 				}
 		);
 	}
+
+	@Test
+	public void testEmpty()
+	{
+		var list = new ArrayList<>();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		var map = new HashMap<>();
+		map.put("2", 2);
+		map.put("1", 1);
+		var arr = new int[1];
+		arr[0] = 123;
+
+		Assertions.assertEquals(1, Collections.sizeOf(arr));
+		Assertions.assertEquals(2, Collections.sizeOf(map));
+		Assertions.assertEquals(3, Collections.sizeOf(list));
+
+		Assertions.assertTrue(Collections.isNotEmpty(list));
+		Assertions.assertTrue(Collections.isNotEmpty(map));
+		Assertions.assertTrue(Collections.isNotEmpty(arr));
+
+		Assertions.assertFalse(Collections.isEmpty(list));
+		Assertions.assertFalse(Collections.isEmpty(map));
+		Assertions.assertFalse(Collections.isEmpty(arr));
+	}
 }

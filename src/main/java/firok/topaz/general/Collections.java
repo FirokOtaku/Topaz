@@ -580,81 +580,42 @@ public final class Collections
 	}
 
 	/**
-	 * @author Firok
-	 * @since 3.23.0
+	 * @since 6.16.0
+	 * @apiNote 这个接口以后可能对更多类型做出支持, 但是相关改动将不会影响主版本号
 	 * */
-	public static <TypeEntity> int sizeOf(Collection<TypeEntity> collection)
+	public static int sizeOf(Object any)
 	{
-		return collection == null ? 0 : collection.size();
+		if(any == null) return 0;
+		else if(any instanceof Collection<?> collection) return collection.size();
+		else if(any instanceof Map<?, ?> map) return map.size();
+		else if(any.getClass().isArray()) return Array.getLength(any);
+		else throw new IllegalArgumentException("given value is not a collection or array");
 	}
 
 	/**
-	 * @since 5.5.0
-	 * @author Firok
+	 * @since 6.16.0
+	 * @apiNote 这个接口以后可能对更多类型做出支持, 但是相关改动将不会影响主版本号
 	 * */
-	public static <TypeEntity> int sizeOf(TypeEntity[] array)
+	public static boolean isEmpty(Object any)
 	{
-		return array == null ? 0 : array.length;
+		if(any == null) return true;
+		else if(any instanceof Collection<?> collection) return collection.isEmpty();
+		else if(any instanceof Map<?, ?> map) return map.isEmpty();
+		else if(any.getClass().isArray()) return Array.getLength(any) <= 0;
+		else throw new IllegalArgumentException("given value is not a collection or array");
 	}
 
 	/**
-	 * @since 5.13.0
+	 * @since 6.16.0
+	 * @apiNote 这个接口以后可能对更多类型做出支持, 但是相关改动将不会影响主版本号
 	 * */
-	public static int sizeOf(Map<?, ?> map)
+	public static boolean isNotEmpty(Object any)
 	{
-		return map == null ? 0 : map.size();
-	}
-
-	/**
-	 * @author Firok
-	 * @since 3.23.0
-	 * */
-	public static <TypeEntity> boolean isEmpty(Collection<TypeEntity> collection)
-	{
-		return collection == null || collection.isEmpty();
-	}
-
-	/**
-	 * @since 5.5.0
-	 * @author Firok
-	 * */
-	public static <TypeEntity> boolean isEmpty(TypeEntity[] array)
-	{
-		return array == null || array.length == 0;
-	}
-
-	/**
-	 * @since 5.13.0
-	 * */
-	public static boolean isEmpty(Map<?, ?> map)
-	{
-		return map == null || map.isEmpty();
-	}
-
-	/**
-	 * @since 3.24.0
-	 * @author Firok
-	 * */
-	public static <TypeEntity> boolean isNotEmpty(Collection<TypeEntity> collection)
-	{
-		return collection != null && !collection.isEmpty();
-	}
-
-	/**
-	 * @since 5.5.0
-	 * @author Firok
-	 * */
-	public static <TypeEntity> boolean isNotEmpty(TypeEntity[] array)
-	{
-		return array != null && array.length > 0;
-	}
-
-	/**
-	 * @since 5.13.0
-	 * */
-	public static boolean isNotEmpty(Map<?, ?> map)
-	{
-		return map != null && !map.isEmpty();
+		if(any == null) return false;
+		else if(any instanceof Collection<?> collection) return !collection.isEmpty();
+		else if(any instanceof Map<?, ?> map) return !map.isEmpty();
+		else if(any.getClass().isArray()) return Array.getLength(any) > 0;
+		else throw new IllegalArgumentException("given value is not a collection or array");
 	}
 
 	/**
@@ -802,5 +763,35 @@ public final class Collections
 		}
 
 		return ret.toArray(new int[0][]);
+	}
+
+	/**
+	 * 将一个对象引用转换为数组引用
+	 * @throws IllegalArgumentException 如果传入的引用为空或原本的类型不是数组类型, 将会抛出
+	 * @since 6.16.0
+	 * */
+	public static Object[] toObjectArray(Object rawRef)
+	{
+		return (Object[]) toTypeArray(rawRef, Object.class);
+	}
+
+	/**
+	 * 将一个对象引用转换为指定类型的数组引用
+	 * @throws IllegalArgumentException 如果传入的引用为空或原本的类型不是数组类型, 将会抛出
+	 * @since 6.16.0
+	 * */
+	@SuppressWarnings("unchecked")
+	public static <Type> Object toTypeArray(Object rawRef, Class<Type> classType)
+	{
+		if(rawRef == null || !rawRef.getClass().isArray()) throw new IllegalArgumentException("given param is not an array type ref");
+		if(void.class == classType || Void.class == classType) throw new IllegalArgumentException("cannot convert to void type");
+		var len = Array.getLength(rawRef);
+		var ret = Array.newInstance(classType, len);
+		for(var step = 0; step < len; step++)
+		{
+			var value = Array.get(rawRef, step);
+			Array.set(ret, step, value);
+		}
+		return ret;
 	}
 }

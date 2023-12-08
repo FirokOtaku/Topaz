@@ -12,9 +12,9 @@ public record ColorHSL(float h, float s, float l)
 {
     public ColorHSL
     {
-        var okay = Maths.isInRange(h, 0, 360)
-                && Maths.isInRange(s, 0, 1)
-                && Maths.isInRange(l, 0, 1);
+        var okay = Maths.isInRange(h, 0F, 360F)
+                && Maths.isInRange(s, 0F, 1F)
+                && Maths.isInRange(l, 0F, 1F);
         if(!okay) throw new IllegalArgumentException("HSL value out of range");
     }
 

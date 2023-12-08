@@ -1,12 +1,14 @@
 package firok.topaz.math;
 
+import firok.topaz.annotation.Level;
+import firok.topaz.annotation.PerformanceIssue;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-import static firok.topaz.general.Collections.isEmpty;
+import static firok.topaz.general.Collections.toTypeArray;
 
 /**
  * 一些数学运算工具方法
@@ -19,206 +21,15 @@ public final class Maths
 {
 	private Maths() { }
 
-	public static byte range(byte value, byte min, byte max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static short range(short value, short min, short max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static char range(char value, char min, char max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static int range(int value, int min, int max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static float range(float value, float min, float max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static long range(long value, long min, long max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static double range(double value, double min, double max)
-	{
-		if(value > max) return max;
-		else if(value < min) return min;
-		return value;
-	}
-	public static BigDecimal range(BigDecimal value, BigDecimal min, BigDecimal max)
+	public static <Type extends Comparable<Type>> Type range(Type value, Type min, Type max)
 	{
 		if(value.compareTo(max) > 0) return max;
 		else if(value.compareTo(min) < 0) return min;
 		return value;
 	}
-	public static BigInteger range(BigInteger value, BigInteger min, BigInteger max)
-	{
-		if(value.compareTo(max) > 0) return max;
-		else if(value.compareTo(min) < 0) return min;
-		return value;
-	}
-	public static java.util.Date range(java.util.Date value, java.util.Date min, java.util.Date max)
-	{
-		if(value.compareTo(max) > 0) return max;
-		else if(value.compareTo(min) < 0) return min;
-		return value;
-	}
-
-	public static boolean isInRange(byte value, byte min, byte max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(short value, short min, short max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(char value, char min, char max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(int value, int min, int max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(float value, float min, float max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(long value, long min, long max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(double value, double min, double max)
-	{
-		return value >= min && value <= max;
-	}
-	public static boolean isInRange(BigDecimal value, BigDecimal min, BigDecimal max)
+	public static <Type extends Comparable<Type>> boolean isInRange(Type value, Type min, Type max)
 	{
 		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
-	}
-	public static boolean isInRange(BigInteger value, BigInteger min, BigInteger max)
-	{
-		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
-	}
-	public static boolean isInRange(java.util.Date value, java.util.Date min, java.util.Date max)
-	{
-		return value.compareTo(min) >= 0 && value.compareTo(max) <= 0;
-	}
-
-	/**
-	 * @since 3.20.0
-	 * @author Firok
-	 * */
-	public static BigDecimal min(BigDecimal init, BigDecimal... numbers)
-	{
-		if(init == null)
-			throw new IllegalArgumentException("init number cannot be null");
-
-		var ret = init;
-
-		if(numbers != null && numbers.length > 0)
-		{
-			for(var number : numbers)
-			{
-				if(number == null) continue;
-
-				if(ret.compareTo(number) > 0)
-					ret = number;
-			}
-		}
-
-		return ret;
-	}
-
-	/**
-	 * @since 3.20.0
-	 * @author Firok
-	 * */
-	public static BigDecimal max(BigDecimal init, BigDecimal... numbers)
-	{
-		if(init == null)
-			throw new IllegalArgumentException("init number cannot be null");
-
-		var ret = init;
-
-		if(numbers != null && numbers.length > 0)
-		{
-			for(var number : numbers)
-			{
-				if(number == null) continue;
-
-				if(ret.compareTo(number) < 0)
-					ret = number;
-			}
-		}
-
-		return ret;
-	}
-
-	/**
-	 * @since 3.20.0
-	 * @author Firok
-	 * */
-	public static BigInteger min(BigInteger init, BigInteger... numbers)
-	{
-		if(init == null)
-			throw new IllegalArgumentException("init number cannot be null");
-
-		var ret = init;
-
-		if(numbers != null && numbers.length > 0)
-		{
-			for(var number : numbers)
-			{
-				if(number == null) continue;
-
-				if(ret.compareTo(number) > 0)
-					ret = number;
-			}
-		}
-
-		return ret;
-	}
-
-	/**
-	 * @since 3.20.0
-	 * @author Firok
-	 * */
-	public static BigInteger max(BigInteger init, BigInteger... numbers)
-	{
-		if(init == null)
-			throw new IllegalArgumentException("init number cannot be null");
-
-		var ret = init;
-
-		if(numbers != null && numbers.length > 0)
-		{
-			for(var number : numbers)
-			{
-				if(number == null) continue;
-
-				if(ret.compareTo(number) < 0)
-					ret = number;
-			}
-		}
-
-		return ret;
 	}
 
 	/**
@@ -227,13 +38,13 @@ public final class Maths
 	 * @author Firok
 	 * */
 	@SafeVarargs
-	public static <T extends Number & Comparable<T>> T max(T... nums)
+	public static <T extends Comparable<T>> T max(T... values)
 	{
-		if(nums == null || nums.length == 0)
-			throw new IllegalArgumentException("nums cannot be null");
-		if(nums.length == 1) return nums[0];
+		if(values == null || values.length == 0)
+			throw new IllegalArgumentException("values cannot be null");
+		if(values.length == 1) return values[0];
 		T max = null;
-		for(var num : nums)
+		for(var num : values)
 		{
 			if(max == null || num.compareTo(max) > 0)
 			{
@@ -248,13 +59,13 @@ public final class Maths
 	 * @author Firok
 	 * */
 	@SafeVarargs
-	public static <T extends Number & Comparable<T>> T min(T... nums)
+	public static <T extends Comparable<T>> T min(T... values)
 	{
-		if(nums == null || nums.length == 0)
-			throw new IllegalArgumentException("nums cannot be null");
-		if(nums.length == 1) return nums[0];
+		if(values == null || values.length == 0)
+			throw new IllegalArgumentException("values cannot be null");
+		if(values.length == 1) return values[0];
 		T min = null;
-		for(var num : nums)
+		for(var num : values)
 		{
 			if(min == null || num.compareTo(min) < 0)
 			{
@@ -264,12 +75,99 @@ public final class Maths
 		return min;
 	}
 
+	private static final String MathMethodIssue = "为了方便, 现在的实现方式会在底层用反射创建一个副本然后复制数据, 这在数组容量比较大的时候可能有性能问题";
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static byte max(byte[] nums) { return max((Byte[]) toTypeArray(nums, Byte.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static short max(short[] nums) { return max((Short[]) toTypeArray(nums, Short.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static int max(int[] nums) { return max((Integer[]) toTypeArray(nums, Integer.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static long max(long[] nums) { return max((Long[]) toTypeArray(nums, Long.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static float max(float[] nums) { return max((Float[]) toTypeArray(nums, Float.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static double max(double[] nums) { return max((Double[]) toTypeArray(nums, Double.class)); }
+	/**
+	 * 计算最大值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static char max(char[] nums) { return max((Character[]) toTypeArray(nums, Character.class)); }
+
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static byte min(byte[] nums) { return min((Byte[]) toTypeArray(nums, Byte.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static short min(short[] nums) { return min((Short[]) toTypeArray(nums, Short.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static int min(int[] nums) { return min((Integer[]) toTypeArray(nums, Integer.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static long min(long[] nums) { return min((Long[]) toTypeArray(nums, Long.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static float min(float[] nums) { return min((Float[]) toTypeArray(nums, Float.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static double min(double[] nums) { return min((Double[]) toTypeArray(nums, Double.class)); }
+	/**
+	 * 计算最小值
+	 * @since 6.16.0
+	 * */
+	@PerformanceIssue(value = MathMethodIssue, level = Level.Minor)
+	public static char min(char[] nums) { return min((Character[]) toTypeArray(nums, Character.class)); }
+
 	/**
 	 * 计算中间值
 	 * @since 5.3.0
 	 * @author Firok
 	 * */
-	public static <T extends Number & Comparable<T>> T mid(T n1, T n2, T n3)
+	public static <T extends Comparable<T>> T mid(T n1, T n2, T n3)
 	{
 		if(n1 == null || n2 == null || n3 == null)
 			throw new IllegalArgumentException("numbers cannot be null");
