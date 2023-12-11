@@ -498,6 +498,6 @@ public final class Reflections
 		var traces = Thread.currentThread().getStackTrace();
 		var trace = traces[3];
 		var callerClass = Class.forName(trace.getClassName());
-		return callerClass.getMethod(trace.getMethodName());
+		return Reflections.namedMethodOf(callerClass, trace.getMethodName());
 	}
 }

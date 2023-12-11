@@ -34,7 +34,7 @@ public class ReentrantLockCompoundTests
             }
         });
         Threads.start(false, () -> {
-            Threads.sleep(300);
+            Threads.sleep(400);
             try(var ignored = new ReentrantLockCompound(lock1, lock2))
             {
                 Threads.sleep(600);
