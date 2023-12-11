@@ -67,4 +67,13 @@ public final class ResourceLocation
 		ResourceLocation that = (ResourceLocation) o;
 		return Objects.equals(namespace, that.namespace) && Objects.equals(key, that.key);
 	}
+
+	/**
+	 * @since 6.17.0
+	 * */
+	@Override
+	public String toString()
+	{
+		return namespace == null ? key : namespace + ":" + key;
+	}
 }

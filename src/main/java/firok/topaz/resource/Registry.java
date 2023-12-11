@@ -32,12 +32,31 @@ public class Registry<TypeKey, TypeValue extends RegistryItem<TypeKey>>
 		this.isLocked = false;
 	}
 
+	/**
+	 * @since 6.17.0
+	 * */
+	public Map<TypeKey, TypeValue> items()
+	{
+		return new HashMap<>(this.map);
+	}
+
 	public void register(TypeValue item)
 	{
 		var key = item.getRegistryKey();
 		if(!isReplacable && map.containsKey(key))
 			throw new IllegalArgumentException("重复注册键: " + key);
 		map.put(key, item);
+	}
+
+	/**
+	 * @since 6.17.0
+	 * */
+	public void registerAll(Map<TypeKey, TypeValue> map)
+	{
+		for(var value : map.values())
+		{
+			register(value);
+		}
 	}
 
 	public TypeValue get(TypeKey key)
