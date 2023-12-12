@@ -6,6 +6,7 @@ import java.util.function.Consumer;
  * @since 4.1.0
  * @author Firok
  * */
+@FunctionalInterface
 public interface MayConsumer<Type>
 {
 	void accept(Type param) throws Exception;
@@ -27,5 +28,14 @@ public interface MayConsumer<Type>
 			try { MayConsumer.this.accept(param); }
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
+	}
+
+	/**
+	 * 工具封装方法
+	 * @since 7.0.0
+	 * */
+	static <Type> MayConsumer<Type> that(MayConsumer<Type> consumer)
+	{
+		return consumer;
 	}
 }

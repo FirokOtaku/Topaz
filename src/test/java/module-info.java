@@ -11,5 +11,4 @@ module firok.topaz.test {
     requires com.fasterxml.jackson.databind;
 
     opens firok.topaz.test;
-    opens firok.topaz.test.indev;
 }

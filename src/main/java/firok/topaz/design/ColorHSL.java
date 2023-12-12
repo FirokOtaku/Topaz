@@ -1,5 +1,6 @@
 package firok.topaz.design;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.math.Maths;
 
 /**
@@ -15,7 +16,7 @@ public record ColorHSL(float h, float s, float l)
         var okay = Maths.isInRange(h, 0F, 360F)
                 && Maths.isInRange(s, 0F, 1F)
                 && Maths.isInRange(l, 0F, 1F);
-        if(!okay) throw new IllegalArgumentException("HSL value out of range");
+        if(!okay) TopazExceptions.ColorValueOutOfRange.occur();
     }
 
     public ColorRGB toRGB()

@@ -1,5 +1,6 @@
 package firok.topaz.resource;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Indev;
 
 import java.io.*;
@@ -34,7 +35,9 @@ public final class Zips
             var structure = String.join("/", levelsNow);
             if(structures.contains(structure))
             {
-                throw new InvalidPathException(structure, "结构重复");
+                TopazExceptions.StructureDuplicate.occur(
+                        new InvalidPathException(structure, "结构重复")
+                );
             }
             var entry = new ZipEntry(structure);
             try(var ifs = new FileInputStream(raw))

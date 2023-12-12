@@ -2,7 +2,7 @@ package firok.topaz.game.item;
 
 /**
  * 物品事件结果
- * @since 0.1.0
+ * @since 6.12.0
  * @author Firok
  * */
 public enum ItemEventResult

@@ -1,5 +1,7 @@
 package firok.topaz.math;
 
+import firok.topaz.TopazExceptions;
+
 /**
  * 一个用数组缓存加速数学运算的工具类
  *
@@ -16,7 +18,9 @@ public class MathHelper
 	public MathHelper(int poolSizeTrigonometry)
 	{
 		if(poolSizeTrigonometry < 1)
-			throw new IllegalArgumentException("poolSizeTrigonometry must be greater than 0");
+			TopazExceptions.ParamValueOutOfRange.occur(
+					new IllegalArgumentException("poolSizeTrigonometry must be greater than 0")
+			);
 		this.tableCos = new double[poolSizeTrigonometry];
 		this.tableSin = new double[poolSizeTrigonometry];
 		this.tableTan = new double[poolSizeTrigonometry];

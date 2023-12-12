@@ -4,32 +4,32 @@ import lombok.Getter;
 
 /**
  * 物品摞
- * @deprecated 在 7.0.0 中将会被重命名为 AbstractItemStack
+ * @since 6.12.0
+ * @version 7.0.0
  * */
-@Deprecated(forRemoval = true)
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class ItemStack<TypeItem extends Item>
+public class AbstractItemStack<TypeItem extends AbstractItem>
 {
 	private final TypeItem delegate;
 	@Getter
 	private int count;
-	public ItemStack(TypeItem delegate, int count)
+	public AbstractItemStack(TypeItem delegate, int count)
 	{
 		this.delegate = delegate;
 		setCount(count);
 	}
-	public ItemStack(TypeItem delegate)
+	public AbstractItemStack(TypeItem delegate)
 	{
 		this.delegate = delegate;
 		setCount(1);
 	}
-	private ItemStack()
+	private AbstractItemStack()
 	{
 		this.delegate = null;
 		this.count = 0;
 	}
 
-	public static final ItemStack EmptyStack = new ItemStack();
+	public static final AbstractItemStack EmptyStack = new AbstractItemStack();
 
 	public TypeItem getItem()
 	{

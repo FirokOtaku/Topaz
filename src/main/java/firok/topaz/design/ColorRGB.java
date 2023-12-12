@@ -1,5 +1,6 @@
 package firok.topaz.design;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.math.Maths;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ public record ColorRGB(float r, float g, float b)
         var okay = Maths.isInRange(r, 0F, 1F)
                 && Maths.isInRange(g, 0F, 1F)
                 && Maths.isInRange(b, 0F, 1F);
-        if(!okay) throw new IllegalArgumentException("RGB value out of range");
+        if(!okay) TopazExceptions.ColorValueOutOfRange.occur();
     }
 
     public static ColorRGB fromAWT(Color color)

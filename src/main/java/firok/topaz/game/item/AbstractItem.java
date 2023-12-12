@@ -8,14 +8,13 @@ import org.jetbrains.annotations.NotNull;
  * @param <TypeEntity> 调用此库时, 相关的实体基类类型
  * @since 6.12.0
  * @author Firok
- * @deprecated 在 7.0.0 中将会被重命名为 AbstractItem
+ * @version 7.0.0
  * */
-@Deprecated(forRemoval = true)
 @SuppressWarnings({"unused", "SpellCheckingInspection"})
-public abstract class Item<
-        TypeStack extends ItemStack,
-        TypeRarity extends ItemRarity,
-        TypeSlot extends ItemSlot,
+public abstract class AbstractItem<
+        TypeStack extends AbstractItemStack,
+        TypeRarity extends AbstractItemRarity,
+        TypeSlot extends AbstractItemSlot,
         TypeEntity,
         TypeKey
 > implements RegistryItem<TypeKey>

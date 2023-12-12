@@ -1,6 +1,7 @@
 package firok.topaz.test;
 
 import firok.topaz.function.MayRunnable;
+import firok.topaz.general.CodeException;
 import firok.topaz.thread.SimpleMultiThread;
 import firok.topaz.thread.Threads;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +17,7 @@ public class SimpleMultiThreadTests
 	void test()
 	{
 		// 直接创建会报错
-		Assertions.assertThrowsExactly(IllegalArgumentException.class, SimpleMultiThread::new);
+		Assertions.assertThrowsExactly(CodeException.class, SimpleMultiThread::new);
 
 		var results1 = new int[] {
 				0,

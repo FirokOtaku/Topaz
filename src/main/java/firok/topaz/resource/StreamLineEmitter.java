@@ -1,5 +1,6 @@
 package firok.topaz.resource;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.function.MayConsumer;
 import firok.topaz.thread.Threads;
 
@@ -66,10 +67,7 @@ public final class StreamLineEmitter implements java.io.Closeable
 
 	private void checkNoClosed()
 	{
-		if(this.isClosed)
-		{
-			throw new IllegalStateException("emitter has been closed");
-		}
+		TopazExceptions.EmitterAlreadyClosed.maybe(this.isClosed);
 	}
 
 	/**

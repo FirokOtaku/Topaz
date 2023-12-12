@@ -1,9 +1,13 @@
 package firok.topaz.resource;
 
+import firok.topaz.TopazExceptions;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
+
+import static firok.topaz.general.Collections.isEmpty;
 
 /**
  * 流操作相关工具方法
@@ -27,8 +31,8 @@ public final class Streams
      * */
     public long transferTo(InputStream ibs, OutputStream... arrOs) throws IOException
     {
-        Objects.requireNonNull(arrOs);
-        for(var os : arrOs) Objects.requireNonNull(os);
+        TopazExceptions.ParamValueNoneNull.maybe(isEmpty(arrOs));
+        for(var os : arrOs) TopazExceptions.ParamValueNoneNull.maybe(os == null);
 
         long transferred = 0;
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

@@ -32,15 +32,14 @@ public final class Strings
      * 便于识别的字符列表
      * */
     private static final char[] EASY_CHARS = new char[] {
-            'a', 'b', 'd', 'e', 'f', 'g', 'h', 'j', 'm', 'n', 'r', 't', 'y',
-            'A', 'B', 'D', 'E', 'F', 'G', 'H', 'J', 'M', 'N', 'T', 'T', 'Y',
-            '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'd', 'e', 'f', 'g', 'h', 'm', 'n', 'r', 't', 'y',
+            'A', 'B', 'D', 'E', 'F', 'G', 'H', 'M', 'N', 'T', 'T', 'Y',
+            '2', '3', '4', '5', '6', '7', '8', '9',
     };
 
     /**
      * 获取一组便于阅读的字符. 包含数字和字母
      * */
-    @Indev
     public static char[] getEasyChars()
     {
         return EASY_CHARS.clone();

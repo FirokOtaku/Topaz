@@ -1,5 +1,7 @@
 package firok.topaz.general;
 
+import firok.topaz.TopazExceptions;
+
 import java.util.*;
 
 /**
@@ -60,7 +62,9 @@ public class Version implements Comparable<Version>
 				meta = raw.substring(indexLine + 1);
 			}
 
-			if(wordsNum.length < 1) throw new RuntimeException("Unknown format");
+			if(wordsNum.length < 1) TopazExceptions.ParamFormatError.occur(
+					new IllegalArgumentException("Failed to parse Version: " + raw)
+			);
 			major = Integer.parseInt(wordsNum[0]);
 			if(wordsNum.length > 1)
 				minor = Integer.parseInt(wordsNum[1]);
@@ -71,7 +75,9 @@ public class Version implements Comparable<Version>
 		}
 		catch (Exception any)
 		{
-			throw new IllegalArgumentException("Failed to parse Version: " + raw, any);
+			return TopazExceptions.ParamFormatError.occur(
+					new IllegalArgumentException("Failed to parse Version: " + raw, any)
+			);
 		}
 	}
 

@@ -19,7 +19,7 @@ public class ImagesTests
             whenBefore(new Date(2023, Calendar.DECEMBER, 27, 18, 0, 0)),
             whenFileExist("redstone-core.eff"),
     };
-    @Test
+//    @Test
     public void testImageConvertOp() throws Exception
     {
         onlyRun((MayRunnable) () -> {
@@ -30,7 +30,7 @@ public class ImagesTests
         }, when);
     }
 
-    @Test
+//    @Test
     public void testImageProcess() throws Exception
     {
         onlyRun((MayRunnable) () -> {

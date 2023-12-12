@@ -1,5 +1,6 @@
 package firok.topaz.math;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.PerformanceIssue;
 
@@ -8,6 +9,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static firok.topaz.general.Collections.isEmpty;
 import static firok.topaz.general.Collections.toTypeArray;
 
 /**
@@ -40,8 +42,8 @@ public final class Maths
 	@SafeVarargs
 	public static <T extends Comparable<T>> T max(T... values)
 	{
-		if(values == null || values.length == 0)
-			throw new IllegalArgumentException("values cannot be null");
+		if(isEmpty(values))
+			TopazExceptions.ParamValueNoneNull.occur();
 		if(values.length == 1) return values[0];
 		T max = null;
 		for(var num : values)
@@ -61,8 +63,8 @@ public final class Maths
 	@SafeVarargs
 	public static <T extends Comparable<T>> T min(T... values)
 	{
-		if(values == null || values.length == 0)
-			throw new IllegalArgumentException("values cannot be null");
+		if(isEmpty(values))
+			TopazExceptions.ParamValueNoneNull.occur();
 		if(values.length == 1) return values[0];
 		T min = null;
 		for(var num : values)
@@ -170,7 +172,7 @@ public final class Maths
 	public static <T extends Comparable<T>> T mid(T n1, T n2, T n3)
 	{
 		if(n1 == null || n2 == null || n3 == null)
-			throw new IllegalArgumentException("numbers cannot be null");
+			TopazExceptions.ParamValueNoneNull.occur();
 		var list = new ArrayList<T>(3);
 		list.add(n1);
 		list.add(n2);
@@ -377,8 +379,11 @@ public final class Maths
 	 * */
 	public static double[] meanFit(double[] values, int range)
 	{
-		if(range <= 1) throw new IllegalArgumentException("range must be greater than 1");
-		if(values == null || values.length <= range) throw new IllegalArgumentException("values length must be greater than range");
+		TopazExceptions.ParamValueOutOfRange.maybe(range <= 1);
+		if(values == null || values.length <= range)
+			TopazExceptions.ParamValueNoneNull.occur(
+					new IllegalArgumentException("values length must be greater than range") // todo
+			);
 
 		double[] ret = new double[values.length];
 

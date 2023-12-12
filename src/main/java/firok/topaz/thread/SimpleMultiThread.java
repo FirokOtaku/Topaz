@@ -1,7 +1,10 @@
 package firok.topaz.thread;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.function.MayRunnable;
 import lombok.AllArgsConstructor;
+
+import static firok.topaz.general.Collections.isEmpty;
 
 /**
  * 简单创建几个线程跑代码用的工具
@@ -30,10 +33,9 @@ public class SimpleMultiThread
 	 * */
 	public SimpleMultiThread(boolean shutdownTogether, MayRunnable... runnables)
 	{
-		if(runnables == null || runnables.length == 0)
-			throw new IllegalArgumentException("线程为空");
+		if(isEmpty(runnables)) TopazExceptions.NullFunction.occur();
 		for(var runnable : runnables) if(runnable == null)
-			throw new IllegalArgumentException("线程为空");
+			TopazExceptions.NullFunction.occur();
 
 		this.shutdownTogether = shutdownTogether;
 		this.exceptions = new Exception[runnables.length];

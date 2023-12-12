@@ -1,5 +1,6 @@
 package firok.topaz.math;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.general.Collections;
 
 /**
@@ -20,8 +21,9 @@ public class Shapes
 	 * */
 	public static boolean isClockwise(double[] xs, double[] ys)
 	{
-		if(xs == null || ys == null || xs.length != ys.length)
-			throw new IllegalArgumentException();
+		TopazExceptions.ParamValueNoneNull.maybe(
+				xs == null || ys == null || xs.length != ys.length
+		);
 
 		double temp = 0;
 		for(int step = 0; step < xs.length - 1; step++)

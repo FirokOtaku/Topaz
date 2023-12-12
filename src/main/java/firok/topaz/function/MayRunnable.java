@@ -29,4 +29,13 @@ public interface MayRunnable
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
 	}
+
+	/**
+	 * 工具封装方法
+	 * @since 7.0.0
+	 * */
+	static MayRunnable that(MayRunnable runnable)
+	{
+		return runnable;
+	}
 }

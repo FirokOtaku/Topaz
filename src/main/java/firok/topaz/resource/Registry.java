@@ -1,5 +1,7 @@
 package firok.topaz.resource;
 
+import firok.topaz.TopazExceptions;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +44,11 @@ public class Registry<TypeKey, TypeValue extends RegistryItem<TypeKey>>
 
 	public void register(TypeValue item)
 	{
+		if(isLocked)
+			TopazExceptions.RegistryAlreadyLocked.occur();
 		var key = item.getRegistryKey();
 		if(!isReplacable && map.containsKey(key))
-			throw new IllegalArgumentException("重复注册键: " + key);
+			TopazExceptions.RegistryKeyDuplicate.occur();
 		map.put(key, item);
 	}
 

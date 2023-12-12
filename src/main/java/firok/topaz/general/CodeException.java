@@ -3,17 +3,9 @@ package firok.topaz.general;
 /**
  * 带错误码的异常信息
  *
- * <h3>直接抛出异常</h3>
- * <code lang="java">
- *     return CodeException.occur(Errors.ERR_404);
- * </code>
- *
- * <h3>根据条件抛出异常</h3>
- * <code lang="java">
- *     CodeException.maybe(user == null, Errors.ERR_USER_NOT_FOUND);
- * </code>
- *
+ * @apiNote 推荐调用者不要直接覆盖 {@link #getMessage()} 字段的内容, 而是在 {@link #getCause()} 里储存更多信息
  * @since 3.27.0
+ * @version 7.0.0
  * @author Firok
  * */
 public class CodeException extends RuntimeException
@@ -36,27 +28,22 @@ public class CodeException extends RuntimeException
 	}
 
 	// 为了让这个方法可以用在 if-else 里直接抛出异常而不用写别的 return 语句
+	/**
+	 * 直接抛出一个异常
+	 * @deprecated 推荐使用 {@link CodeExceptionThrower#occur()}
+	 * */
+	@Deprecated
 	public static <TypeAny> TypeAny occur(int code)
 	{
 		throw new CodeException(code);
 	}
-	public static <TypeAny> TypeAny occur(int code, String msg)
-	{
-		throw new CodeException(code, msg);
-	}
-	public static <TypeAny> TypeAny occur(int code, String msg, Throwable exception)
-	{
-		throw new CodeException(code, msg, exception);
-	}
-
+	/**
+	 * 视情况抛出一个异常
+	 * @deprecated 推荐使用 {@link CodeExceptionThrower#maybe(boolean)}
+	 * */
 	public static void maybe(boolean expression, int code)
 	{
 		if(expression)
 			throw new CodeException(code);
-	}
-	public static void maybe(boolean expression, int code, String msg)
-	{
-		if(expression)
-			throw new CodeException(code, msg);
 	}
 }

@@ -1,5 +1,6 @@
 package firok.topaz.design;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.math.Maths;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public final class Colors
 	 * */
 	public static Color getColorBetween(Color c1, Color c2, double factor)
 	{
-		if(!isInRange(factor, 0D, 1D)) throw new IllegalArgumentException("factor must be in range [0,1]");
+		if(!isInRange(factor, 0D, 1D)) TopazExceptions.ColorValueOutOfRange.occur();
 
 		int r1 = c1.getRed(), r2 = c2.getRed(), fr = Math.abs(r1 - r2), tr = (int) (fr * factor + Math.min(r2, r1));
 		int g1 = c1.getGreen(), g2 = c2.getGreen(), fg = Math.abs(g1 - g2), tg = (int) (fg * factor + Math.min(g2, g1));

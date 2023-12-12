@@ -4,10 +4,10 @@ import firok.topaz.resource.RegistryItem;
 
 /**
  * 物品稀有度基类
- * @deprecated 在 7.0.0 中将会被重命名为 AbstractItemRarity
+ * @since 6.12.0
+ * @version 7.0.0
  * */
-@Deprecated(forRemoval = true)
-public abstract class ItemRarity<TypeKey> implements RegistryItem<TypeKey>
+public abstract class AbstractItemRarity<TypeKey> implements RegistryItem<TypeKey>
 {
     /**
      * 稀有度显示色彩

@@ -6,6 +6,7 @@ package firok.topaz.function;
  * @author Firok
  * */
 @SuppressWarnings("DeprecatedIsStillUsed")
+@FunctionalInterface
 public interface MustCloseable extends AutoCloseable
 {
     @Override
