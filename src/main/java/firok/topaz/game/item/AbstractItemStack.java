@@ -1,6 +1,11 @@
 package firok.topaz.game.item;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 物品摞
@@ -8,7 +13,7 @@ import lombok.Getter;
  * @version 7.0.0
  * */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class AbstractItemStack<TypeItem extends AbstractItem>
+public class AbstractItemStack<TypeItem extends AbstractItem, TypeData>
 {
 	private final TypeItem delegate;
 	@Getter
@@ -29,7 +34,23 @@ public class AbstractItemStack<TypeItem extends AbstractItem>
 		this.count = 0;
 	}
 
-	public static final AbstractItemStack EmptyStack = new AbstractItemStack();
+	/**
+	 * 物品数据
+	 * @since 7.1.0
+	 * */
+	@Nullable
+	@Getter
+	@Setter
+	private TypeData data;
+
+	public static final AbstractItemStack EmptyStack = new AbstractItemStack()
+	{
+		@Override
+		public AbstractItemStack setData(Object serializable)
+		{
+			return this;
+		}
+	};
 
 	public TypeItem getItem()
 	{
@@ -53,5 +74,17 @@ public class AbstractItemStack<TypeItem extends AbstractItem>
 	public boolean isFull()
 	{
 		return this.delegate != null && this.count >= delegate.getMaxStackSize(this);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof AbstractItemStack stack)
+		{
+			return Objects.equals(delegate, stack.delegate) &&
+					stack.count == this.count &&
+					Objects.equals(data, stack.data);
+		}
+		return false;
 	}
 }
