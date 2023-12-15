@@ -2,6 +2,7 @@ package firok.topaz.platform;
 
 import firok.topaz.annotation.Indev;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -46,4 +47,15 @@ public final class Processes
      * */
     @Indev(description = "未经过详细测试")
     public static void killProcessTreeForcibly(ProcessHandle process) { killProcessTreeForcibly(process.pid()); }
+
+    /**
+     * 获取当前 JVM 的可执行文件位置
+     * @return 当前 JVM 的可执行文件位置. 如果获取不到则返回空
+     * @since 7.2.0
+     * */
+    public static File getCurrentJvmExecutable()
+    {
+        var path = ProcessHandle.current().info().command();
+        return path.map(File::new).orElse(null);
+    }
 }

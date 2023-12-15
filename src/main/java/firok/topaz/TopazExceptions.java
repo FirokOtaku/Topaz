@@ -13,7 +13,11 @@ public enum TopazExceptions implements CodeExceptionThrower
 {
     StructureDuplicate(5201),
 
+    FileSystemCreationFailed(5251),
+
     EmitterAlreadyClosed(5301),
+
+    JvmNotFound(5351),
 
     RegistryKeyDuplicate(5401),
     RegistryAlreadyLocked(5402),
@@ -27,6 +31,8 @@ public enum TopazExceptions implements CodeExceptionThrower
     I18NDefaultResourceNotFound(5702),
 
     NullFunction(5850),
+    NoMainMethod(5851),
+    NoClassResource(5852),
     ;
 
     private static final I18N i18n = new I18N("/firok/topaz/errors", Locale.CHINA, Topaz.class);

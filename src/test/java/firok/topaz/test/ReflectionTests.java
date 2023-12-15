@@ -5,9 +5,13 @@ import firok.topaz.annotation.SupportedMinimalVersion;
 import firok.topaz.function.TriConsumer;
 import firok.topaz.reflection.ReflectionDirection;
 import firok.topaz.reflection.Reflections;
+import firok.topaz.thread.Threads;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -108,5 +112,45 @@ public class ReflectionTests
 		var listTest = Reflections.findNamedMethodsFrom(ClassWith12.class, "test");
 		System.out.println(listTest);
 
+	}
+
+	/**
+	 * 测试导出并运行一个主类
+	 * */
+	@Test
+	public void testExportMainClass() throws IOException
+	{
+		System.out.println("导出可执行类");
+		var folderBase = new File("./test-cache").getCanonicalFile();
+		var info = Reflections.exportExecutableClassFile(folderBase, DemoMain.class);
+		var cmd = info.getExecutionCommand(null, null);
+		Process process = null;
+		try
+		{
+			System.out.println("创建子进程, 使用当前 jvm 调用可执行类");
+			System.out.println("需要执行的指令为: [" + cmd + "]");
+			process = Runtime.getRuntime().exec(cmd);
+			var ips = process.getInputStream();
+			Threads.start(true, () -> ips.transferTo(System.out));
+			int ret = process.waitFor();
+			Assertions.assertEquals(0, ret);
+
+			System.out.println("成功完成调用可执行类");
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			if(process != null && process.isAlive())
+				process.destroyForcibly();
+		}
+
+		// 导出没有 main 方法的类会抛出异常
+		Assertions.assertThrows(
+				Exception.class,
+				() -> Reflections.exportExecutableClassFile(folderBase, ReflectionTests.class)
+		);
 	}
 }

@@ -1,19 +1,26 @@
 package firok.topaz.reflection;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMaximalVersion;
 import firok.topaz.annotation.SupportedMinimalVersion;
+import firok.topaz.platform.Processes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.lang.model.SourceVersion;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.Collections;
 import java.util.function.Predicate;
+
+import static firok.topaz.general.Collections.isNotEmpty;
 
 /**
  * 反射相关代码
@@ -499,5 +506,103 @@ public final class Reflections
 		var trace = traces[3];
 		var callerClass = Class.forName(trace.getClassName());
 		return Reflections.namedMethodOf(callerClass, trace.getMethodName());
+	}
+
+	/**
+	 * 一个导出之后的可执行类的信息
+	 * @since 7.2.0
+	 * */
+	public record FileInfoOfExecutableClass(File folderBase, File folderClass, File fileClass, Class<?> classAny)
+	{
+		/**
+		 * 创建文件夹和文件, 如果失败则抛出异常
+		 * */
+		public void create()
+		{
+			try
+			{
+				if(!folderClass.exists() && !folderClass.mkdirs())
+					throw new RuntimeException("创建目录失败");
+				if(!fileClass.exists() && !fileClass.createNewFile())
+					throw new RuntimeException("创建文件失败");
+			}
+			catch (Exception any)
+			{
+				TopazExceptions.FileSystemCreationFailed.occur(any);
+			}
+		}
+
+		/**
+		 * 生成执行这个字节码文件所需的命令行指令
+		 * */
+		public String getExecutionCommand(String[] jvmArgs, String[] programArgs)
+		{
+			var jvmExe = Processes.getCurrentJvmExecutable();
+			TopazExceptions.JvmNotFound.maybe(jvmExe == null);
+			assert jvmExe != null;
+
+			var classNameWithoutClassSuffix = classAny.getCanonicalName();
+			var list = new ArrayList<String>();
+			list.add('"' + jvmExe.getAbsolutePath() + '"');
+			if(isNotEmpty(jvmArgs))
+				list.addAll(Arrays.asList(jvmArgs));
+
+			list.add("-cp");
+			list.add('"' + folderBase.getAbsolutePath() + '"');
+			list.add(classNameWithoutClassSuffix);
+			if(isNotEmpty(programArgs))
+				list.addAll(Arrays.asList(programArgs));
+
+			return String.join(" ", list);
+		}
+	}
+	/**
+	 * 根据一个类的限定名, 计算出这个类如果相对于一个目录, 应该在什么位置
+	 * @since 7.2.0
+	 * */
+	public static FileInfoOfExecutableClass getFileOfExecutableClass(File folderBase, Class<?> classAny)
+	{
+		var packageNames = classAny.getPackage().getName().split("\\.");
+		var className = classAny.getSimpleName();
+		var folderClass = Path.of(folderBase.getAbsolutePath(), packageNames).toFile();
+		var fileClass = new File(folderClass, className + ".class");
+		return new FileInfoOfExecutableClass(folderBase, folderClass, fileClass, classAny);
+	}
+
+	/**
+	 * 将一个可执行类的字节码文件导出到文件系统
+	 * @param classAny 可执行类. 这个类需要有一个合法的 main 方法
+	 * @param folderBase 目标导出目录
+	 * @throws firok.topaz.general.CodeException 失败则抛出
+	 * @since 7.2.0
+	 * */
+	@SuppressWarnings("ResultOfMethodCallIgnored")
+	public static FileInfoOfExecutableClass exportExecutableClassFile(File folderBase, Class<?> classAny)
+	{
+		// 检查是不是合法的主类
+		// todo low 支持新版本的无参 main 方法和无类 main 方法
+		try { classAny.getMethod("main", String[].class); }
+		catch (NoSuchMethodException any) { TopazExceptions.NoMainMethod.occur(any); }
+
+		var info = getFileOfExecutableClass(folderBase, classAny);
+		var className = classAny.getSimpleName();
+		var resourceClass = classAny.getResource(className + ".class");
+		TopazExceptions.NoClassResource.maybe(resourceClass == null);
+		assert resourceClass != null;
+
+		if(info.fileClass.exists())
+			info.fileClass.delete();
+		info.create();
+
+		try(var ifs = resourceClass.openStream(); var ofs = new FileOutputStream(info.fileClass))
+		{
+			ifs.transferTo(ofs);
+		}
+		catch (Exception any)
+		{
+			TopazExceptions.FileSystemCreationFailed.occur(any);
+		}
+
+		return info;
 	}
 }
