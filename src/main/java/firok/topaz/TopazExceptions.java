@@ -22,6 +22,8 @@ public enum TopazExceptions implements CodeExceptionThrower
     RegistryKeyDuplicate(5401),
     RegistryAlreadyLocked(5402),
 
+    LogicsExpressionEmpty(5451),
+
     ParamValueOutOfRange(5501),
     ParamValueNoneNull(5502),
     ParamFormatError(5503),
