@@ -1,9 +1,10 @@
 package firok.topaz.function;
 
 /**
- * 一个表示必须能够无痛关闭的接口
+ * 一个表示必须能够无痛关闭的接口, 也就是不会抛出异常的 {@link AutoCloseable}
  * @since 5.7.0
  * @author Firok
+ * @see AutoCloseable
  * */
 @SuppressWarnings("DeprecatedIsStillUsed")
 @FunctionalInterface
