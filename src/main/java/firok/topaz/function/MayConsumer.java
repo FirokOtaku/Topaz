@@ -50,6 +50,16 @@ public interface MayConsumer<TypeParam>
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
 	}
+	/**
+	 * @since 7.5.0
+	 * */
+	default Consumer<TypeParam> anyway(CodeExceptionThrower code)
+	{
+		return (param) -> {
+			try { MayConsumer.this.accept(param); }
+			catch (Exception any) { code.occur(any); }
+		};
+	}
 
 	/**
 	 * 工具封装方法

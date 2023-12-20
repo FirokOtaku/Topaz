@@ -40,7 +40,21 @@ public interface MayFunction<TypeParam, TypeReturn>
     {
         return (param) -> {
             try { return MayFunction.this.apply(param); }
-            catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); return null; }
+            catch (Exception any)
+            {
+                if(throwInternalException) throw new RuntimeException(any);
+                return null;
+            }
+        };
+    }
+    /**
+     * @since 7.5.0
+     * */
+    default Function<TypeParam, TypeReturn> anyway(CodeExceptionThrower code)
+    {
+        return (param) -> {
+            try { return MayFunction.this.apply(param); }
+            catch (Exception any) { return code.occur(any); }
         };
     }
 

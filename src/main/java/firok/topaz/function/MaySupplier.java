@@ -46,6 +46,16 @@ public interface MaySupplier<TypeReturn>
             catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); return null; }
         };
     }
+    /**
+     * @since 7.5.0
+     * */
+    default Supplier<TypeReturn> anyway(CodeExceptionThrower code)
+    {
+        return () -> {
+            try { return MaySupplier.this.get(); }
+            catch (Exception any) { return code.occur(any); }
+        };
+    }
 
     /**
      * 工具封装方法

@@ -48,6 +48,16 @@ public interface MayRunnable
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
 	}
+	/**
+	 * @since 7.5.0
+	 * */
+	default Runnable anyway(CodeExceptionThrower code)
+	{
+		return () -> {
+			try { MayRunnable.this.run(); }
+			catch (Exception any) { code.occur(any); }
+		};
+	}
 
 	/**
 	 * 工具封装方法
