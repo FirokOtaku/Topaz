@@ -1,5 +1,6 @@
 package firok.topaz.thread;
 
+import firok.topaz.function.MayConsumer;
 import firok.topaz.function.MayRunnable;
 import firok.topaz.general.Collections;
 
@@ -47,12 +48,49 @@ public class Threads
 
 	/**
 	 * 直接启动一个线程
+	 * @since 7.6.0
+	 * */
+	public static Thread start(boolean isDaemon, MayConsumer<Thread> function)
+	{
+		var thread = new Thread() {
+			@Override
+			public void run()
+			{
+				function.anyway().accept(this);
+			}
+		};
+		thread.setDaemon(isDaemon);
+		thread.start();
+		return thread;
+	}
+
+	/**
+	 * 直接启动一个线程
 	 * @since 5.11.0
 	 * */
 	public static Thread start(boolean isDaemon, String name, MayRunnable function)
 	{
 		var thread = new Thread(function.anyway(true), name);
 		thread.setDaemon(isDaemon);
+		thread.start();
+		return thread;
+	}
+
+	/**
+	 * 直接启动一个线程
+	 * @since 7.6.0
+	 * */
+	public static Thread start(boolean isDaemon, String name, MayConsumer<Thread> function)
+	{
+		var thread = new Thread() {
+			@Override
+			public void run()
+			{
+				function.anyway().accept(this);
+			}
+		};
+		thread.setDaemon(isDaemon);
+		thread.setName(name);
 		thread.start();
 		return thread;
 	}
