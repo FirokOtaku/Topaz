@@ -78,7 +78,7 @@ public class Images
         final int total = width * height;
         final int[] grayCount = new int[grayLevel];
 
-        loopPixel(input, (x, y) -> {
+        loopPixel(input, (Integer x, Integer y) -> {
             var rgb = input.getRGB(x, y);
             var colorAWT = new Color(rgb);
             var colorRGB = ColorRGB.fromAWT(colorAWT);
@@ -98,7 +98,7 @@ public class Images
         }
 
         var output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        loopPixel(input, (x, y) -> {
+        loopPixel(input, (Integer x, Integer y) -> {
             var colorBeforeAWT = new Color(input.getRGB(x, y));
             var colorBeforeRGB = ColorRGB.fromAWT(colorBeforeAWT);
             var colorBeforeHSL = colorBeforeRGB.toHSL();

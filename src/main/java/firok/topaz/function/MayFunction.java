@@ -38,7 +38,7 @@ public interface MayFunction<TypeParam, TypeReturn>
     }
     default Function<TypeParam, TypeReturn> anyway(final boolean throwInternalException)
     {
-        return (param) -> {
+        return (TypeParam param) -> {
             try { return MayFunction.this.apply(param); }
             catch (Exception any)
             {
@@ -52,7 +52,7 @@ public interface MayFunction<TypeParam, TypeReturn>
      * */
     default Function<TypeParam, TypeReturn> anyway(CodeExceptionThrower code)
     {
-        return (param) -> {
+        return (TypeParam param) -> {
             try { return MayFunction.this.apply(param); }
             catch (Exception any) { return code.occur(any); }
         };

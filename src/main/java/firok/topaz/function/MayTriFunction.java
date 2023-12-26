@@ -38,7 +38,7 @@ public interface MayTriFunction<TypeParamA, TypeParamB, TypeParamC, TypeReturn>
     }
     default TriFunction<TypeParamA, TypeParamB, TypeParamC, TypeReturn> anyway(final boolean throwInternalException)
     {
-        return (paramA, paramB, paramC) -> {
+        return (TypeParamA paramA, TypeParamB paramB, TypeParamC paramC) -> {
             try { return MayTriFunction.this.apply(paramA, paramB, paramC); }
             catch (Exception any)
             {
@@ -49,7 +49,7 @@ public interface MayTriFunction<TypeParamA, TypeParamB, TypeParamC, TypeReturn>
     }
     default TriFunction<TypeParamA, TypeParamB, TypeParamC, TypeReturn> anyway(CodeExceptionThrower code)
     {
-        return (paramA, paramB, paramC) -> {
+        return (TypeParamA paramA, TypeParamB paramB, TypeParamC paramC) -> {
             try { return MayTriFunction.this.apply(paramA, paramB, paramC); }
             catch (Exception any) { return code.occur(any); }
         };

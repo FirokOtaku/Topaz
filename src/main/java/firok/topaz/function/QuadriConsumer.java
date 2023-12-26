@@ -8,18 +8,18 @@ import java.util.*;
  * @since 3.23.0
  * */
 @FunctionalInterface
-public interface QuadriConsumer<Type1, Type2, Type3, Type4>
+public interface QuadriConsumer<TypeParamA, TypeParamB, TypeParamC, TypeParamD>
 {
-	void accept(Type1 param1, Type2 param2, Type3 param3, Type4 param4);
+	void accept(TypeParamA paramA, TypeParamB paramB, TypeParamC paramC, TypeParamD paramD);
 
-	default QuadriConsumer<Type1, Type2, Type3, Type4>
-	andThen(QuadriConsumer<? super Type1, ? super Type2, ? super Type3, ? super Type4> after)
+	default QuadriConsumer<TypeParamA, TypeParamB, TypeParamC, TypeParamD>
+	andThen(QuadriConsumer<? super TypeParamA, ? super TypeParamB, ? super TypeParamC, ? super TypeParamD> after)
 	{
 		Objects.requireNonNull(after);
 
-		return (a, b, c, d) -> {
-			accept(a, b, c, d);
-			after.accept(a, b, c, d);
+		return (TypeParamA paramA, TypeParamB paramB, TypeParamC paramC, TypeParamD paramD) -> {
+			accept(paramA, paramB, paramC, paramD);
+			after.accept(paramA, paramB, paramC, paramD);
 		};
 	}
 }

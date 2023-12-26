@@ -8,18 +8,18 @@ import java.util.*;
  * @since 3.23.0
  * */
 @FunctionalInterface
-public interface QuinConsumer<Type1, Type2, Type3, Type4, Type5> // quin!
+public interface QuinConsumer<TypeParamA, TypeParamB, TypeParamC, TypeParamD, TypeParamE> // quin!
 {
-	void accept(Type1 param1, Type2 param2, Type3 param3, Type4 param4, Type5 param5);
+	void accept(TypeParamA paramA, TypeParamB paramB, TypeParamC paramC, TypeParamD paramD, TypeParamE paramE);
 
-	default QuinConsumer<Type1, Type2, Type3, Type4, Type5>
-	andThen(QuinConsumer<? super Type1, ? super Type2, ? super Type3, ? super Type4, ? super Type5> after)
+	default QuinConsumer<TypeParamA, TypeParamB, TypeParamC, TypeParamD, TypeParamE>
+	andThen(QuinConsumer<? super TypeParamA, ? super TypeParamB, ? super TypeParamC, ? super TypeParamD, ? super TypeParamE> after)
 	{
 		Objects.requireNonNull(after);
 
-		return (a, b, c, d, e) -> {
-			accept(a, b, c, d, e);
-			after.accept(a, b, c, d, e);
+		return (TypeParamA paramA, TypeParamB paramB, TypeParamC paramC, TypeParamD paramD, TypeParamE paramE) -> {
+			accept(paramA, paramB, paramC, paramD, paramE);
+			after.accept(paramA, paramB, paramC, paramD, paramE);
 		};
 	}
 }

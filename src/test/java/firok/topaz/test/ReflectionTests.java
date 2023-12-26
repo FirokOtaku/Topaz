@@ -61,7 +61,7 @@ public class ReflectionTests
 		Assertions.assertEquals(mf2_should, mf2);
 
 		var lf3 = Reflections.listAllFieldsOf(Class3.class);
-		TriConsumer<Field, String, Class<?>> assertField = (field, name, type) -> {
+		var assertField = (TriConsumer<Field, String, Class<?>>) (field, name, type) -> {
 			Assertions.assertEquals(name, field.getName());
 			Assertions.assertEquals(type, field.getType());
 		};

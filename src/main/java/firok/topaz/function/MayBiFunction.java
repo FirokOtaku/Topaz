@@ -42,7 +42,7 @@ public interface MayBiFunction<TypeParamA, TypeParamB, TypeReturn>
     }
     default BiFunction<TypeParamA, TypeParamB, TypeReturn> anyway(final boolean throwInternalException)
     {
-        return (paramA, paramB) -> {
+        return (TypeParamA paramA, TypeParamB paramB) -> {
             try { return MayBiFunction.this.apply(paramA, paramB); }
             catch (Exception any)
             {
@@ -53,7 +53,7 @@ public interface MayBiFunction<TypeParamA, TypeParamB, TypeReturn>
     }
     default BiFunction<TypeParamA, TypeParamB, TypeReturn> anyway(CodeExceptionThrower code)
     {
-        return (paramA, paramB) -> {
+        return (TypeParamA paramA, TypeParamB paramB) -> {
             try { return MayBiFunction.this.apply(paramA, paramB); }
             catch (Exception any) { return code.occur(any); }
         };

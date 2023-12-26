@@ -45,7 +45,7 @@ public interface MayConsumer<TypeParam>
 	 * */
 	default Consumer<TypeParam> anyway(final boolean throwInternalException)
 	{
-		return (param) -> {
+		return (TypeParam param) -> {
 			try { MayConsumer.this.accept(param); }
 			catch (Exception any) { if(throwInternalException) throw new RuntimeException(any); }
 		};
@@ -55,7 +55,7 @@ public interface MayConsumer<TypeParam>
 	 * */
 	default Consumer<TypeParam> anyway(CodeExceptionThrower code)
 	{
-		return (param) -> {
+		return (TypeParam param) -> {
 			try { MayConsumer.this.accept(param); }
 			catch (Exception any) { code.occur(any); }
 		};

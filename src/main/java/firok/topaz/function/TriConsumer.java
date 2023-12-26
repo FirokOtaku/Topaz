@@ -8,18 +8,18 @@ import java.util.*;
  * @since 3.23.0
  * */
 @FunctionalInterface
-public interface TriConsumer<Type1, Type2, Type3>
+public interface TriConsumer<TypeParamA, TypeParamB, TypeParamC>
 {
-	void accept(Type1 param1, Type2 param2, Type3 param3);
+	void accept(TypeParamA paramA, TypeParamB paramB, TypeParamC paramC);
 
-	default TriConsumer<Type1, Type2, Type3>
-	andThen(TriConsumer<? super Type1, ? super Type2, ? super Type3> after)
+	default TriConsumer<TypeParamA, TypeParamB, TypeParamC>
+	andThen(TriConsumer<? super TypeParamA, ? super TypeParamB, ? super TypeParamC> after)
 	{
 		Objects.requireNonNull(after);
 
-		return (a, b, c) -> {
-			accept(a, b, c);
-			after.accept(a, b, c);
+		return (TypeParamA paramA, TypeParamB paramB, TypeParamC paramC) -> {
+			accept(paramA, paramB, paramC);
+			after.accept(paramA, paramB, paramC);
 		};
 	}
 }
