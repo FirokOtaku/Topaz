@@ -165,6 +165,216 @@ public final class Maths
 	public static char min(char[] nums) { return min((Character[]) toTypeArray(nums, Character.class)); }
 
 	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static byte[] unbox(Byte[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new byte[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static short[] unbox(Short[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new short[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static int[] unbox(Integer[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new int[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static long[] unbox(Long[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new long[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static float[] unbox(Float[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new float[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static double[] unbox(Double[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new double[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static char[] unbox(Character[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new char[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+	/**
+	 * 数组拆箱
+	 * @since 7.7.0
+	 * @throws firok.topaz.general.CodeException 如果参数为 null 或包含 null 元素则抛出
+	 * */
+	public static boolean[] unbox(Boolean[] arr)
+	{
+		TopazExceptions.ParamValueNoneNull.maybe(arr == null);
+		assert arr != null;
+		var ret = new boolean[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i] == null ? TopazExceptions.ParamValueNoneNull.occur() : arr[i];
+		return ret;
+	}
+
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Byte[] box(byte[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Byte[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Short[] box(short[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Short[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Integer[] box(int[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Integer[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Long[] box(long[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Long[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Float[] box(float[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Float[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Double[] box(double[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Double[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Character[] box(char[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Character[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+	/**
+	 * 数组装箱
+	 * @since 7.7.0
+	 * */
+	public static Boolean[] box(boolean[] arr)
+	{
+		if(arr == null) return null;
+		var ret = new Boolean[arr.length];
+		for(var i = 0; i < arr.length; i++)
+			ret[i] = arr[i];
+		return ret;
+	}
+
+	/**
 	 * 计算中间值
 	 * @since 5.3.0
 	 * @author Firok

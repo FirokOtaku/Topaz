@@ -228,6 +228,37 @@ public final class Collections
 	}
 
 	/**
+	 * 遍历并收集一个可遍历对象中所有的数据
+	 * @since 7.7.0
+	 * */
+	public static <T> List<T> collect(Iterable<T> iter)
+	{
+		var ret = new ArrayList<T>();
+		for(var element : iter) ret.add(element);
+		return ret;
+	}
+	/**
+	 * 遍历并收集一个可遍历对象中所有的数据
+	 * @since 7.7.0
+	 * */
+	public static <T> List<T> collect(Iterator<T> iter)
+	{
+		var ret = new ArrayList<T>();
+		while(iter.hasNext()) ret.add(iter.next());
+		return ret;
+	}
+	/**
+	 * 遍历并收集一个可遍历对象中所有的数据
+	 * @since 7.7.0
+	 * */
+	public static <T> List<T> collect(Enumeration<T> iter)
+	{
+		var ret = new ArrayList<T>();
+		while(iter.hasMoreElements()) ret.add(iter.nextElement());
+		return ret;
+	}
+
+	/**
 	 * 把数组前若干个元素取出
 	 * @param maxSize 最大长度
 	 * @param items 数据集
