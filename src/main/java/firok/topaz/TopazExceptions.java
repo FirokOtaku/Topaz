@@ -28,6 +28,8 @@ public enum TopazExceptions implements CodeExceptionThrower
     ParamValueNoneNull(5502),
     ParamFormatError(5503),
 
+    DatabaseOperationError(5503),
+
     ColorValueOutOfRange(5601),
 
     I18NDefaultResourceNotFound(5702),

@@ -47,4 +47,13 @@ public class StringsTests
         Assertions.assertEquals("", Strings.cutPrefix("abc", "abc"));
         Assertions.assertEquals("", Strings.cutPrefix("123abc", "123abc"));
     }
+
+    @Test
+    void testConverts()
+    {
+        Assertions.assertEquals("testName", Strings.underline2camel("test_name"));
+        Assertions.assertEquals("testNameFirok", Strings.underline2camel("test_name_firok"));
+        Assertions.assertEquals("test_name", Strings.camel2underline("testName"));
+        Assertions.assertEquals("test_name_firok", Strings.camel2underline("testNameFirok"));
+    }
 }

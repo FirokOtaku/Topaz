@@ -44,4 +44,49 @@ public final class Strings
     {
         return EASY_CHARS.clone();
     }
+
+    /**
+     * 将驼峰标识符转换为下划线标识符
+     * @since 7.8.0
+     * */
+    public static String camel2underline(String raw)
+    {
+        var sb = new StringBuilder();
+        for (int step = 0; step < raw.length(); step++)
+        {
+            var ch = raw.charAt(step);
+            if (ch >= 'A' && ch <= 'Z')
+            {
+                var chUpper = (char) (ch + 32);
+                if (step > 0) sb.append('_');
+                sb.append(chUpper);
+            }
+            else sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 将下划线标识符转换为驼峰标识符
+     * @since 7.8.0
+     * */
+    public static String underline2camel(String raw)
+    {
+        var sb = new StringBuilder();
+        for (int step = 0; step < raw.length(); step++)
+        {
+            var ch = raw.charAt(step);
+            if (ch == '_')
+            {
+                step++;
+                if (step < raw.length())
+                {
+                    var chUpper = (char) (raw.charAt(step) - 32);
+                    sb.append(chUpper);
+                }
+            }
+            else sb.append(ch);
+        }
+        return sb.toString();
+    }
 }
