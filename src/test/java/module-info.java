@@ -9,6 +9,8 @@ module firok.topaz.test {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
+    requires com.h2database;
 
     opens firok.topaz.test;
 }

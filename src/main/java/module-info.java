@@ -23,8 +23,9 @@ module firok.topaz {
 	exports firok.topaz.platform;
 	exports firok.topaz.spring;
     exports firok.topaz.indev;
+	exports firok.topaz.database;
 
-    uses IHashMapper;
+	uses IHashMapper;
 	provides IHashMapper
 	with firok.topaz.hash.NoHashMapper,
 			firok.topaz.hash.UUIDQuadrupleMapper,
