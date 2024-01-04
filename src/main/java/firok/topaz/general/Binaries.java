@@ -115,6 +115,39 @@ public final class Binaries
 	}
 
 	/**
+	 * 高字节序, 数据转十进制
+	 * @since 7.11.0
+	 * */
+	public static BigInteger toBinMSBValue(byte[] bytes)
+	{
+		var ret = BigInteger.ZERO;
+		for(int step = 0; step < bytes.length; step++)
+		{
+			var b = bytes[step];
+//			ret <<= 8;
+//			ret |= Byte.toUnsignedInt(b);
+			ret = ret.shiftLeft(8).add(BigInteger.valueOf(Byte.toUnsignedInt(b)));
+		}
+		return ret;
+	}
+	/**
+	 * 高字节序, 十进制转数据
+	 * @since 7.11.0
+	 * */
+	public static byte[] toBinMSBByte(BigInteger num, int length)
+	{
+		var ret = new byte[length];
+		for(int step = length - 1; step >= 0; step--)
+		{
+//			ret[step] = (byte) (num & 0xFF);
+//			num >>>= 8;
+			ret[step] = num.and(BigInteger.valueOf(0xFF)).byteValue();
+			num = num.shiftRight(8);
+		}
+		return ret;
+	}
+
+	/**
 	 * user-friendly-chars-both
 	 * no '0', '1', 'l', 'L', 'i', 'I', 's', 'S', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z'
 	 * */
