@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 public class BinariesTests
 {
@@ -30,6 +31,14 @@ public class BinariesTests
 		testHexOne("A45254", new int[] { 0xA4, 0x52, 0x54 });
 	}
 
+	@Test
+	void testDirectConvert()
+	{
+		var buffer = Binaries.toDirectByte("20201223");
+		System.out.println(Arrays.toString(buffer));
+		Assertions.assertEquals(2008, Binaries.toDirectString(new byte[] { 0x20, 0x08}));
+	}
+
 	void testBinOne(int raw)
 	{
 		var value = BigInteger.valueOf(raw);
@@ -41,6 +50,17 @@ public class BinariesTests
 		var bufferMSB = Binaries.toBinMSBByte(value, 4);
 		var valueMSB = Binaries.toBinMSBValue(bufferMSB);
 		Assertions.assertEquals(value, valueMSB);
+
+		if(raw != 0)
+		{
+			var str = "" + raw;
+			while(str.length() < 2) str += '0';
+
+			var bufferDS = Binaries.toDirectByte(str);
+			var valueDS = Binaries.toDirectString(bufferDS);
+
+			Assertions.assertEquals(str, valueDS);
+		}
 	}
 	@Test
 	void testBinConvert()

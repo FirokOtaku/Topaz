@@ -5,8 +5,10 @@ import java.math.BigInteger;
 /**
  * @since 3.6.0
  * @author Firok
+ * @deprecated 已知包含大量问题, 将会在未来版本重做各 API
  * */
 @SuppressWarnings("DanglingJavadoc")
+@Deprecated(forRemoval = true)
 public final class Binaries
 {
 	private Binaries() { }
@@ -72,6 +74,11 @@ public final class Binaries
 	 * */
 	public static byte[] toDirectByte(String str)
 	{
+		while (str.length() < 2)
+		{
+			str = "0" + str;
+		}
+
 		var len = str.length() / 2;
 		var ret = new byte[len];
 		for(int step = 0; step < len; step ++)

@@ -11,14 +11,19 @@ import org.jetbrains.annotations.Nullable;
 import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.Collections;
 import java.util.function.Predicate;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static firok.topaz.general.Collections.isNotEmpty;
 
@@ -511,7 +516,9 @@ public final class Reflections
 	/**
 	 * 一个导出之后的可执行类的信息
 	 * @since 7.2.0
+	 * @deprecated 将会在未来版本重做 API
 	 * */
+	@Deprecated(forRemoval = true)
 	public record FileInfoOfExecutableClass(File folderBase, File folderClass, File fileClass, Class<?> classAny)
 	{
 		/**
@@ -559,7 +566,9 @@ public final class Reflections
 	/**
 	 * 根据一个类的限定名, 计算出这个类如果相对于一个目录, 应该在什么位置
 	 * @since 7.2.0
+	 * @deprecated 将会在未来版本重做 API
 	 * */
+	@Deprecated(forRemoval = true)
 	public static FileInfoOfExecutableClass getFileOfExecutableClass(File folderBase, Class<?> classAny)
 	{
 		var packageNames = classAny.getPackage().getName().split("\\.");
@@ -575,8 +584,10 @@ public final class Reflections
 	 * @param folderBase 目标导出目录
 	 * @throws firok.topaz.general.CodeException 失败则抛出
 	 * @since 7.2.0
+	 * @deprecated 将会在未来版本重做 API
 	 * */
 	@SuppressWarnings("ResultOfMethodCallIgnored")
+	@Deprecated(forRemoval = true)
 	public static FileInfoOfExecutableClass exportExecutableClassFile(File folderBase, Class<?> classAny)
 	{
 		// 检查是不是合法的主类
@@ -604,5 +615,51 @@ public final class Reflections
 		}
 
 		return info;
+	}
+
+	/**
+	 * 使用给定的类, 导出一个 jar 包
+	 * @param listClassAny 需要包含于导出的 jar 的类文件
+	 * @param includeManifest 是否包含 Manifest. 如果为 true, 则会在导出的 jar 里面包含一个 Manifest 文件.
+	 *                        不包含 Manifest 文件 jar 包只能通过 {@code java -cp} 命令启动运行, 而不能使用 {@code java -jar} 命令启动运行
+	 * @param classMainClass 主类. 如果 {@code includeManifest} 参数为 false 则此参数会被忽略.
+	 *                       如果此参数指定为 null, 则不会在 Manifest 里面指定主类
+	 * @param os 导出目标
+	 * @apiNote 请注意, 这个方法仅会导出参数指定的类字节码.
+	 *     		如果你的代码有用到标准库之外的类, 请将其一并作为参数传入, 否则导出的 jar 文件运行时可能遇到 {@link ClassNotFoundException}
+	 * @since 7.13.0
+	 * */
+	public static void buildJar(
+			List<Class<?>> listClassAny,
+			boolean includeManifest,
+			@Nullable Class<?> classMainClass,
+			OutputStream os
+	)
+	{
+		try(var ozs = new ZipOutputStream(os))
+		{
+			if(includeManifest)
+			{
+				var content = classMainClass != null ? """
+						Manifest-Version: 1.0
+						Main-Class: %s
+						""".formatted(classMainClass.getCanonicalName()) : """
+						Manifest-Version: 1.0
+						""";
+				var entry = new ZipEntry("META-INF/MANIFEST.MF");
+				ozs.putNextEntry(entry);
+				ozs.write(content.getBytes(StandardCharsets.UTF_8));
+				ozs.closeEntry();
+			}
+
+
+
+			ozs.flush();
+			os.flush();
+		}
+		catch (IOException any)
+		{
+			TopazExceptions.IOError.occur(any);
+		}
 	}
 }

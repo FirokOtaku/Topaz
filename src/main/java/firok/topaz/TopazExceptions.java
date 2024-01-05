@@ -38,6 +38,7 @@ public enum TopazExceptions implements CodeExceptionThrower
     NullFunction(5850),
     NoMainMethod(5851),
     NoClassResource(5852),
+    IOError(5853),
     ;
 
     private static final I18N i18n = new I18N("/firok/topaz/errors", Locale.CHINA, Topaz.class);
