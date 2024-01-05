@@ -93,7 +93,7 @@ public final class Binaries
 			var b = bytes[step];
 //			ret <<= 8;
 //			ret |= Byte.toUnsignedInt(b);
-			ret = ret.shiftLeft(8).add(BigInteger.valueOf(Byte.toUnsignedInt(b)));
+			ret = ret.shiftLeft(8).or(BigInteger.valueOf(Byte.toUnsignedInt(b)));
 		}
 		return ret;
 	}

@@ -45,6 +45,21 @@ public class BinariesTests
 	@Test
 	void testBinConvert()
 	{
+		Assertions.assertEquals(BigInteger.valueOf(154), Binaries.toBinMSBValue(new byte[] {
+				0, 0, 0, -102,
+		}));
+		Assertions.assertEquals(BigInteger.valueOf(154), Binaries.toBinLSBValue(new byte[] {
+				-102, 0, 0, 0,
+		}));
+		Assertions.assertArrayEquals(
+				new byte[] { 0, 0, 0, -102 },
+				Binaries.toBinMSBByte(BigInteger.valueOf(154), 4)
+		);
+		Assertions.assertArrayEquals(
+				new byte[] { -102, 0, 0, 0 },
+				Binaries.toBinLSBByte(BigInteger.valueOf(154), 4)
+		);
+
 		Assertions.assertArrayEquals(
 				new byte[] {},
 				Binaries.toBinLSBByte(BigInteger.ZERO, 0)

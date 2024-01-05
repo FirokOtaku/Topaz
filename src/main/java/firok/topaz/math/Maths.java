@@ -7,6 +7,7 @@ import firok.topaz.annotation.PerformanceIssue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 import static firok.topaz.general.Collections.isEmpty;
@@ -72,6 +73,43 @@ public final class Maths
 			if(min == null || num.compareTo(min) < 0)
 			{
 				min = num;
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * @since 7.12.0
+	 * @see #max(T...)
+	 * */
+	public static <T extends Comparable<T>> T max(Collection<T> values)
+	{
+		if(isEmpty(values))
+			TopazExceptions.ParamValueNoneNull.occur();
+		T max = null;
+		for(var value : values)
+		{
+			if(max == null || value.compareTo(max) > 0)
+			{
+				max = value;
+			}
+		}
+		return max;
+	}
+	/**
+	 * @since 7.12.0
+	 * @see #min(T...)
+	 * */
+	public static <T extends Comparable<T>> T min(Collection<T> values)
+	{
+		if(isEmpty(values))
+			TopazExceptions.ParamValueNoneNull.occur();
+		T min = null;
+		for(var value : values)
+		{
+			if(min == null || value.compareTo(min) < 0)
+			{
+				min = value;
 			}
 		}
 		return min;
