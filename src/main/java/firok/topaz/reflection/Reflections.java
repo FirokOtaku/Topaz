@@ -652,6 +652,24 @@ public final class Reflections
 				ozs.closeEntry();
 			}
 
+			for(var classAny : listClassAny)
+			{
+				var cl = classAny.getClassLoader();
+				var nameClass = classAny.getName();
+				var pathClass = nameClass.replace('.', '/');
+				var fullpathClass = pathClass + ".class";
+
+				var url = cl.getResource(fullpathClass);
+				System.out.println(url);
+
+				var entry = new ZipEntry(fullpathClass);
+				ozs.putNextEntry(entry);
+				try(var ics = url.openStream())
+				{
+					ics.transferTo(ozs);
+				}
+				ozs.closeEntry();
+			}
 
 
 			ozs.flush();
