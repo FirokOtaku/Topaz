@@ -4,6 +4,7 @@ import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMaximalVersion;
 import firok.topaz.annotation.SupportedMinimalVersion;
+import firok.topaz.function.MayConsumer;
 import firok.topaz.platform.Processes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.Collections;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -625,6 +627,7 @@ public final class Reflections
 	 * @param classMainClass 主类. 如果 {@code includeManifest} 参数为 false 则此参数会被忽略.
 	 *                       如果此参数指定为 null, 则不会在 Manifest 里面指定主类
 	 * @param os 导出目标
+	 * @param extraResourceProvider 可以提供此参数以向导出的 jar 中添加额外内容, 比如各类资源文件
 	 * @apiNote 请注意, 这个方法仅会导出参数指定的类字节码.
 	 *     		如果你的代码有用到标准库之外的类, 请将其一并作为参数传入, 否则导出的 jar 文件运行时可能遇到 {@link ClassNotFoundException}
 	 * @since 7.13.0
@@ -633,7 +636,8 @@ public final class Reflections
 			List<Class<?>> listClassAny,
 			boolean includeManifest,
 			@Nullable Class<?> classMainClass,
-			OutputStream os
+			OutputStream os,
+			@Nullable MayConsumer<ZipOutputStream> extraResourceProvider
 	)
 	{
 		try(var ozs = new ZipOutputStream(os))
@@ -660,7 +664,6 @@ public final class Reflections
 				var fullpathClass = pathClass + ".class";
 
 				var url = cl.getResource(fullpathClass);
-				System.out.println(url);
 
 				var entry = new ZipEntry(fullpathClass);
 				ozs.putNextEntry(entry);
@@ -671,6 +674,10 @@ public final class Reflections
 				ozs.closeEntry();
 			}
 
+			if(extraResourceProvider != null)
+			{
+				extraResourceProvider.anyway().accept(ozs);
+			}
 
 			ozs.flush();
 			os.flush();
@@ -679,5 +686,19 @@ public final class Reflections
 		{
 			TopazExceptions.IOError.occur(any);
 		}
+	}
+	/**
+	 * 创建一个不带额外资源的 jar 包
+	 * @see #buildJar(List, boolean, Class, OutputStream, MayConsumer)
+	 * @since 7.13.1
+	 * */
+	public static void buildJar(
+			List<Class<?>> listClassAny,
+			boolean includeManifest,
+			@Nullable Class<?> classMainClass,
+			OutputStream os
+	)
+	{
+		buildJar(listClassAny, includeManifest, classMainClass, os, null);
 	}
 }

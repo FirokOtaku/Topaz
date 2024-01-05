@@ -1,8 +1,13 @@
 package firok.topaz.test;
 
+import firok.topaz.Topaz;
+import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMinimalVersion;
 import firok.topaz.function.TriConsumer;
+import firok.topaz.general.*;
+import firok.topaz.general.Collections;
+import firok.topaz.math.Maths;
 import firok.topaz.reflection.ReflectionDirection;
 import firok.topaz.reflection.Reflections;
 import firok.topaz.thread.Threads;
@@ -10,6 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
@@ -152,5 +158,31 @@ public class ReflectionTests
 				Exception.class,
 				() -> Reflections.exportExecutableClassFile(folderBase, ReflectionTests.class)
 		);
+	}
+
+	@Test
+	public void testExportJarFile() throws IOException
+	{
+		var file = new File("./test.jar");
+		if(file.exists()) file.delete();
+		try(var ofs = new FileOutputStream(file))
+		{
+			Reflections.buildJar(
+					List.of(
+							ExportJarMain.class,
+							Maths.class,
+							Collections.class,
+							ProgramMeta.class,
+							Topaz.class,
+							Version.class,
+							TopazExceptions.class,
+							CodeExceptionThrower.class,
+							I18N.class
+					),
+					true,
+					ExportJarMain.class,
+					ofs
+			);
+		}
 	}
 }
