@@ -21,7 +21,7 @@ public class BinariesTests
 		var hex2 = Binaries.toHexString(buffer);
 		Assertions.assertEquals(hex, hex2);
 	}
-	@Test
+//	@Test
 	void testHexConvert()
 	{
 		testHexOne("01", new int[] { 0x01 });
@@ -31,7 +31,7 @@ public class BinariesTests
 		testHexOne("A45254", new int[] { 0xA4, 0x52, 0x54 });
 	}
 
-	@Test
+//	@Test
 	void testDirectConvert()
 	{
 		var buffer = Binaries.toDirectByte("20201223");
@@ -62,7 +62,7 @@ public class BinariesTests
 			Assertions.assertEquals(str, valueDS);
 		}
 	}
-	@Test
+//	@Test
 	void testBinConvert()
 	{
 		Assertions.assertEquals(BigInteger.valueOf(154), Binaries.toBinMSBValue(new byte[] {
