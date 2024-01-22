@@ -110,6 +110,7 @@ public final class Files
 		try(var ofs = writeTo(file))
 		{
 			ofs.write(content.getBytes(charset));
+			ofs.flush();
 		}
 	}
 	public static void writeTo(File file, String content) throws IOException
