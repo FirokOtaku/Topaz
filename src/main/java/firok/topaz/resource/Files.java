@@ -54,6 +54,19 @@ public final class Files
 	}
 
 	/**
+	 * 检查指定文件的父目录是否存在. 如果不存在则创建
+	 * @return 本次操作是否创建了一个目录
+	 * @since 7.17.0
+	 * */
+	public static boolean mkParent(File file)
+	{
+		var folder = file.getParentFile();
+		if(!checkExist(folder, false))
+			return folder.mkdirs();
+		return false;
+	}
+
+	/**
 	 * 指定文件不应存在
 	 * */
 	public static void assertNoExist(String path, String msg) throws IOException
@@ -99,8 +112,7 @@ public final class Files
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public static FileOutputStream writeTo(File file) throws IOException
 	{
-		var parent = file.getParentFile();
-		parent.mkdirs();
+		mkParent(file);
 		file.createNewFile();
 		return new FileOutputStream(file);
 	}
