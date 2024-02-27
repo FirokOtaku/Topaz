@@ -1,5 +1,6 @@
 package firok.topaz.resource;
 
+import firok.topaz.TopazExceptions;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -64,6 +65,48 @@ public final class Files
 		if(!checkExist(folder, false))
 			return folder.mkdirs();
 		return false;
+	}
+
+	/**
+	 * 删除指定文件, 并向上遍历清理空目录
+	 * @param file 要删除的文件
+	 * @param level 向上级遍历多少层目录. 非正整数的行为未定义
+	 * @since 7.18.0
+	 * @apiNote 负数行为可能会在后续更新中改变, 请不要传负数
+	 * @see #cleanDeleteFolder
+	 * */
+	public static void cleanDeleteFile(File file, int level)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(level <= 0);
+		if(file.exists() && file.isFile())
+		{
+			file.delete();
+		}
+		var folder = file.getParentFile();
+		cleanDeleteFolder(folder, level);
+	}
+
+	/**
+	 * 清理当前目录和上级空目录
+	 * @param folder 要清理的目录
+	 * @param level 向上级遍历多少层目录. 非正整数的行为未定义
+	 * @since 7.18.0
+	 * @apiNote 负数行为可能会在后续更新中改变, 请不要传负数
+	 * @see #cleanDeleteFile
+	 * */
+	public static void cleanDeleteFolder(File folder, int level)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(level <= 0);
+		for(int step = 0; step < level; step++)
+		{
+			if(folder == null) break;
+
+			var files = listFiles(folder);
+			if(isEmpty(files)) folder.delete(); // 目录为空, 删除目录
+			else break; // 停止遍历
+
+			folder = folder.getParentFile();
+		}
 	}
 
 	/**
