@@ -110,6 +110,23 @@ public final class Files
 	}
 
 	/**
+	 * 递归删除指定文件或目录所有内容
+	 * @since 7.19.0
+	 * */
+	public static void recursivelyDelete(File target)
+	{
+		if(target.isDirectory())
+		{
+			var files = listFiles(target);
+			for(var file : files)
+			{
+				recursivelyDelete(file);
+			}
+		}
+		target.delete();
+	}
+
+	/**
 	 * 指定文件不应存在
 	 * */
 	public static void assertNoExist(String path, String msg) throws IOException

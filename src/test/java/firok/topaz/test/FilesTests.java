@@ -106,8 +106,19 @@ public class FilesTests
 		Assertions.assertFalse(folder3.exists());
 		Assertions.assertFalse(file31.exists());
 
-		file11.delete();
-		folder1.delete();
+		structureAll.mkdirs();
+		file11.createNewFile();
+		file31.createNewFile();
+		Assertions.assertTrue(folder1.exists());
+		Assertions.assertTrue(folder2.exists());
+		Assertions.assertTrue(folder3.exists());
+
+		Files.recursivelyDelete(folder1);
+		Assertions.assertFalse(folder1.exists());
+		Assertions.assertFalse(folder2.exists());
+		Assertions.assertFalse(folder3.exists());
+		Assertions.assertFalse(file11.exists());
+		Assertions.assertFalse(file31.exists());
 	}
 
 }
