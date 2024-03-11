@@ -60,12 +60,14 @@ public class Ret<TypeData>
 	{
 		return fail((String) null);
 	}
-	public static <TypeData> Ret<TypeData> fail(Exception e) { return fail(e.getMessage()); }
+	public static <TypeData> Ret<TypeData> fail(Exception e) { return fail(e.getLocalizedMessage()); }
 
 	/**
 	 * 基于函数式编程简化代码
 	 * @since 5.8.0
+	 * @deprecated 参数即将替换为 {@link firok.topaz.function.MaySupplier}
 	 * */
+	@Deprecated(forRemoval = true) // fixme
 	public static <TypeData> Ret<TypeData> now(Callable<TypeData> function)
 	{
 		try
@@ -96,7 +98,9 @@ public class Ret<TypeData>
 	/**
 	 * 用于支持 Spring 异步方法
 	 * @since 5.8.0
+	 * @deprecated 参数即将替换为 {@link firok.topaz.function.MaySupplier}
 	 * */
+	@Deprecated(forRemoval = true) // fixme
 	public static <TypeData> CompletableFuture<Ret<TypeData>> later(Callable<TypeData> function)
 	{
 		return CompletableFuture.supplyAsync(() -> Ret.now(function));
