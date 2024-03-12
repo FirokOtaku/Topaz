@@ -146,6 +146,22 @@ public final class Encrypts
 		return decodeRSA(str, new String(privateKey));
 	}
 
+	/**
+	 * 生成一个 RSA 密钥对
+	 * @since 7.21.0
+	 * */
+	@SneakyThrows
+	public static RSAKeyPair generateRSAKeyPair(int keySize, SecureRandom random)
+	{
+		var kpg = KeyPairGenerator.getInstance("RSA");
+		kpg.initialize(keySize, random);
+		var kp = kpg.generateKeyPair();
+		return new RSAKeyPair(
+				(RSAPublicKey) kp.getPublic(),
+				(RSAPrivateKey) kp.getPrivate()
+		);
+	}
+
 	private static final RSAPublicKey keyPublicRSA;
 	private static final RSAPrivateKey keyPrivateRSA;
 
@@ -155,11 +171,9 @@ public final class Encrypts
 		try
 		{
 //			System.out.print("初始化系统密钥...");
-			var kpg = KeyPairGenerator.getInstance("RSA");
-			kpg.initialize(2048, new SecureRandom());
-			KeyPair kp = kpg.generateKeyPair();
-			keyPublicRSA = (RSAPublicKey) kp.getPublic();
-			keyPrivateRSA = (RSAPrivateKey) kp.getPrivate();
+			var kp = generateRSAKeyPair(2048, new SecureRandom());
+			keyPublicRSA = kp.publicKey();
+			keyPrivateRSA = kp.privateKey();
 //			System.out.print("完成\n");
 		}
 		catch (Exception e)
