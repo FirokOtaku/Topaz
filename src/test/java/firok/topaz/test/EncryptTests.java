@@ -101,4 +101,17 @@ public class EncryptTests
 		}
 
 	}
+
+	@Test
+	void testHMACKeyLength()
+	{
+		var key1 = Encrypts.initHMACMac("12314123");
+		Assertions.assertEquals(32, key1.getMacLength());
+
+		var key2 = Encrypts.initHMACMac("123141absd2131");
+		Assertions.assertEquals(32, key2.getMacLength());
+
+		var key3 = Encrypts.initHMACMac("dwahnodi21323123121");
+		Assertions.assertEquals(32, key3.getMacLength());
+	}
 }

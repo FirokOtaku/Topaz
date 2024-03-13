@@ -46,4 +46,38 @@ public class CodeException extends RuntimeException
 		if(expression)
 			throw new CodeException(code);
 	}
+
+	/**
+	 * @since 7.22.0
+	 * */
+	@Override
+	public String getMessage()
+	{
+		var ret = new StringBuilder();
+		ret.append(super.getMessage());
+		Throwable cause = getCause();
+		while(cause != null)
+		{
+			ret.append(": ").append(cause.getMessage());
+			cause = cause.getCause();
+		}
+		return ret.toString();
+	}
+
+	/**
+	 * @since 7.22.0
+	 * */
+	@Override
+	public String getLocalizedMessage()
+	{
+		var ret = new StringBuilder();
+		ret.append(super.getLocalizedMessage());
+		Throwable cause = getCause();
+		while(cause != null)
+		{
+			ret.append(": ").append(cause.getLocalizedMessage());
+			cause = cause.getCause();
+		}
+		return ret.toString();
+	}
 }
