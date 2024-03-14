@@ -1,5 +1,7 @@
 # 改动记录
 
+* 7.23.0
+  * 增加 CodeException 工具接口
 * 7.22.0
   * 追加更多 CodeException 错误信息输出
 * 7.21.0

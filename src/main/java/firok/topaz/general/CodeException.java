@@ -3,6 +3,7 @@ package firok.topaz.general;
 /**
  * 带错误码的异常信息
  *
+ * @see CodeExceptionThrower 推荐使用此实现方式创建 CodeException
  * @apiNote 推荐调用者不要直接覆盖 {@link #getMessage()} 字段的内容, 而是在 {@link #getCause()} 里储存更多信息
  * @since 3.27.0
  * @version 7.0.0
