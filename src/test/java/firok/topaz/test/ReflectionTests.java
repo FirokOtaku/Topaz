@@ -185,4 +185,15 @@ public class ReflectionTests
 			);
 		}
 	}
+
+	@Test
+	public void testClassFinder()
+	{
+		Assertions.assertNotNull(Reflections.findClassOf("firok.topaz.Topaz"));
+		Assertions.assertNotNull(Reflections.findClassOf("java.lang.String"));
+		Assertions.assertNotNull(Reflections.findClassOf("java.lang.Long"));
+		Assertions.assertNull(Reflections.findClassOf("firok.topaz.Topaz2"));
+		Assertions.assertNull(Reflections.findClassOf("firok.topaz.String2"));
+		Assertions.assertNull(Reflections.findClassOf("firok.topaz.Long2"));
+	}
 }

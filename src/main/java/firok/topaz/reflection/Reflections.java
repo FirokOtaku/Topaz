@@ -6,6 +6,7 @@ import firok.topaz.annotation.SupportedMaximalVersion;
 import firok.topaz.annotation.SupportedMinimalVersion;
 import firok.topaz.function.MayConsumer;
 import firok.topaz.platform.Processes;
+import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -488,6 +489,18 @@ public final class Reflections
 			case ChildToParent -> ret.add(0, classAny.getAnnotation(classAnnotation));
 		}
 		return ret;
+	}
+
+	/**
+	 * 寻找指定限定名的类, 如果出现错误则返回 null.
+	 * 如果类加载过程出现 Error 则无能为力.
+	 * @since 7.24.0
+	 */
+	@Nullable
+	public static Class<?> findClassOf(String className)
+	{
+		try { return Class.forName(className); }
+		catch (ClassNotFoundException any) { return null; }
 	}
 
 	/**
