@@ -4,6 +4,7 @@ import firok.topaz.reflection.Reflections;
 
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -13,6 +14,8 @@ import java.lang.annotation.RetentionPolicy;
  * @see SupportedSourceVersion
  * @see Reflections#supportStatusOf
  * */
+
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SupportedMaximalVersion
 {

@@ -1,11 +1,13 @@
 package firok.topaz.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * 声明指定位置存在性能问题
  * */
+@Documented
 @Retention(RetentionPolicy.SOURCE)
 public @interface PerformanceIssue
 {

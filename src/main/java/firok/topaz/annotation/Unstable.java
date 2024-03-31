@@ -1,11 +1,13 @@
 package firok.topaz.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * 标记指定内容为易变内容
  * */
+@Documented
 @Retention(RetentionPolicy.SOURCE)
 public @interface Unstable
 {
