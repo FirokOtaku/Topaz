@@ -498,6 +498,34 @@ public final class Collections
 	}
 
 	/**
+	 * 将一个 Map 的键值反转, 返回一个新的 Map
+	 * @since 7.25.0
+	 * */
+	public static <TypeKey, TypeValue> Map<TypeValue, TypeKey> reverseOf(Map<TypeKey, TypeValue> map)
+	{
+		var ret = new HashMap<TypeValue, TypeKey>();
+		for(var entry : map.entrySet())
+		{
+			ret.put(entry.getValue(), entry.getKey());
+		}
+		return ret;
+	}
+	/**
+	 * 将一个 List 内容顺序反转, 返回一个新的 List
+	 * @since 7.25.0
+	 * */
+	public static <Type> List<Type> reverseOf(List<Type> list)
+	{
+		var count = sizeOf(list);
+		var ret = new ArrayList<Type>(count);
+		for(int step = count - 1; step >= 0; step--)
+		{
+			ret.add(list.get(step));
+		}
+		return ret;
+	}
+
+	/**
 	 * 使指定数组从给定位置开始排列
 	 * */
 	@PerformanceIssue(level = Level.Minor, cost = Resource.Mem)
