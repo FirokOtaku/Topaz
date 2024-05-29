@@ -3,8 +3,10 @@ package firok.topaz.spring;
 import firok.topaz.function.MayRunnable;
 import firok.topaz.function.MaySupplier;
 import firok.topaz.general.CodeException;
+import firok.topaz.internal.SerializableInfo;
 import lombok.Data;
 
+import java.io.Serial;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -18,8 +20,12 @@ import java.util.concurrent.CompletableFuture;
  * */
 @Data
 @SuppressWarnings("unused")
-public class CodeRet<TypeData> extends Ret<TypeData>
+public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializable
 {
+    @SuppressWarnings("PointlessArithmeticExpression")
+    @Serial
+    private static final long serialVersionUID = SerializableInfo.SIDBase + 20000 + 0;
+
     Integer code;
 
     public static <TypeData> CodeRet<TypeData> success(TypeData data, int code)

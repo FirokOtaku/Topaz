@@ -27,6 +27,7 @@ public enum TopazExceptions implements CodeExceptionThrower
     ParamValueOutOfRange(5501),
     ParamValueNoneNull(5502),
     ParamFormatError(5503),
+    ParamValueLogicError(5504),
 
     DatabaseOperationError(5551),
     BeanInstantiationError(5552),

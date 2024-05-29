@@ -1,8 +1,10 @@
 package firok.topaz.spring;
 
 import firok.topaz.function.MayRunnable;
+import firok.topaz.internal.SerializableInfo;
 import lombok.Data;
 
+import java.io.Serial;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,8 +23,12 @@ import java.util.concurrent.CompletableFuture;
  */
 @Data
 @SuppressWarnings("unused")
-public class Ret<TypeData>
+public class Ret<TypeData> implements java.io.Serializable
 {
+	@SuppressWarnings("PointlessArithmeticExpression")
+	@Serial
+	private static final long serialVersionUID = SerializableInfo.SIDBase + 10000 + 0;
+
 	/**
 	 * 封装数据
 	 */

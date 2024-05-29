@@ -1,5 +1,10 @@
 # 改动记录
 
+* 7.27.0
+  * 新增 Windows 工具方法
+    * 将指定批处理内容封装为一个 EXE 文件
+  * 现在 `Ret` 和 `CodeRet` 实现了 `java.io.Serializable` 接口, 并提供了 `serialVersionUID` 字段
+  * 现在 `Resources` 实例关闭方法会忽略空参数
 * 7.26.0
   * 新增网络端口检查工具方法
 * 7.25.0

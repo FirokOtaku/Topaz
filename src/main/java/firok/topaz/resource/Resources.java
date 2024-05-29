@@ -11,10 +11,12 @@ public final class Resources
 
     /**
      * 关闭所有实例
-     * @return 是否全部成功关闭
+     * @return 是否全部成功关闭. 如果没有可供关闭的实例, 则返回true
      * */
     public static boolean close(java.lang.AutoCloseable... closeables)
     {
+        if(closeables == null) return true;
+
         var hasException = false;
         for(var closable : closeables)
         {
