@@ -39,6 +39,7 @@ public class RegexPipeline
 	{
 		for(var entryRegexReplacement : mapRegexReplacement.entrySet())
 		{
+			@RegExp
 			var regex = entryRegexReplacement.getKey();
 			var replacement = entryRegexReplacement.getValue();
 			content = replaceAll(content, regex, replacement);

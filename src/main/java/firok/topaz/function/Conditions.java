@@ -1,7 +1,5 @@
 package firok.topaz.function;
 
-import firok.topaz.annotation.Indev;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Objects;
@@ -13,7 +11,6 @@ import static firok.topaz.general.Collections.isNotEmpty;
  * @since 6.10.0
  * @author Firok
  */
-@Indev(experimental = true, description = "暂时还不确定要不要加这么个玩意")
 public class Conditions
 {
     public static void onlyRun(MayRunnable task, Condition... conditions) throws Exception

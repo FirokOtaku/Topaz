@@ -19,7 +19,7 @@ import static firok.topaz.general.Collections.toTypeArray;
  * @since 3.16.0
  * @author Firok
  * */
-@SuppressWarnings({"unused", "RedundantLengthCheck", "DuplicatedCode"})
+@SuppressWarnings({"unused", "DuplicatedCode"})
 public final class Maths
 {
 	private Maths() { }
@@ -632,6 +632,7 @@ public final class Maths
 			TopazExceptions.ParamValueNoneNull.occur(
 					new IllegalArgumentException("values length must be greater than range") // todo
 			);
+		assert values != null;
 
 		double[] ret = new double[values.length];
 
@@ -651,5 +652,54 @@ public final class Maths
 		}
 
 		return ret;
+	}
+
+	/**
+	 * 分页计算
+	 * @param pageIndex 页码. 从 0 开始
+	 * @param pageSize 页大小
+	 * @return 首行标号. 行号固定从 0 开始
+	 * @since 7.28.0
+	 * */
+	public static int firstRowOf0(int pageIndex, int pageSize)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(pageIndex < 0 || pageSize <= 0);
+		return pageIndex * pageSize;
+	}
+	/**
+	 * 分页计算
+	 * @param pageIndex 页码. 从 1 开始
+	 * @return 末行标号. 行号固定从 0 开始
+	 * @see #firstRowOf0(int, int)
+	 * @since 7.28.0
+	 * */
+	public static int firstRowOf1(int pageIndex, int pageSize)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(pageIndex < 1 || pageSize <= 0);
+		return firstRowOf0(pageIndex - 1, pageSize);
+	}
+	/**
+	 * 分页计算
+	 * @param pageIndex 页码. 从 0 开始
+	 * @param pageSize 页大小
+	 * @return 末行标号. 行号固定从 0 开始
+	 * @since 7.28.0
+	 * */
+	public static int lastRowOf0(int pageIndex, int pageSize)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(pageIndex < 0 || pageSize <= 0);
+		return firstRowOf0(pageIndex + 1, pageSize) - 1;
+	}
+	/**
+	 * 分页计算
+	 * @param pageIndex 页码. 从 1 开始
+	 * @return 末行标号. 行号固定从 0 开始
+	 * @see #lastRowOf0(int, int)
+	 * @since 7.28.0
+	 * */
+	public static int lastRowOf1(int pageIndex, int pageSize)
+	{
+		TopazExceptions.ParamValueOutOfRange.maybe(pageIndex < 1 || pageSize <= 0);
+		return lastRowOf0(pageIndex - 1, pageSize);
 	}
 }

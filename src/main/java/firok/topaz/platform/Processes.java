@@ -26,7 +26,7 @@ public final class Processes
 
             // 递归停止所有子进程
             List<ProcessHandle> listChildren;
-            while((listChildren = process.children().toList()).size() > 0)
+            while(!(listChildren = process.children().toList()).isEmpty())
             {
                 listChildren.forEach(childProcess -> killProcessTreeForcibly(childProcess.pid()));
             }

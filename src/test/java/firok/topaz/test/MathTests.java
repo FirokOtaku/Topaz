@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import firok.topaz.design.ChineseSolarTermColors;
 import firok.topaz.design.Colors;
+import firok.topaz.general.CodeException;
 import firok.topaz.math.Maths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -109,5 +110,26 @@ public class MathTests
         }
         new File("./test-cache").mkdirs();
         ImageIO.write(image, "png", new File("./test-cache/fit-test-01.png"));
+    }
+
+    @Test
+    public void testPaginationCalc()
+    {
+        Assertions.assertEquals(0, Maths.firstRowOf0(0, 10));
+        Assertions.assertEquals(9, Maths.lastRowOf0(0, 10));
+        Assertions.assertEquals(0, Maths.firstRowOf1(1, 10));
+        Assertions.assertEquals(9, Maths.lastRowOf1(1, 10));
+        Assertions.assertEquals(10, Maths.firstRowOf0(1, 10));
+        Assertions.assertEquals(19, Maths.lastRowOf0(1, 10));
+        Assertions.assertEquals(10, Maths.firstRowOf1(2, 10));
+        Assertions.assertEquals(19, Maths.lastRowOf1(2, 10));
+        Assertions.assertThrows(CodeException.class, () -> Maths.firstRowOf0(-1, 10));
+        Assertions.assertThrows(CodeException.class, () -> Maths.lastRowOf0(-1, 10));
+        Assertions.assertThrows(CodeException.class, () -> Maths.firstRowOf0(1, 0));
+        Assertions.assertThrows(CodeException.class, () -> Maths.lastRowOf0(1, 0));
+        Assertions.assertThrows(CodeException.class, () -> Maths.firstRowOf1(-1, 10));
+        Assertions.assertThrows(CodeException.class, () -> Maths.lastRowOf1(-1, 10));
+        Assertions.assertThrows(CodeException.class, () -> Maths.firstRowOf1(1, 0));
+        Assertions.assertThrows(CodeException.class, () -> Maths.lastRowOf1(1, 0));
     }
 }

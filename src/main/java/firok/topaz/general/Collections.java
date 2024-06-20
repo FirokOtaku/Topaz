@@ -839,7 +839,6 @@ public final class Collections
 	 * @throws IllegalArgumentException 如果传入的引用为空或原本的类型不是数组类型, 将会抛出
 	 * @since 6.16.0
 	 * */
-	@SuppressWarnings("unchecked")
 	public static <Type> Object toTypeArray(Object rawRef, Class<Type> classType)
 	{
 		if(rawRef == null || !rawRef.getClass().isArray()) throw new IllegalArgumentException("given param is not an array type ref");
