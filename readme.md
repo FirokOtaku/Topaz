@@ -11,6 +11,9 @@
 一般来说会基于 *最新的 LTS 版本 JDK*, 忽略其它中间版本.  
 为了方便升级和高版本 JDK 调用, 此库一般 *不采用实验性语法*, 依赖项目可无须以 `--enable-preview` 参数启用.
 
+> 如果你对我写的其它工具库感兴趣,
+> 可以看看这个面向 Web / Javascript 生态的 [Opal 库](https://github.com/FirokOtaku/opal)
+
 > 虽然但是, [Java 21 不是 LTS 版本](https://www.youtube.com/watch?v=3bfR22iv8Pc);  
 > 虽然但是², [OpenJDK 21 是 LTS 的](https://openjdk.org/projects/jdk/21/).
 
