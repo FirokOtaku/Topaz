@@ -93,4 +93,40 @@ public interface CodeExceptionThrower
     {
         maybe(!Maths.isInRange(value, min, max));
     }
+
+    /**
+     * 如果对象小于指定值, 则抛出此 CodeException
+     * @since 7.29.0
+     * */
+    default <Type extends Comparable<Type>> void ifLesser(Type value, Type min)
+    {
+        maybe(value.compareTo(min) < 0);
+    }
+
+    /**
+     * 如果对象小于等于指定值, 则抛出此 CodeException
+     * @since 7.29.0
+     * */
+    default <Type extends Comparable<Type>> void ifLesserOrEqual(Type value, Type min)
+    {
+        maybe(value.compareTo(min) <= 0);
+    }
+
+    /**
+     * 如果对象大于指定值, 则抛出此 CodeException
+     * @since 7.29.0
+     * */
+    default <Type extends Comparable<Type>> void ifGreater(Type value, Type max)
+    {
+        maybe(value.compareTo(max) > 0);
+    }
+
+    /**
+     * 如果对象大于等于指定值, 则抛出此 CodeException
+     * @since 7.29.0
+     * */
+    default <Type extends Comparable<Type>> void ifGreaterOrEqual(Type value, Type max)
+    {
+        maybe(value.compareTo(max) >= 0);
+    }
 }

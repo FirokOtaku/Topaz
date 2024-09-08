@@ -11,6 +11,7 @@ module firok.topaz.test {
     requires com.fasterxml.jackson.databind;
     requires java.sql;
     requires com.h2database;
+    requires redis.clients.jedis;
 
     opens firok.topaz.test;
 }

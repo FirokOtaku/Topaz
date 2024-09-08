@@ -9,6 +9,7 @@ module firok.topaz {
 	requires java.desktop;
     requires java.compiler;
 	requires java.sql;
+    requires static redis.clients.jedis;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
@@ -24,6 +25,7 @@ module firok.topaz {
 	exports firok.topaz.spring;
     exports firok.topaz.indev;
 	exports firok.topaz.database;
+	exports firok.topaz.integration.redis;
 
 	uses IHashMapper;
 	provides IHashMapper

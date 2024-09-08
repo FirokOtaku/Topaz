@@ -5,7 +5,7 @@ import firok.topaz.general.*;
 import java.util.Locale;
 
 /**
- * 所有 Topaz 库会抛出的异常类型
+ * Topaz 库会抛出的所有异常类型
  * @since 7.0.0
  * @author Firok
  * */

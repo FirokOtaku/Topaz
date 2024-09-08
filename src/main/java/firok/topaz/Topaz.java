@@ -15,7 +15,7 @@ public final class Topaz
 	public static final ProgramMeta META = new ProgramMeta(
 			"firok.topaz",
 			"Topaz",
-			new Version(7, 28, 0),
+			new Version(7, 29, 0),
 			"personal Java lib",
 			List.of("Firok"),
 			List.of("https://github.com/FirokOtaku/Topaz"),
