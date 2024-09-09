@@ -8,8 +8,9 @@ module firok.topaz {
 	requires org.jetbrains.annotations;
 	requires java.desktop;
     requires java.compiler;
-	requires java.sql;
     requires static redis.clients.jedis;
+    requires static io.ebean.api;
+	requires static jakarta.persistence;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
@@ -26,8 +27,9 @@ module firok.topaz {
     exports firok.topaz.indev;
 	exports firok.topaz.database;
 	exports firok.topaz.integration.redis;
+    exports firok.topaz.integration.ebean;
 
-	uses IHashMapper;
+    uses IHashMapper;
 	provides IHashMapper
 	with firok.topaz.hash.NoHashMapper,
 			firok.topaz.hash.UUIDQuadrupleMapper,

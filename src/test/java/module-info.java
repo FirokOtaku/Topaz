@@ -3,15 +3,17 @@
  * */
 module firok.topaz.test {
     requires firok.topaz;
-    requires java.desktop;
     requires org.junit.jupiter.api;
     requires org.jetbrains.annotations;
-    requires com.fasterxml.jackson.core;
-    requires com.fasterxml.jackson.annotation;
-    requires com.fasterxml.jackson.databind;
-    requires java.sql;
     requires com.h2database;
     requires redis.clients.jedis;
+    requires io.ebean.api;
+    requires lombok;
+    requires com.fasterxml.jackson.databind;
+    requires java.desktop;
+    requires org.slf4j;
+    requires io.ebean.types;
+    requires jakarta.persistence;
 
     opens firok.topaz.test;
 }
