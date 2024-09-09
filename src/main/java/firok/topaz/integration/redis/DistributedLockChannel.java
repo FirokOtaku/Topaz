@@ -5,9 +5,8 @@ import firok.topaz.thread.Threads;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 基于 Redis 的分布式锁实现.
@@ -85,8 +84,7 @@ public class DistributedLockChannel implements AutoCloseable
         return this;
     }
 
-    private final List<DistributedLock> locks = new LinkedList<>();
-
+    DistributedLock currentLock;
     /**
      * 尝试获取一个分布式锁
      * @param tryTime 尝试时间. 如果超过指定这个时间还没获取到锁则抛出异常
@@ -107,33 +105,29 @@ public class DistributedLockChannel implements AutoCloseable
             var uuidString = uuid.toString();
             while(true)
             {
-                var result = conn.set(channelKey, uuidString, SetParams.setParams().nx().ex(expireTime));
-                if("OK".equals(result))
+                synchronized (this)
                 {
-                    var ret = new DistributedLock(this, uuid, channelKey);
-
-                    synchronized (this)
+                    var result = conn.set(channelKey, uuidString, SetParams.setParams().nx().ex(expireTime));
+                    if("OK".equals(result))
                     {
-                        locks.add(ret);
+                        var ret = new DistributedLock(this, uuid, channelKey);
+                        currentLock = ret;
+                        return ret;
                     }
-
-                    return ret;
                 }
-                else
+
+                final long nowTime = System.currentTimeMillis();
+                if(nowTime - startTime > tryTime)
                 {
-                    final long nowTime = System.currentTimeMillis();
-                    if(nowTime - startTime > tryTime)
-                    {
-                        throw new RuntimeException("获取分布式锁超时");
-                    }
-
-                    Threads.sleep(queryInterval);
+                    throw new TimeoutException("获取分布式锁超时");
                 }
+
+                Threads.sleep(queryInterval);
             }
         }
         catch (Exception any)
         {
-            throw new RuntimeException("获取分布式锁失败", any);
+            return TopazExceptions.DatabaseOperationError.occur(new RuntimeException("获取分布式锁失败", any));
         }
     }
 
@@ -147,7 +141,7 @@ public class DistributedLockChannel implements AutoCloseable
 
         synchronized (this)
         {
-            if(!locks.contains(lock)) return;
+            if(currentLock != lock) return;
 
             try(var conn = pool.getResource())
             {
@@ -156,42 +150,31 @@ public class DistributedLockChannel implements AutoCloseable
                 {
                     conn.del(lock.key());
                 }
+
+                currentLock = null;
             }
             catch (Exception any)
             {
                 // todo 这里以后可能增加一些判断, 如果锁不是自己加的, 也许有必要抛出异常
                 TopazExceptions.DatabaseOperationError.occur(new Exception("释放分布式锁失败", any));
             }
-
-            locks.remove(lock);
         }
     }
 
     /**
-     * 关闭此通道, 并释放持有的所有锁.
+     * 关闭此通道.
      * 通道关闭后, 再调用 {@link #lock} 方法和 {@link DistributedLock#close} 方法会抛出异常
      * */
     @Override
     public void close()
     {
         checkClosed();
-
         synchronized (this)
         {
-            for(var lock : locks)
-            {
-                try
-                {
-                    unlock(lock);
-                }
-                catch (Exception any)
-                {
-                    any.printStackTrace(System.err);
-                }
-            }
+            if(currentLock != null)
+                unlock(currentLock);
+            pool.close();
+            closed = true;
         }
-
-        pool.close();
-        closed = true;
     }
 }
