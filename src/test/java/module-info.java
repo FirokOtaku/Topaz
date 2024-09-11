@@ -13,7 +13,6 @@ module firok.topaz.test {
     requires java.desktop;
     requires org.slf4j;
     requires io.ebean.types;
-    requires jakarta.persistence;
 
     opens firok.topaz.test;
 }

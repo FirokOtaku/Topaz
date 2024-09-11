@@ -4,6 +4,7 @@ import firok.topaz.Topaz;
 import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMinimalVersion;
+import firok.topaz.function.MustCloseable;
 import firok.topaz.function.TriConsumer;
 import firok.topaz.general.*;
 import firok.topaz.general.Collections;
@@ -14,10 +15,7 @@ import firok.topaz.thread.Threads;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -195,5 +193,55 @@ public class ReflectionTests
 		Assertions.assertNull(Reflections.findClassOf("firok.topaz.Topaz2"));
 		Assertions.assertNull(Reflections.findClassOf("firok.topaz.String2"));
 		Assertions.assertNull(Reflections.findClassOf("firok.topaz.Long2"));
+	}
+
+	static class TestClassA
+	{
+		void test() { }
+	}
+	static class TestClassB extends TestClassA
+	{
+		void test() { }
+	}
+	static class TestClassC extends TestClassB
+	{
+		void test() { }
+	}
+
+	@Test
+	public void testMethodOverrideApis()
+	{
+		var method_MustClosable_close = Reflections.methodOf(MustCloseable.class, "close");
+		var method_AutoClosable_close = Reflections.methodOf(AutoCloseable.class, "close");
+		System.out.println(method_MustClosable_close);
+		System.out.println(method_AutoClosable_close);
+
+		Assertions.assertTrue(Reflections.isOverriding(method_MustClosable_close, method_AutoClosable_close));
+		Assertions.assertTrue(Reflections.isOverriden(method_AutoClosable_close, method_MustClosable_close));
+
+		Assertions.assertFalse(Reflections.isOverriding(method_MustClosable_close, method_MustClosable_close));
+		Assertions.assertFalse(Reflections.isOverriding(method_AutoClosable_close, method_AutoClosable_close));
+		Assertions.assertFalse(Reflections.isOverriden(method_MustClosable_close, method_AutoClosable_close));
+		Assertions.assertFalse(Reflections.isOverriden(method_AutoClosable_close, method_AutoClosable_close));
+
+		var method_TestClassA_test = Reflections.declaredMethodOf(TestClassA.class, "test");
+		var method_TestClassB_test = Reflections.declaredMethodOf(TestClassB.class, "test");
+		var method_TestClassC_test = Reflections.declaredMethodOf(TestClassC.class, "test");
+
+		Assertions.assertTrue(Reflections.isOverriding(method_TestClassB_test, method_TestClassA_test));
+		Assertions.assertTrue(Reflections.isOverriding(method_TestClassC_test, method_TestClassB_test));
+		Assertions.assertTrue(Reflections.isOverriding(method_TestClassC_test, method_TestClassA_test));
+		Assertions.assertTrue(Reflections.isOverriden(method_TestClassA_test, method_TestClassB_test));
+		Assertions.assertTrue(Reflections.isOverriden(method_TestClassB_test, method_TestClassC_test));
+		Assertions.assertTrue(Reflections.isOverriden(method_TestClassA_test, method_TestClassC_test));
+
+		Assertions.assertFalse(Reflections.isOverriding(method_TestClassA_test, method_TestClassB_test));
+		Assertions.assertFalse(Reflections.isOverriding(method_TestClassB_test, method_TestClassC_test));
+		Assertions.assertFalse(Reflections.isOverriding(method_TestClassA_test, method_TestClassC_test));
+
+		Assertions.assertFalse(Reflections.isOverriden(method_TestClassB_test, method_TestClassA_test));
+		Assertions.assertFalse(Reflections.isOverriden(method_TestClassC_test, method_TestClassB_test));
+		Assertions.assertFalse(Reflections.isOverriden(method_TestClassC_test, method_TestClassA_test));
+
 	}
 }

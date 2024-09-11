@@ -714,4 +714,49 @@ public final class Reflections
 	{
 		buildJar(listClassAny, includeManifest, classMainClass, os, null);
 	}
+
+	/**
+	 * 判断方法 A 是否是 <b>重写</b> 自方法 B.
+	 * 比如, <code>isOverriding({@link firok.topaz.function.MustCloseable#close}, {@link AutoCloseable#close}) 将会返回 true</code>
+	 * @since 7.31.0
+	 * */
+	public static boolean isOverriding(Method methodA, Method methodB)
+	{
+		// 先判断最基本的条件
+		if(methodA == methodB || methodA.equals(methodB)) return false;
+
+		// 先判断方法 A 的定义类是否继承自方法 B 的定义类
+		var classA = methodA.getDeclaringClass();
+		var classB = methodB.getDeclaringClass();
+		if(!classB.isAssignableFrom(classA)) return false;
+
+		// 再判断方法 A 的签名是否和方法 B 的签名一致
+		if(!Objects.equals(methodA.getName(), methodB.getName())) return false;
+		if(!Objects.equals(methodA.getReturnType(), methodB.getReturnType())) return false;
+		if(!Arrays.equals(methodA.getParameterTypes(), methodB.getParameterTypes())) return false;
+
+		return true;
+	}
+
+	/**
+	 * 判断方法 A 是否是 <b>被重写</b> 自方法 B
+	 * @since 7.31.0
+	 * */
+	public static boolean isOverriden(Method methodA, Method methodB)
+	{
+		// 先判断最基本的条件
+		if(methodA == methodB || methodA.equals(methodB)) return false;
+
+		// 先判断方法 B 的定义类是否继承自方法 A 的定义类
+		var classA = methodA.getDeclaringClass();
+		var classB = methodB.getDeclaringClass();
+		if(!classA.isAssignableFrom(classB)) return false;
+
+		// 再判断方法 B 的签名是否和方法 A 的签名一致
+		if(!Objects.equals(methodA.getName(), methodB.getName())) return false;
+		if(!Objects.equals(methodA.getReturnType(), methodB.getReturnType())) return false;
+		if(!Arrays.equals(methodA.getParameterTypes(), methodB.getParameterTypes())) return false;
+
+		return true;
+	}
 }

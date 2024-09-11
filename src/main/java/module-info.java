@@ -10,7 +10,6 @@ module firok.topaz {
     requires java.compiler;
     requires static redis.clients.jedis;
     requires static io.ebean.api;
-	requires static jakarta.persistence;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
@@ -28,6 +27,9 @@ module firok.topaz {
 	exports firok.topaz.database;
 	exports firok.topaz.integration.redis;
     exports firok.topaz.integration.ebean;
+
+	//	for test only
+	opens firok.topaz.resource to firok.topaz.test;
 
     uses IHashMapper;
 	provides IHashMapper
