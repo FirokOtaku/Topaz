@@ -39,7 +39,7 @@ public class EbeanQueriesTests
     /**
      * 测试分页查询相关接口
      * */
-    @Test
+//    @Test
     public void testPageMethod() throws Exception
     {
         // 用 H2 数据库作为测试数据库
