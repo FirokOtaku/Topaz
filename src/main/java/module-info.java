@@ -10,6 +10,7 @@ module firok.topaz {
     requires java.compiler;
     requires static redis.clients.jedis;
     requires static io.ebean.api;
+	requires static org.apache.commons.pool2;
 
     exports firok.topaz;
 	exports firok.topaz.hash;
