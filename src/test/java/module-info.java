@@ -6,6 +6,7 @@ module firok.topaz.test {
     requires org.junit.jupiter.api;
     requires org.jetbrains.annotations;
     requires com.h2database;
+    requires org.apache.commons.pool2;
     requires redis.clients.jedis;
     requires io.ebean.api;
     requires lombok;

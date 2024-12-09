@@ -6,7 +6,7 @@
 
     <groupId>firok</groupId>
     <artifactId>topaz</artifactId>
-    <version>7.31.2</version>
+    <version>7.31.3</version>
 
     <dependencies>
         <dependency>
@@ -36,6 +36,14 @@
             <version>${jedis.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.12.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
