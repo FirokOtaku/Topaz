@@ -1,6 +1,7 @@
 package firok.topaz.general;
 
 import firok.topaz.annotation.Indev;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 字符串工具类
@@ -88,5 +89,42 @@ public final class Strings
             else sb.append(ch);
         }
         return sb.toString();
+    }
+
+    /**
+     * 判断字符串是否为空
+     * @return 如果给定字符串为 null 或为空, 则返回 true
+     * @since 7.32.0
+     * */
+    public static boolean isEmpty(@Nullable String value)
+    {
+        return value == null || value.isEmpty();
+    }
+    /**
+     * 判断字符串是否不为空
+     * @return 如果给定字符串不为 null 且不为空, 则返回 true
+     * @since 7.32.0
+     * */
+    public static boolean isNotEmpty(@Nullable String value)
+    {
+        return value != null && !value.isEmpty();
+    }
+    /**
+     * 判断字符串是否为空白
+     * @return 如果给定字符串为 null 或为空白, 则返回 true
+     * @since 7.32.0
+     * */
+    public static boolean isBlank(@Nullable String value)
+    {
+        return value == null || value.isBlank();
+    }
+    /**
+     * 判断字符串是否不为空白
+     * @return 如果给定字符串不为 null 且不为空白, 则返回 true
+     * @since 7.32.0
+     * */
+    public static boolean isNotBlank(@Nullable String value)
+    {
+        return value != null && !value.isBlank();
     }
 }
