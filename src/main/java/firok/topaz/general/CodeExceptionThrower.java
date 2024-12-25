@@ -3,6 +3,8 @@ package firok.topaz.general;
 import firok.topaz.math.Maths;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * 可以抛出异常的玩意
  * @since 7.0.0
@@ -128,5 +130,56 @@ public interface CodeExceptionThrower
     default <Type extends Comparable<Type>> void ifGreaterOrEqual(Type value, Type max)
     {
         maybe(value.compareTo(max) >= 0);
+    }
+
+    /**
+     * 如果两个参数相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type extends Comparable<Type>> void ifComparableEqual(Type value1, Type value2)
+    {
+        maybe(value1.compareTo(value2) == 0);
+    }
+    /**
+     * 如果两个参数不相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type extends Comparable<Type>> void ifComparableNotEqual(Type value1, Type value2)
+    {
+        maybe(value1.compareTo(value2) != 0);
+    }
+
+    /**
+     * 如果两个参数相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type> void ifObjectEqual(Type value1, Type value2)
+    {
+        maybe(Objects.equals(value1, value2));
+    }
+    /**
+     * 如果两个参数不相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type> void ifObjectNotEqual(Type value1, Type value2)
+    {
+        maybe(!Objects.equals(value1, value2));
+    }
+
+    /**
+     * 如果两个参数的哈希值相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type> void ifHashEqual(Type value1, Type value2)
+    {
+        maybe(Objects.hash(value1) == Objects.hash(value2));
+    }
+    /**
+     * 如果两个参数的哈希值不相等, 则抛出此 CodeException
+     * @since 7.33.0
+     * */
+    default <Type> void ifHashNotEqual(Type value1, Type value2)
+    {
+        maybe(Objects.hash(value1) != Objects.hash(value2));
     }
 }

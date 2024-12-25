@@ -1,6 +1,12 @@
 package firok.topaz.general;
 
+import firok.topaz.TopazExceptions;
+
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.util.UUID;
+
+import static firok.topaz.general.Collections.sizeOf;
 
 /**
  * @since 3.6.0
@@ -171,4 +177,30 @@ public final class Binaries
 //			'2', '3', '4', '5', '6', '7', '8', '9',
 //			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'R', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 //	};
+
+	/**
+	 * 将 UUID 转换为二进制数据
+	 * @return 16 字节的二进制数据
+	 * @since 7.33.0
+	 * */
+	public static byte[] toBytes(UUID uuid)
+	{
+		var bb = ByteBuffer.allocate(16);
+		bb.putLong(uuid.getMostSignificantBits());
+		bb.putLong(uuid.getLeastSignificantBits());
+		return bb.array();
+	}
+	/**
+	 * 将二进制数据转换为 UUID
+	 * @param bytes 16 字节的二进制数据.
+	 *              如果长度不为 16, 则会抛出异常
+	 * @since 7.33.0
+	 * */
+	public static UUID toUUID(byte[] bytes)
+	{
+		int len = sizeOf(bytes);
+		TopazExceptions.ParamFormatError.ifNotInRange(len, 16, 16);
+		var bb = ByteBuffer.wrap(bytes);
+		return new UUID(bb.getLong(), bb.getLong());
+	}
 }
