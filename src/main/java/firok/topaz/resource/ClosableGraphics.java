@@ -17,11 +17,11 @@ import java.text.AttributedCharacterIterator;
 public class ClosableGraphics extends Graphics implements MustCloseable
 {
     private final Graphics ref;
-    ClosableGraphics(Graphics ref)
+    public ClosableGraphics(Graphics ref)
     {
         this.ref = ref;
     }
-    ClosableGraphics(Image image)
+    public ClosableGraphics(Image image)
     {
         this.ref = image.getGraphics();
     }
