@@ -6,7 +6,7 @@ import firok.topaz.hash.IHashMapper;
 module firok.topaz {
 	requires lombok;
 	requires org.jetbrains.annotations;
-	requires java.desktop;
+	requires static java.desktop;
     requires java.compiler;
     requires static redis.clients.jedis;
     requires static io.ebean.api;

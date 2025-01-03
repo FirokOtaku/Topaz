@@ -1,5 +1,7 @@
 # 改动记录
 
+* 7.34.0
+  * 新增 java.awt.Graphics 的可关闭封装
 * 7.33.0
   * 新增 UUID 与二进制数据的转换工具方法
   * 增加 `CodeException` 工具接口

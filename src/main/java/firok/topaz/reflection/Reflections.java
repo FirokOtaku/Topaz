@@ -633,7 +633,14 @@ public final class Reflections
 	}
 
 	/**
-	 * 使用给定的类, 导出一个 jar 包
+	 * 使用给定的类, 导出一个 jar 包.
+	 * <br>
+	 * 你可以用这个方法先导出一个包含了 main 方法的主类的可执行 jar 包,
+	 * 用 {@link firok.topaz.platform.Processes#getCurrentJvmExecutable()} 获取到当前 JVM 可执行文件的位置,
+	 * 然后创建一个 bat 批处理用来让用户快捷启动上面导出的 jar 包.
+	 * <br>
+	 * 或者, 也可以单纯用这个方法创建一个包含若干类 (用来给其它 Java 程序作为 classpath 使用) 的 jar 包.
+	 *
 	 * @param listClassAny 需要包含于导出的 jar 的类文件
 	 * @param includeManifest 是否包含 Manifest. 如果为 true, 则会在导出的 jar 里面包含一个 Manifest 文件.
 	 *                        不包含 Manifest 文件 jar 包只能通过 {@code java -cp} 命令启动运行, 而不能使用 {@code java -jar} 命令启动运行
@@ -642,7 +649,9 @@ public final class Reflections
 	 * @param os 导出目标
 	 * @param extraResourceProvider 可以提供此参数以向导出的 jar 中添加额外内容, 比如各类资源文件
 	 * @apiNote 请注意, 这个方法仅会导出参数指定的类字节码.
-	 *     		如果你的代码有用到标准库之外的类, 请将其一并作为参数传入, 否则导出的 jar 文件运行时可能遇到 {@link ClassNotFoundException}
+	 *     		如果你的代码有用到标准库之外的类, 请将其一并作为参数传入, 否则导出的 jar 文件运行时可能遇到 {@link ClassNotFoundException}.
+	 *     	    另外, 请注意导出的类是否是否包含 lambda 表达式或其它动态生成的类,
+	 *     	    这些类无法随着它们的定义类一起导出, 可能会导致运行时 {@link ClassNotFoundException} 异常.
 	 * @since 7.13.0
 	 * */
 	public static void buildJar(

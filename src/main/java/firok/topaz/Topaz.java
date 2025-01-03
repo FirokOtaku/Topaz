@@ -2,7 +2,6 @@ package firok.topaz;
 
 import firok.topaz.general.ProgramMeta;
 import firok.topaz.general.Version;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public final class Topaz
 	public static final ProgramMeta META = new ProgramMeta(
 			"firok.topaz",
 			"Topaz",
-			new Version(7, 33, 0),
+			new Version(7, 34, 0),
 			"personal Java lib",
 			List.of("Firok"),
 			List.of("https://github.com/FirokOtaku/Topaz"),
