@@ -42,6 +42,13 @@ public final class Files
 		var file = new File(path);
 		return checkExist(file, isFile);
 	}
+	/**
+	 * @since 7.35.0
+	 * */
+	public static boolean notExist(String path, Boolean isFile)
+	{
+		return !checkExist(path, isFile);
+	}
 	public static boolean checkExist(File file, Boolean isFile)
 	{
 		if(isFile == null)
@@ -52,6 +59,13 @@ public final class Files
 		{
 			return file.exists() && (file.isFile() == isFile);
 		}
+	}
+	/**
+	 * @since 7.35.0
+	 * */
+	public static boolean notExist(File file, Boolean isFile)
+	{
+		return !checkExist(file, isFile);
 	}
 
 	/**
