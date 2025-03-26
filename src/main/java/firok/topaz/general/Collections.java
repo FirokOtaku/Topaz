@@ -3,19 +3,14 @@ package firok.topaz.general;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
-import org.intellij.lang.annotations.Language;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
-import static firok.topaz.reflection.Reflections.constructorOf;
-import static firok.topaz.reflection.Reflections.newInstanceOf;
 
 /**
  * @author Firok
@@ -255,6 +250,68 @@ public final class Collections
 	{
 		var ret = new ArrayList<T>();
 		while(iter.hasMoreElements()) ret.add(iter.nextElement());
+		return ret;
+	}
+
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> List<TypeField> collectFieldToList(Iterable<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new ArrayList<TypeField>();
+		for(var element : iter) ret.add(function.apply(element));
+		return ret;
+	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> List<TypeField> collectFieldToList(Iterator<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new ArrayList<TypeField>();
+		while(iter.hasNext()) ret.add(function.apply(iter.next()));
+		return ret;
+	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> List<TypeField> collectFieldToList(Enumeration<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new ArrayList<TypeField>();
+		while(iter.hasMoreElements()) ret.add(function.apply(iter.nextElement()));
+		return ret;
+	}
+
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> Set<TypeField> collectFieldToSet(Iterable<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new HashSet<TypeField>();
+		for(var element : iter) ret.add(function.apply(element));
+		return ret;
+	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> Set<TypeField> collectFieldToSet(Iterator<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new HashSet<TypeField>();
+		while(iter.hasNext()) ret.add(function.apply(iter.next()));
+		return ret;
+	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.36.0
+	 * */
+	public static <TypeBean, TypeField> Set<TypeField> collectFieldToSet(Enumeration<TypeBean> iter, Function<TypeBean, TypeField> function)
+	{
+		var ret = new HashSet<TypeField>();
+		while(iter.hasMoreElements()) ret.add(function.apply(iter.nextElement()));
 		return ret;
 	}
 

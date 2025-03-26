@@ -1,6 +1,8 @@
 package firok.topaz.test;
 
 import firok.topaz.general.Collections;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -258,5 +260,53 @@ public class CollectionsTest
 		Assertions.assertFalse(Collections.isEmpty(list));
 		Assertions.assertFalse(Collections.isEmpty(map));
 		Assertions.assertFalse(Collections.isEmpty(arr));
+	}
+
+	@Test
+	public void testCollectField()
+	{
+		@Data
+		@AllArgsConstructor
+		class UserBean
+		{
+			private String username;
+			private String password;
+		}
+
+		var listUser = new ArrayList<UserBean>();
+		listUser.add(new UserBean("u1", "p1"));
+		listUser.add(new UserBean("u2", "p2"));
+		listUser.add(new UserBean("u3", "p3"));
+		listUser.add(new UserBean("u4", "p3"));
+
+		var listUsername = Collections.collectFieldToList(listUser, UserBean::getUsername);
+		var setUsername = Collections.collectFieldToSet(listUser, UserBean::getUsername);
+
+		Assertions.assertEquals(4, listUsername.size());
+		Assertions.assertEquals(true, listUsername.contains("u1"));
+		Assertions.assertEquals(true, listUsername.contains("u2"));
+		Assertions.assertEquals(true, listUsername.contains("u3"));
+		Assertions.assertEquals(true, listUsername.contains("u4"));
+		Assertions.assertEquals(4, setUsername.size());
+		Assertions.assertEquals(true, setUsername.contains("u1"));
+		Assertions.assertEquals(true, setUsername.contains("u2"));
+		Assertions.assertEquals(true, setUsername.contains("u3"));
+		Assertions.assertEquals(true, setUsername.contains("u4"));
+
+
+		var listPassword = Collections.collectFieldToList(listUser, UserBean::getPassword);
+		var setPassword = Collections.collectFieldToSet(listUser, UserBean::getPassword);
+
+		Assertions.assertEquals(4, listPassword.size());
+		Assertions.assertEquals(true, listPassword.contains("p1"));
+		Assertions.assertEquals(true, listPassword.contains("p2"));
+		Assertions.assertEquals(true, listPassword.contains("p3"));
+		Assertions.assertEquals(false, listPassword.contains("p4"));
+		Assertions.assertEquals(3, setPassword.size());
+		Assertions.assertEquals(true, setPassword.contains("p1"));
+		Assertions.assertEquals(true, setPassword.contains("p2"));
+		Assertions.assertEquals(true, setPassword.contains("p3"));
+		Assertions.assertEquals(false, setPassword.contains("p4"));
+
 	}
 }
