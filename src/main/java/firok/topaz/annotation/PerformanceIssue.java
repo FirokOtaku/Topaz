@@ -1,5 +1,7 @@
 package firok.topaz.annotation;
 
+import org.intellij.lang.annotations.Language;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,6 +16,7 @@ public @interface PerformanceIssue
 	/**
 	 * 可能存在问题的描述
 	 * */
+	@Language("MARKDOWN")
 	String[] value() default {};
 
 	/**

@@ -1,5 +1,7 @@
 package firok.topaz.annotation;
 
+import org.intellij.lang.annotations.Language;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,5 +26,6 @@ public @interface Unstable
     /**
      * 描述信息
      * */
+    @Language("MARKDOWN")
     String[] description() default {};
 }
