@@ -26,6 +26,9 @@ public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializ
     @Serial
     private static final long serialVersionUID = SerializableInfo.SIDBase + 20000 + 0;
 
+    /**
+     * 请求状态码
+     * */
     Integer code;
 
     public static <TypeData> CodeRet<TypeData> success(TypeData data, int code)

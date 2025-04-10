@@ -1,10 +1,15 @@
 package firok.topaz.design;
 
+import firok.topaz.TopazExceptions;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorConvertOp;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
 
@@ -114,5 +119,44 @@ public class Images
         });
 
         return output;
+    }
+
+    /**
+     * 读取图片尺寸, 但是不加载图片数据
+     * @see <a href="https://stackoverflow.com/a/12164026/9907751">StackOverflow</a>
+     * @since 7.38.0
+     * @apiNote 目前通过测试的图片格式有: .png .jpg .bmp <br>
+     *          其它图片格式尚未进行测试
+     */
+    public static Dimension getImageSize(File file)
+    {
+        try(var ims = new FileImageInputStream(file))
+        {
+            var readers = ImageIO.getImageReaders(ims);
+            TopazExceptions.ImageFormatUnknown.maybe(!readers.hasNext());
+
+            while(readers.hasNext())
+            {
+                var reader = readers.next();
+                reader.setInput(ims);
+
+                try
+                {
+                    int width = reader.getWidth(reader.getMinIndex());
+                    int height = reader.getHeight(reader.getMinIndex());
+                    return new Dimension(width, height);
+                }
+                catch (IOException ignored)
+                {
+                    // 没法读取, 换下一个
+                }
+            }
+            // 找不到能读取这个文件的 reader
+            return TopazExceptions.ImageMetadataError.occur();
+        }
+        catch (IOException any)
+        {
+            return TopazExceptions.IOError.occur(any);
+        }
     }
 }

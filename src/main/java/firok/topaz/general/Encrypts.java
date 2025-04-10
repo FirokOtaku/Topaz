@@ -27,8 +27,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * 加密解密工具类
- * https://www.cnblogs.com/baiyp/p/7833610.html
- *
  * @author Firok
  * @since 2020/04/14 15:57
  */

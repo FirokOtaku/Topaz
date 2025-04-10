@@ -1,10 +1,12 @@
 package firok.topaz.test;
 
 import firok.topaz.general.Encrypts;
+import firok.topaz.general.RSAKeyPair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
@@ -113,5 +115,36 @@ public class EncryptTests
 
 		var key3 = Encrypts.initHMACMac("dwahnodi21323123121");
 		Assertions.assertEquals(32, key3.getMacLength());
+	}
+
+	private void testSha(String passwordRaw,  RSAKeyPair kp) throws Exception
+	{
+		var kpPublic = kp.publicKey();
+		var kpPrivate = kp.privateKey();
+
+		var passwordShaEnc = Encrypts.encodeRSA(passwordRaw, kpPublic);
+		var passwordShaDec = Encrypts.decodeRSA(passwordShaEnc, kpPrivate);
+
+		System.out.println(
+				"%s | %s | %s | %s".formatted(
+						passwordRaw,
+						passwordShaEnc,
+						passwordShaDec,
+						passwordRaw.equals(passwordShaDec)
+				)
+		);
+		Assertions.assertEquals(passwordRaw, passwordShaDec);
+	}
+
+	@Test
+	public void testSha() throws Exception
+	{
+		var kp = Encrypts.generateRSAKeyPair(2048, new SecureRandom());
+		testSha("123456", kp);
+		testSha("test-password", kp);
+		testSha("000", kp);
+		testSha("测试密码", kp);
+		testSha("测试密码 123 ABC abc", kp);
+		testSha("密码00123 AAA", kp);
 	}
 }

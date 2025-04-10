@@ -4,6 +4,7 @@ import firok.topaz.design.Images;
 import firok.topaz.function.Condition;
 import firok.topaz.function.Conditions;
 import firok.topaz.function.MayRunnable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
@@ -41,5 +42,31 @@ public class ImagesTests
             ImageIO.write(outputImage65535, "png", new File("./image-test-HE-65535.png"));
         }, when);
 
+    }
+
+    private void testGetImageSize(
+            String path,
+            int width,
+            int height
+    )
+    {
+        var res = ImagesTests.class.getResource("/firok/topaz/test/" + path);
+        var pathAbsolute = res.getFile();
+        var file = new File(pathAbsolute);
+        var size = Images.getImageSize(file);
+        Assertions.assertEquals(width, size.getWidth());
+        Assertions.assertEquals(height, size.getHeight());
+    }
+
+    @Test
+    public void testGetImageSizes()
+    {
+        testGetImageSize("35_137.bmp", 35, 137);
+        testGetImageSize("70_155.jpg", 70, 155);
+        testGetImageSize("87_67.png", 87, 67);
+        testGetImageSize("130_81.jpg", 130, 81);
+        testGetImageSize("162_200.png", 162, 200);
+        testGetImageSize("166_90.bmp", 166, 90);
+        testGetImageSize("233_103.png", 233, 103);
     }
 }
