@@ -28,8 +28,9 @@
 > 本库遵循 [语义化版本控制规范](https://semver.org/lang/zh-CN/).  
 > 除非有特殊说明, 否则在同一主版本号下均可无痛升级
 
-* 7.38.0
-  * 新增读取图片尺寸工具方法
+* 7.39.0
+  * 为 `CodeException` 新增判断异常类型工具方法
+  * 为 `ClosableGraphics` 新增工具方法
 * **7.0.0**
   * **重做 i18n 工具类**
     * 现在可以以自定义资源键实例化, 以支持任意资源文件
@@ -70,5 +71,5 @@
     </dependency>
   </dependencies>
   ```
-  
+
 > 正常使用 GitHub Maven Packages 需 [配置验证](https://docs.github.com/cn/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)

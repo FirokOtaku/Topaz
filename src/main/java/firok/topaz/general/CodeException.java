@@ -49,6 +49,15 @@ public class CodeException extends RuntimeException
 	}
 
 	/**
+	 * 判断是否是指定的异常
+	 * @since 7.39.0
+	 * */
+	public boolean is(CodeExceptionThrower thrower)
+	{
+		return this.code == thrower.getExceptionCode();
+	}
+
+	/**
 	 * @since 7.22.0
 	 * */
 	@Override

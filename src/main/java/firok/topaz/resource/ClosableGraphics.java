@@ -1,5 +1,6 @@
 package firok.topaz.resource;
 
+import firok.topaz.annotation.Overload;
 import firok.topaz.function.MustCloseable;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +51,15 @@ public class ClosableGraphics extends Graphics implements MustCloseable
         ref.setColor(c);
     }
 
+    /**
+     * @since 7.39.0
+     * */
+    public void setColor(int rgb)
+    {
+        var color = new Color(rgb);
+        setColor(color);
+    }
+
     @Override
     public void setPaintMode()
     {
@@ -60,6 +70,15 @@ public class ClosableGraphics extends Graphics implements MustCloseable
     public void setXORMode(Color c1)
     {
         ref.setXORMode(c1);
+    }
+
+    /**
+     * @since 7.39.0
+     * */
+    public void setXORMode(int rgb)
+    {
+        var color = new Color(rgb);
+        setXORMode(color);
     }
 
     @Override
