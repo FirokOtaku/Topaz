@@ -1,6 +1,7 @@
 package firok.topaz.general;
 
 import firok.topaz.annotation.Level;
+import firok.topaz.annotation.Overload;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
 
@@ -908,5 +909,67 @@ public final class Collections
 			Array.set(ret, step, value);
 		}
 		return ret;
+	}
+
+	/**
+	 * 判断集合中是否包含任何一个指定的元素
+	 * @return 如果未指定任何元素, 直接返回 true
+	 * @since 7.40.0
+	 * */
+	@SafeVarargs
+	public static <Type> boolean containsAny(Collection<Type> collection, Type... items)
+	{
+		if(isEmpty(items)) return true;
+		for(var item : items)
+		{
+			if(collection.contains(item)) return true;
+		}
+		return false;
+	}
+	/**
+	 * 判断集合中是否包含任何一个指定的元素
+	 * @return 如果未指定任何元素, 直接返回 true
+	 * @since 7.40.0
+	 * */
+	@Overload
+	public static <Type> boolean containsAny(Collection<Type> collection, Collection<Type> items)
+	{
+		if(isEmpty(items)) return true;
+		for(var item : items)
+		{
+			if(collection.contains(item)) return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 判断集合中是否包含所有指定元素
+	 * @return 如果未指定任何元素, 直接返回 true
+	 * @since 7.40.0
+	 * */
+	@SafeVarargs
+    public static <Type> boolean containsAll(Collection<Type> collection, Type... items)
+	{
+		if(isEmpty(items)) return true;
+		for(var item : items)
+		{
+			if(!collection.contains(item)) return false;
+		}
+		return true;
+	}
+	/**
+	 * 判断集合中是否包含所有指定元素
+	 * @return 如果未指定任何元素, 直接返回 true
+	 * @since 7.40.0
+	 * */
+	@Overload
+	public static <Type> boolean containsAll(Collection<Type> collection, Collection<Type> items)
+	{
+		if(isEmpty(items)) return true;
+		for(var item : items)
+		{
+			if(!collection.contains(item)) return false;
+		}
+		return true;
 	}
 }

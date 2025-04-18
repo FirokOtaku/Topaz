@@ -4,4 +4,7 @@
  * @deprecated 将会被移动到 firok.topaz.internal 包下
  */
 @Deprecated
+@Indev
 package firok.topaz.indev;
+
+import firok.topaz.annotation.Indev;
