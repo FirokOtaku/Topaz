@@ -4,6 +4,8 @@ import firok.topaz.annotation.Level;
 import firok.topaz.annotation.Overload;
 import firok.topaz.annotation.PerformanceIssue;
 import firok.topaz.annotation.Resource;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
@@ -917,7 +919,7 @@ public final class Collections
 	 * @since 7.40.0
 	 * */
 	@SafeVarargs
-	public static <Type> boolean containsAny(Collection<Type> collection, Type... items)
+	public static <Type> boolean containsAny(@NotNull Collection<Type> collection, @Nullable Type... items)
 	{
 		if(isEmpty(items)) return true;
 		for(var item : items)
@@ -932,7 +934,7 @@ public final class Collections
 	 * @since 7.40.0
 	 * */
 	@Overload
-	public static <Type> boolean containsAny(Collection<Type> collection, Collection<Type> items)
+	public static <Type> boolean containsAny(@NotNull Collection<Type> collection, @Nullable Iterable<Type> items)
 	{
 		if(isEmpty(items)) return true;
 		for(var item : items)
@@ -948,7 +950,7 @@ public final class Collections
 	 * @since 7.40.0
 	 * */
 	@SafeVarargs
-    public static <Type> boolean containsAll(Collection<Type> collection, Type... items)
+    public static <Type> boolean containsAll(@NotNull Collection<Type> collection, @Nullable Type... items)
 	{
 		if(isEmpty(items)) return true;
 		for(var item : items)
@@ -963,7 +965,7 @@ public final class Collections
 	 * @since 7.40.0
 	 * */
 	@Overload
-	public static <Type> boolean containsAll(Collection<Type> collection, Collection<Type> items)
+	public static <Type> boolean containsAll(@NotNull Collection<Type> collection, @Nullable Iterable<Type> items)
 	{
 		if(isEmpty(items)) return true;
 		for(var item : items)
@@ -972,4 +974,65 @@ public final class Collections
 		}
 		return true;
 	}
+
+	/**
+	 * 判断集合中是否包含指定元素中的指定个数
+	 * @since 7.41.0
+	 * */
+	@SafeVarargs
+	public static <Type> boolean containsCount(@NotNull Collection<Type> collection, final int count, @Nullable Type... items)
+	{
+		int temp = 0;
+		if(isNotEmpty(items))
+		{
+			for(var item : items)
+			{
+				if(collection.contains(item))
+				{
+					temp++;
+				}
+			}
+		}
+		return temp == count;
+	}
+	/**
+	 * @since 7.41.0
+	 * */
+	@Overload
+	public static <Type> boolean containsCount(@NotNull Collection<Type> collection, final int count, @Nullable Iterable<Type> items)
+	{
+		int temp = 0;
+		if(isNotEmpty(items))
+		{
+			for(var item : items)
+			{
+				if(collection.contains(item))
+				{
+					temp++;
+				}
+			}
+		}
+		return temp == count;
+	}
+
+	/**
+	 * 判断集合中是否包含指定元素中的某一个.
+	 * 如果包含多余或少于一个都会报错
+	 * @since 7.41.0
+	 * */
+	@Overload
+	@SafeVarargs
+	public static <Type> boolean containsOne(@NotNull Collection<Type> collection, @Nullable Type... items)
+	{
+		return containsCount(collection, 1, items);
+	}
+	/**
+	 * @since 7.41.0
+	 * */
+	@Overload
+	public static <Type> boolean containsOne(@NotNull Collection<Type> collection, @Nullable Iterable<Type> items)
+	{
+		return containsCount(collection, 1, items);
+	}
+
 }

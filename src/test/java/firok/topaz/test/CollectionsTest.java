@@ -309,4 +309,58 @@ public class CollectionsTest
 		Assertions.assertEquals(false, setPassword.contains("p4"));
 
 	}
+
+	@Test
+	public void testContainMethod()
+	{
+		var c1 = new ArrayList<Integer>();
+		c1.add(1);
+		c1.add(2);
+		c1.add(3);
+
+		var c2 = new ArrayList<Integer>();
+		c2.add(1);
+		c2.add(2);
+
+		var c3 = new ArrayList<Integer>();
+		c3.add(3);
+		c3.add(4);
+
+		Assertions.assertTrue(Collections.containsAll(c1, c2));
+		Assertions.assertTrue(Collections.containsAny(c1, c3));
+		Assertions.assertTrue(Collections.containsAny(c3, c1));
+		Assertions.assertFalse(Collections.containsAll(c2, c3));
+		Assertions.assertFalse(Collections.containsAll(c3, c2));
+		Assertions.assertTrue(Collections.containsOne(c1, c3));
+		Assertions.assertTrue(Collections.containsCount(c1, 1, c3));
+		Assertions.assertTrue(Collections.containsCount(c1, 2, c2));
+		Assertions.assertTrue(Collections.containsCount(c2, 0, c3));
+		Assertions.assertTrue(Collections.containsCount(c3, 0, c2));
+
+		var a1 = new Integer[] { 1, 2, 3, };
+		var a2 = new Integer[] { 1, 2, };
+		var a3 = new Integer[] { 3, 4, };
+
+		Assertions.assertTrue(Collections.containsAll(c1, a1));
+		Assertions.assertTrue(Collections.containsAll(c1, 1));
+		Assertions.assertTrue(Collections.containsAll(c1, 1, 2));
+		Assertions.assertTrue(Collections.containsAll(c1, 1, 2, 3));
+		Assertions.assertFalse(Collections.containsAll(c1, 1, 2, 3, 4));
+
+		Assertions.assertTrue(Collections.containsAny(c1, 1));
+		Assertions.assertTrue(Collections.containsAny(c1, 1, 2));
+		Assertions.assertTrue(Collections.containsAny(c1, 1, 2, 3));
+		Assertions.assertTrue(Collections.containsAny(c1, 1, 2, 3, 4));
+
+		Assertions.assertFalse(Collections.containsAll(c1, 4));
+		Assertions.assertFalse(Collections.containsAll(c1, 4, 5));
+		Assertions.assertFalse(Collections.containsAll(c1, 4, 5, 6));
+		Assertions.assertFalse(Collections.containsAny(c1, 4));
+		Assertions.assertFalse(Collections.containsAny(c1, 4, 5));
+		Assertions.assertFalse(Collections.containsAny(c1, 4, 5, 6));
+
+		Assertions.assertTrue(Collections.containsAll(c1, a2));
+        Assertions.assertFalse(Collections.containsAll(c1, a3));
+		Assertions.assertTrue(Collections.containsAny(c1, a3));
+	}
 }
