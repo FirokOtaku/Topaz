@@ -1,7 +1,12 @@
 package firok.topaz.general;
 
 import firok.topaz.annotation.Indev;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * 字符串工具类
@@ -126,5 +131,22 @@ public final class Strings
     public static boolean isNotBlank(@Nullable String value)
     {
         return value != null && !value.isBlank();
+    }
+
+    /**
+     * 获取某个异常的堆栈信息
+     * @since 7.42.0
+     * */
+    @SneakyThrows
+    public static String stackTraceOf(Throwable any)
+    {
+        try(var stringWriter = new StringWriter();
+            var printWriter = new PrintWriter(stringWriter))
+        {
+            any.printStackTrace(printWriter);
+            printWriter.flush();
+//            stringWriter.flush();
+            return stringWriter.toString();
+        }
     }
 }

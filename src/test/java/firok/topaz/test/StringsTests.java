@@ -56,4 +56,20 @@ public class StringsTests
         Assertions.assertEquals("test_name", Strings.camel2underline("testName"));
         Assertions.assertEquals("test_name_firok", Strings.camel2underline("testNameFirok"));
     }
+
+    @Test
+    public void testStackTracePrint()
+    {
+        var any = new Exception();
+        System.out.println(Strings.stackTraceOf(any));
+
+        var any2 = new RuntimeException();
+        System.out.println(Strings.stackTraceOf(any2));
+
+        var any3 = new IllegalArgumentException("any3 1234");
+        System.out.println(Strings.stackTraceOf(any3));
+
+        var any4 = new Error("456");
+        System.out.println(Strings.stackTraceOf(any4));
+    }
 }
