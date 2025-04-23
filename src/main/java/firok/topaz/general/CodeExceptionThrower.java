@@ -1,6 +1,7 @@
 package firok.topaz.general;
 
 import firok.topaz.math.Maths;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -26,6 +27,7 @@ public interface CodeExceptionThrower
     /**
      * 抛出此异常. 不包含内部异常信息
      * */
+    @Contract("-> fail")
     default <TypeAny> TypeAny occur()
     {
         return occur(null);
@@ -33,6 +35,7 @@ public interface CodeExceptionThrower
     /**
      * 抛出此异常. 包含内部异常信息
      * */
+    @Contract("_ -> fail")
     default <TypeAny> TypeAny occur(@Nullable Throwable exception)
     {
         var code = getExceptionCode();
@@ -44,6 +47,7 @@ public interface CodeExceptionThrower
     /**
      * 如果表达式为真, 则抛出此 CodeException. 不包含内部异常信息
      * */
+    @Contract("true -> fail")
     default void maybe(boolean expression)
     {
         maybe(expression, null);
@@ -51,6 +55,7 @@ public interface CodeExceptionThrower
     /**
      * 如果表达式为真, 则抛出此 CodeException. 包含内部异常信息
      * */
+    @Contract("true, _ -> fail")
     default void maybe(boolean expression, @Nullable Throwable exception)
     {
         if(expression) occur(exception);
@@ -61,6 +66,7 @@ public interface CodeExceptionThrower
      * @since 7.23.0
      * @see Collections#isEmpty(Object)
      * */
+    @Contract("null -> fail")
     default void ifEmpty(Object obj)
     {
         maybe(Collections.isEmpty(obj));
@@ -71,6 +77,7 @@ public interface CodeExceptionThrower
      * @since 7.23.0
      * @see Collections#isNotEmpty(Object)
      * */
+    @Contract("!null -> fail")
     default void ifNotEmpty(Object obj)
     {
         maybe(Collections.isNotEmpty(obj));

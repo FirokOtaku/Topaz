@@ -1,5 +1,7 @@
 package firok.topaz.general;
 
+import org.jetbrains.annotations.Contract;
+
 /**
  * 带错误码的异常信息
  *
@@ -34,6 +36,7 @@ public class CodeException extends RuntimeException
 	 * @deprecated 推荐使用 {@link CodeExceptionThrower#occur()}
 	 * */
 	@Deprecated
+	@Contract("_ -> fail")
 	public static <TypeAny> TypeAny occur(int code)
 	{
 		throw new CodeException(code);
@@ -42,6 +45,7 @@ public class CodeException extends RuntimeException
 	 * 视情况抛出一个异常
 	 * @deprecated 推荐使用 {@link CodeExceptionThrower#maybe(boolean)}
 	 * */
+	@Contract("true, _ -> fail")
 	public static void maybe(boolean expression, int code)
 	{
 		if(expression)
