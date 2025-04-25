@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,5 +58,41 @@ public class Page<TypeData extends Serializable> implements Serializable
     public boolean hasPrevPage()
     {
         return pageIndex > 1;
+    }
+
+    /**
+     * 创建一个空分页, 首页页码从 0 开始
+     * @since 7.44.0
+     * */
+    public static <TypeData extends Serializable>
+    Page<TypeData> emptyOf0()
+    {
+        var ret = new Page<TypeData>();
+
+        ret.setCountPage(0);
+        ret.setCountRecord(0);
+        ret.setPageIndex(0);
+        ret.setPageSize(0);
+        ret.setRecords(new ArrayList<>());
+
+        return ret;
+    }
+
+    /**
+     * 创建一个空分页, 首页页码从 1 开始
+     * @since 7.44.0
+     * */
+    public static <TypeData extends Serializable>
+    Page<TypeData> emptyOf1()
+    {
+        var ret = new Page<TypeData>();
+
+        ret.setCountPage(0);
+        ret.setCountRecord(0);
+        ret.setPageIndex(1);
+        ret.setPageSize(0);
+        ret.setRecords(new ArrayList<>());
+
+        return ret;
     }
 }
