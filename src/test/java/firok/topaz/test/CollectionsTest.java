@@ -363,4 +363,34 @@ public class CollectionsTest
         Assertions.assertFalse(Collections.containsAll(c1, a3));
 		Assertions.assertTrue(Collections.containsAny(c1, a3));
 	}
+
+	@Test
+	public void testIsUniqueField()
+	{
+		record Bean(String value) { }
+
+		var list = new ArrayList<Bean>();
+		list.add(new Bean("1"));
+		list.add(new Bean("2"));
+		list.add(new Bean("3"));
+
+		Assertions.assertTrue(Collections.isUniqueField(list, Bean::value));
+
+		list.add(new Bean("1"));
+		Assertions.assertFalse(Collections.isUniqueField(list, Bean::value));
+
+		var array = new Bean[] {
+				new Bean("1"),
+				new Bean("2"),
+				new Bean("3"),
+		};
+		Assertions.assertTrue(Collections.isUniqueField(array, Bean::value));
+
+		array = new Bean[] {
+				new Bean("1"),
+				new Bean("2"),
+				new Bean("1"),
+		};
+		Assertions.assertFalse(Collections.isUniqueField(array, Bean::value));
+	}
 }

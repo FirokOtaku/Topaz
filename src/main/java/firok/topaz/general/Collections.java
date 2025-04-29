@@ -286,6 +286,16 @@ public final class Collections
 		while(iter.hasMoreElements()) ret.add(function.apply(iter.nextElement()));
 		return ret;
 	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.45.0
+	 * */
+	public static <TypeBean, TypeField> List<TypeField> collectFieldToList(TypeBean[] array, Function<TypeBean, TypeField> function)
+	{
+		var ret = new ArrayList<TypeField>();
+		for(var element : array) ret.add(function.apply(element));
+		return ret;
+	}
 
 	/**
 	 * 收集某个集合里实体的特定字段值
@@ -315,6 +325,16 @@ public final class Collections
 	{
 		var ret = new HashSet<TypeField>();
 		while(iter.hasMoreElements()) ret.add(function.apply(iter.nextElement()));
+		return ret;
+	}
+	/**
+	 * 收集某个集合里实体的特定字段值
+	 * @since 7.45.0
+	 * */
+	public static <TypeBean, TypeField> Set<TypeField> collectFieldToSet(TypeBean[] array, Function<TypeBean, TypeField> function)
+	{
+		var ret = new HashSet<TypeField>();
+		for(var element : array) ret.add(function.apply(element));
 		return ret;
 	}
 
@@ -1033,6 +1053,41 @@ public final class Collections
 	public static <Type> boolean containsOne(@NotNull Collection<Type> collection, @Nullable Iterable<Type> items)
 	{
 		return containsCount(collection, 1, items);
+	}
+
+	/**
+	 * 判断集合元素的某个字段是否全部互不相同
+	 * @since 7.45.0
+	 * */
+	public static <TypeBean, TypeField> boolean isUniqueField(Iterable<TypeBean> list, Function<TypeBean, TypeField> function)
+	{
+		var setFieldValue = new HashSet<TypeField>();
+		for(var element : list)
+		{
+			var fieldValue = function.apply(element);
+			if(!setFieldValue.add(fieldValue))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
+	 * 判断集合元素的某个字段是否全部互不相同
+	 * @since 7.45.0
+	 * */
+	public static <TypeBean, TypeField> boolean isUniqueField(TypeBean[] list, Function<TypeBean, TypeField> function)
+	{
+		var setFieldValue = new HashSet<TypeField>();
+		for(var element : list)
+		{
+			var fieldValue = function.apply(element);
+			if(!setFieldValue.add(fieldValue))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
