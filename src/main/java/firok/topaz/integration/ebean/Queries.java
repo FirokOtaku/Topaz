@@ -1,7 +1,10 @@
 package firok.topaz.integration.ebean;
 
+import firok.topaz.function.MayFunction;
 import firok.topaz.spring.Page;
+import io.ebean.Database;
 import io.ebean.PagedList;
+import io.ebean.Transaction;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,5 +34,30 @@ public final class Queries
         ret.setRecords(new ArrayList<>(page.getList()));
 
         return ret;
+    }
+
+    /**
+     * 在数据库事务里执行若干数据库操作
+     * @since 7.46.0
+     * */
+    public static <TypeData extends Serializable>
+    TypeData transaction(Database database, MayFunction<Transaction, TypeData> function)
+    {
+        var trans = database.beginTransaction();
+        try
+        {
+            var ret = function.apply(trans);
+            trans.commit();
+            return ret;
+        }
+        catch (Exception any)
+        {
+            trans.rollback();
+            throw new RuntimeException(any);
+        }
+        finally
+        {
+            trans.close();
+        }
     }
 }
