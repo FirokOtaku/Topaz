@@ -1,5 +1,6 @@
 package firok.topaz.integration.ebean;
 
+import firok.topaz.function.MayConsumer;
 import firok.topaz.function.MayFunction;
 import firok.topaz.spring.Page;
 import io.ebean.Database;
@@ -49,6 +50,30 @@ public final class Queries
             var ret = function.apply(trans);
             trans.commit();
             return ret;
+        }
+        catch (Exception any)
+        {
+            trans.rollback();
+            throw new RuntimeException(any);
+        }
+        finally
+        {
+            trans.close();
+        }
+    }
+
+    /**
+     * 在数据库事务里执行若干数据库操作
+     * @since 7.47.0
+     * */
+    public static
+    void transaction(Database database, MayConsumer<Transaction> function)
+    {
+        var trans = database.beginTransaction();
+        try
+        {
+            function.accept(trans);
+            trans.commit();
         }
         catch (Exception any)
         {
