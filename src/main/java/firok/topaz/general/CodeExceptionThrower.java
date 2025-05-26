@@ -62,7 +62,27 @@ public interface CodeExceptionThrower
     }
 
     /**
-     * 如果对象为空, 则抛出此 CodeException
+     * 如果对象为 null, 则抛出此 CodeException
+     * @since 7.48.0
+     * */
+    @Contract("null -> fail")
+    default void ifNull(Object obj)
+    {
+        maybe(obj == null);
+    }
+
+    /**
+     * 如果对象不为 null, 则抛出此 CodeException
+     * @since 7.48.0
+     * */
+    @Contract("!null -> fail")
+    default void ifNotNull(Object obj)
+    {
+        maybe(obj != null);
+    }
+
+    /**
+     * 如果集合为空, 则抛出此 CodeException
      * @since 7.23.0
      * @see Collections#isEmpty(Object)
      * */
@@ -73,7 +93,7 @@ public interface CodeExceptionThrower
     }
 
     /**
-     * 如果对象不为空, 则抛出此 CodeException
+     * 如果集合不为空, 则抛出此 CodeException
      * @since 7.23.0
      * @see Collections#isNotEmpty(Object)
      * */
