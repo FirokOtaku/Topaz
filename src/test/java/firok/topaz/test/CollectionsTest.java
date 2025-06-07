@@ -393,4 +393,40 @@ public class CollectionsTest
 		};
 		Assertions.assertFalse(Collections.isUniqueField(array, Bean::value));
 	}
+
+	@Test
+	public void testRepeatMethod()
+	{
+		var list1 = Collections.repeatToList("test", 5);
+		Assertions.assertEquals(5, list1.size());
+		for(var step = 0; step < 5; step++)
+		{
+			Assertions.assertEquals("test", list1.get(step));
+		}
+
+		var list2 = Collections.repeatToList(null, 3);
+		Assertions.assertEquals(3, list2.size());
+		for(var step = 0; step < 3; step++)
+		{
+			Assertions.assertNull(list2.get(step));
+		}
+
+		var array1 = Collections.repeatToArray("test", 5);
+		Assertions.assertEquals(String[].class, array1.getClass());
+		Assertions.assertEquals(5, array1.length);
+		for(var step = 0; step < 5; step++)
+		{
+			Assertions.assertEquals("test", array1[step]);
+		}
+
+		try
+		{
+			Collections.repeatToArray(null, 3);
+			Assertions.fail();
+		}
+		catch (Exception any)
+		{
+			// 无事发生
+		}
+	}
 }

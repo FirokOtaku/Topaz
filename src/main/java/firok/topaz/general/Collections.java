@@ -1,5 +1,6 @@
 package firok.topaz.general;
 
+import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Level;
 import firok.topaz.annotation.Overload;
 import firok.topaz.annotation.PerformanceIssue;
@@ -1088,6 +1089,47 @@ public final class Collections
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 创建一个指定容量的列表, 内容全部为指定元素
+	 * @param bean 需要重复的元素. 可以为空
+	 * @param repeatTimes 重复次数
+	 * @since 7.49.0
+	 * */
+	public static <TypeBean> List<TypeBean> repeatToList(
+			@Nullable TypeBean bean,
+			int repeatTimes
+	)
+	{
+		var ret = new ArrayList<TypeBean>(repeatTimes);
+		for(var step = 0; step < repeatTimes; step++)
+		{
+			ret.add(bean);
+		}
+		return ret;
+	}
+
+	/**
+	 * 创建一个指定容量的数组, 内容全部为指定元素
+	 * @param bean 需要重复的元素. 由于需要通过反射获取参数类型, 此参数 <b>不可为空</b>
+	 * @param repeatTimes 重复次数
+	 * @since 7.49.0
+	 * */
+	@SuppressWarnings("unchecked")
+    public static <TypeBean> TypeBean[] repeatToArray(
+			@NotNull TypeBean bean,
+			int repeatTimes
+	)
+	{
+		TopazExceptions.ParamValueNoneNull.ifNull(bean);
+		var classBean = bean.getClass();
+		var ret = (TypeBean[]) Array.newInstance(classBean, repeatTimes);
+		for(var step = 0; step < repeatTimes; step++)
+		{
+			ret[step] = bean;
+		}
+		return ret;
 	}
 
 }
