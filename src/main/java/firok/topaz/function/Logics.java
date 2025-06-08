@@ -2,6 +2,8 @@ package firok.topaz.function;
 
 import firok.topaz.TopazExceptions;
 
+import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static firok.topaz.general.Collections.isEmpty;
@@ -22,8 +24,7 @@ public final class Logics
      * */
     public static boolean And(boolean... conditions)
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         for(var condition : conditions)
         {
@@ -38,13 +39,11 @@ public final class Logics
      * */
     public static boolean And(Supplier<Boolean>... conditions)
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         for(var condition : conditions)
         {
-            TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
+            TopazExceptions.LogicsExpressionEmpty.ifNull(condition);
 
             if(!condition.get())
                 return false;
@@ -58,12 +57,10 @@ public final class Logics
     public static boolean And(MaySupplier<Boolean>... conditions) throws Exception
     {
         TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
 
         for(var condition : conditions)
         {
             TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
 
             if(!condition.get())
                 return false;
@@ -77,7 +74,6 @@ public final class Logics
     public static boolean Or(boolean... conditions)
     {
         TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
 
         for(var condition : conditions)
         {
@@ -92,13 +88,11 @@ public final class Logics
      * */
     public static boolean Or(Supplier<Boolean>... conditions)
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         for(var condition : conditions)
         {
-            TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
+            TopazExceptions.LogicsExpressionEmpty.ifNull(condition);
 
             if(condition.get())
                 return true;
@@ -111,13 +105,11 @@ public final class Logics
      * */
     public static boolean Or(MaySupplier<Boolean>... conditions) throws Exception
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         for(var condition : conditions)
         {
-            TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
+            TopazExceptions.LogicsExpressionEmpty.ifNull(condition);
 
             if(condition.get())
                 return true;
@@ -130,8 +122,7 @@ public final class Logics
      * */
     public static boolean Xor(boolean... conditions)
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         boolean result = false;
         for(var condition : conditions)
@@ -152,14 +143,12 @@ public final class Logics
      * */
     public static boolean Xor(Supplier<Boolean>... conditions)
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         boolean result = false;
         for(var condition : conditions)
         {
-            TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
+            TopazExceptions.LogicsExpressionEmpty.ifNull(condition);
 
             if(condition.get())
             {
@@ -177,14 +166,12 @@ public final class Logics
      * */
     public static boolean Xor(MaySupplier<Boolean>... conditions) throws Exception
     {
-        TopazExceptions.LogicsExpressionEmpty.maybe(isEmpty(conditions));
-        assert conditions != null;
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(conditions);
 
         boolean result = false;
         for(var condition : conditions)
         {
-            TopazExceptions.LogicsExpressionEmpty.maybe(condition == null);
-            assert condition != null;
+            TopazExceptions.LogicsExpressionEmpty.ifNull(condition);
 
             if(condition.get())
             {
@@ -195,5 +182,63 @@ public final class Logics
             }
         }
         return result;
+    }
+
+    /**
+     * @since 7.50.0
+     * */
+    public static <TypeBean> boolean And(Collection<TypeBean> beans, Predicate<TypeBean> function)
+    {
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(beans);
+
+        for(var bean : beans)
+        {
+            if(!function.test(bean))
+                return false;
+        }
+        return true;
+    }
+    /**
+     * @since 7.50.0
+     * */
+    public static <TypeBean> boolean And(TypeBean[] beans, Predicate<TypeBean> function)
+    {
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(beans);
+
+        for(var bean : beans)
+        {
+            if(!function.test(bean))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * @since 7.50.0
+     * */
+    public static <TypeBean> boolean Or(Collection<TypeBean> beans, Predicate<TypeBean> function)
+    {
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(beans);
+
+        for(var bean : beans)
+        {
+            if(function.test(bean))
+                return true;
+        }
+        return false;
+    }
+    /**
+     * @since 7.50.0
+     * */
+    public static <TypeBean> boolean Or(TypeBean[] beans, Predicate<TypeBean> function)
+    {
+        TopazExceptions.LogicsExpressionEmpty.ifEmpty(beans);
+
+        for(var bean : beans)
+        {
+            if(function.test(bean))
+                return true;
+        }
+        return false;
     }
 }
