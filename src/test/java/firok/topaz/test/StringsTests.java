@@ -72,4 +72,33 @@ public class StringsTests
         var any4 = new Error("456");
         System.out.println(Strings.stackTraceOf(any4));
     }
+
+    @Test
+    public void urlReadTests()
+    {
+        var url1 = "example.com?a=1&a=2&b=3";
+        {
+            var map11 = Strings.repeatableParamsMapOf(url1);
+            var map12 = Strings.singleParamsMapOf(url1);
+
+            Assertions.assertEquals(2, map11.size());
+            Assertions.assertEquals(2, map12.size());
+            Assertions.assertEquals("1", map11.get("a").get(0));
+            Assertions.assertEquals("2", map11.get("a").get(1));
+            Assertions.assertEquals("3", map11.get("b").get(0));
+            Assertions.assertEquals("2", map12.get("a"));
+            Assertions.assertEquals("3", map12.get("b"));
+        }
+        var url2 = "example.com?a=1&a=2b=3";
+        {
+            var map21 = Strings.repeatableParamsMapOf(url2);
+            var map22 = Strings.singleParamsMapOf(url2);
+
+            Assertions.assertEquals(1, map21.size());
+            Assertions.assertEquals(1, map22.size());
+            Assertions.assertEquals("1", map21.get("a").get(0));
+            Assertions.assertEquals("2b=3", map21.get("a").get(1));
+            Assertions.assertEquals("2b=3", map22.get("a"));
+        }
+    }
 }

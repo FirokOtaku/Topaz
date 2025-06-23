@@ -1,12 +1,15 @@
 package firok.topaz.general;
 
-import firok.topaz.annotation.Indev;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 字符串工具类
@@ -148,5 +151,76 @@ public final class Strings
 //            stringWriter.flush();
             return stringWriter.toString();
         }
+    }
+
+    /**
+     * 读取 URL 字符串中的参数列表
+     *
+     * <p>
+     *     "https://example.com?a=1&a=2&b=3" -> { "a": ["1", "2"], "b": ["3"] }
+     * </p>
+     *
+     * @since 7.52.0
+     * */
+    @SuppressWarnings("JavadocLinkAsPlainText")
+    public static @NotNull Map<String, List<String>> repeatableParamsMapOf(String url)
+    {
+        if(isBlank(url)) return Map.of();
+        var indexQuestionMark = url.indexOf('?');
+        if(indexQuestionMark < 0) return Map.of();
+        var query = url.substring(indexQuestionMark + 1);
+
+        var ret = new HashMap<String, List<String>>();
+        var arrayKvp = query.indexOf('&') >= 0 ?
+                query.split("&") :
+                new String[]{ query };
+        for(var kvp : arrayKvp)
+        {
+            var indexEqual = kvp.indexOf('=');
+            if(indexEqual < 0) continue;
+
+            var key = kvp.substring(0, indexEqual);
+            var value = kvp.substring(indexEqual + 1);
+
+            var list = ret.computeIfAbsent(key, k -> new ArrayList<>());
+            list.add(value);
+        }
+
+        return ret;
+    }
+
+    /**
+     * 读取 URL 字符串中的参数列表
+     *
+     * <p>
+     *     "https://example.com?a=1&a=2&b=3" -> { "a": "1", "b": "3" }
+     * </p>
+     *
+     * @since 7.52.0
+     * */
+    @SuppressWarnings("JavadocLinkAsPlainText")
+    public static @NotNull Map<String, String> singleParamsMapOf(String url)
+    {
+        if(isBlank(url)) return Map.of();
+        var indexQuestionMark = url.indexOf('?');
+        if(indexQuestionMark < 0) return Map.of();
+        var query = url.substring(indexQuestionMark + 1);
+
+        var ret = new HashMap<String, String>();
+        var arrayKvp = query.indexOf('&') >= 0 ?
+                query.split("&") :
+                new String[]{ query };
+        for(var kvp : arrayKvp)
+        {
+            var indexEqual = kvp.indexOf('=');
+            if(indexEqual < 0) continue;
+
+            var key = kvp.substring(0, indexEqual);
+            var value = kvp.substring(indexEqual + 1);
+
+            ret.put(key, value);
+        }
+
+        return ret;
     }
 }

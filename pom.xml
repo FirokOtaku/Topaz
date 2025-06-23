@@ -6,7 +6,7 @@
 
     <groupId>firok</groupId>
     <artifactId>topaz</artifactId>
-    <version>7.51.0</version>
+    <version>7.52.0</version>
 
     <dependencies>
         <dependency>
