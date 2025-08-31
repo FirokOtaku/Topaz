@@ -1,15 +1,13 @@
 package firok.topaz.resource;
 
 import firok.topaz.TopazExceptions;
+import firok.topaz.annotation.Overload;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 跟资源有关的工具
@@ -24,7 +22,30 @@ public final class Resources
      * 关闭所有实例
      * @return 是否全部成功关闭. 如果没有可供关闭的实例, 则返回true
      * */
+    @SuppressWarnings("DuplicatedCode")
     public static boolean close(java.lang.AutoCloseable... closeables)
+    {
+        if(closeables == null) return true;
+
+        var hasException = false;
+        for(var closable : closeables)
+        {
+            if(closable == null) continue;
+            try { closable.close(); }
+            catch (Exception ignored) { hasException = true; }
+        }
+        return !hasException;
+    }
+
+    /**
+     * 关闭所有实例
+     * @return 是否全部成功关闭. 如果没有可供关闭的实例, 则返回true
+     * @see #close(AutoCloseable...)
+     * @since 7.53.0
+     * */
+    @SuppressWarnings("DuplicatedCode")
+    @Overload
+    public static boolean close(Collection<java.lang.AutoCloseable> closeables)
     {
         if(closeables == null) return true;
 
