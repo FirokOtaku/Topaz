@@ -2,6 +2,7 @@ package firok.topaz.resource;
 
 import firok.topaz.TopazExceptions;
 import firok.topaz.annotation.Overload;
+import firok.topaz.function.MustCloseable;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationHandler;
@@ -45,7 +46,7 @@ public final class Resources
      * */
     @SuppressWarnings("DuplicatedCode")
     @Overload
-    public static boolean close(Collection<java.lang.AutoCloseable> closeables)
+    public static boolean close(Collection<? extends java.lang.AutoCloseable> closeables)
     {
         if(closeables == null) return true;
 
