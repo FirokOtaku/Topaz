@@ -3,6 +3,7 @@ package firok.topaz.function;
 import firok.topaz.general.CodeException;
 import firok.topaz.general.CodeExceptionThrower;
 
+import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 /**
@@ -12,9 +13,17 @@ import java.util.function.Supplier;
  * @see Supplier
  * */
 @FunctionalInterface
-public interface MaySupplier<TypeReturn>
+public interface MaySupplier<TypeReturn> // extends Callable<TypeReturn>
 {
     TypeReturn get() throws Exception;
+
+// gossip 暂时不实现这个
+
+//    @Override
+//    default TypeReturn call() throws Exception
+//    {
+//        return get();
+//    }
 
     /**
      * 尝试执行, 如果出现异常则抛出规定好的异常类型

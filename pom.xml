@@ -6,7 +6,23 @@
 
     <groupId>firok</groupId>
     <artifactId>topaz</artifactId>
-    <version>7.53.0</version>
+    <version>8.0.0</version>
+
+    <properties>
+        <java.version>25</java.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <lombok.version>1.18.42</lombok.version>
+        <jackson.version>2.20.0</jackson.version>
+        <slf4j.version>2.0.17</slf4j.version>
+        <log4j.version>2.25.1</log4j.version>
+        <jedis.version>5.2.0</jedis.version>
+        <ebean.version>13.25.2</ebean.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -104,7 +120,9 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
+<!--            <version>${jackson.version}</version>-->
+            <!-- Jackson 自己的 Maven 坐标有问题, 只能先这么用着 -->
+            <version>2.20</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -123,22 +141,6 @@
 
     </dependencies>
 
-    <properties>
-        <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-
-        <lombok.version>1.18.30</lombok.version>
-        <jackson.version>2.17.0</jackson.version>
-        <slf4j.version>2.0.13</slf4j.version>
-        <log4j.version>2.23.1</log4j.version>
-        <jedis.version>5.2.0</jedis.version>
-        <ebean.version>13.25.0</ebean.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -146,8 +148,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>25</source>
+                    <target>25</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

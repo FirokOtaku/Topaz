@@ -195,6 +195,76 @@ public final class Collections
 		return java.util.Collections.unmodifiableMap(ret);
 	}
 
+    private static <TypeSource, TypeTarget> Object mappingArrayElementInner(
+            Object rootArray,
+            ArrayList<Class<?>> listClass,
+            int level,
+            Function<TypeSource, TypeTarget> mappingFunction
+    )
+    {
+        var arrayLen = Array.getLength(rootArray);
+        var classTarget = listClass.get(level - 1);
+        var arrayTarget = Array.newInstance(classTarget, arrayLen);
+        for(var step = 0; step < arrayLen; step++)
+        {
+            var elementSource = Array.get(rootArray, step);
+            if(elementSource == null)
+            {
+                Array.set(arrayTarget, step, null);
+            }
+            else
+            {
+                var isElementArray = elementSource.getClass().isArray();
+                Object elementTarget;
+                if(isElementArray)
+                {
+                    elementTarget = mappingArrayElementInner(elementSource, listClass, level - 1, mappingFunction);
+                }
+                else
+                {
+                    elementTarget = mappingFunction.apply((TypeSource) elementSource);
+                }
+                Array.set(arrayTarget, step, elementTarget);
+            }
+        }
+        return arrayTarget;
+    }
+
+    /// 将给定的任意类型和维度的数组中的元素进行映射, 并返回一个指定类型和维度的新数组
+    ///
+    /// @param rootArray 源数组. 可以是任意维度或长度, 但必须是数组类型.
+    ///                  如果不是数组类型, 或此值为 null, 则抛出异常
+    /// @param <TypeTarget> **不能使用值类型**, 否则赋值过程会抛出异常
+    /// @param <TypeSource> **不能使用值类型**, 否则转换过程会抛出异常
+    /// @since 8.0.0
+    public static <@Nullable TypeSource, @Nullable TypeTarget> Object mappingArrayElement(
+            Object rootArray,
+            Class<TypeTarget> classTarget,
+            Function<TypeSource, TypeTarget> mappingFunction
+    )
+    {
+        TopazExceptions.ParamValueNoneNull.ifNull(rootArray);
+        TopazExceptions.ParamFormatError.maybe(!rootArray.getClass().isArray());
+
+        var listClass = new ArrayList<Class<?>>(); // 示例值: { Integer.class, Integer[].class, Integer[][].class, ... }
+        Class<?> classTemp = rootArray.getClass();
+        while(classTemp.isArray())
+        {
+            if(listClass.isEmpty())
+            {
+                listClass.add(classTarget); // 初始值
+            }
+            else
+            {
+                var classLast = listClass.getLast();
+                listClass.add(classLast.arrayType());
+            }
+            classTemp = classTemp.getComponentType(); // 获取当前层级数组元素的类型
+        }
+
+        return mappingArrayElementInner(rootArray, listClass, listClass.size(), mappingFunction);
+    }
+
 	/**
 	 * 为数组创建一个迭代器
 	 * @param values 要迭代的数据
@@ -1132,4 +1202,40 @@ public final class Collections
 		return ret;
 	}
 
+    /// **就地** 打乱指定集合
+    /// @since 8.0.0
+    /// @implNote 实际上只是想提供打乱数组的接口.
+    ///           多提供这个接口只是为了减少一个潜在的 `import java.util.Collections` 语句.
+    @Overload
+    public static <TypeBean> void shuffle(List<TypeBean> list)
+    {
+        java.util.Collections.shuffle(list);
+    }
+    /// **就地** 打乱指定数组
+    /// @since 8.0.0
+    public static <TypeBean> void shuffle(TypeBean[] arr)
+    {
+        var list = Arrays.asList(arr); // 这个接口会返回一个跟指定数组同步的 `List` 示例
+        java.util.Collections.shuffle(list); // 打乱这个 `List` 会同步到数组里
+    }
+    /// **就地** 打乱指定数组
+    /// @param arr 需要是一个数组类型, 否则会抛出异常
+    /// @since 8.0.0
+    /// @implNote 用来打乱各种值类型数组的接口
+    public static <TypeBean> void shuffle(Object arr)
+    {
+        TopazExceptions.ParamValueNoneNull.ifNull(arr);
+        TopazExceptions.ParamFormatError.maybe(!arr.getClass().isArray());
+        var len = Array.getLength(arr);
+        var list = new ArrayList<>();
+        for(var step = 0; step < len; step++)
+        {
+            list.add(Array.get(arr, step));
+        }
+        java.util.Collections.shuffle(list);
+        for(var i = 0; i < len; i++)
+        {
+            Array.set(arr, i, list.get(i));
+        }
+    }
 }

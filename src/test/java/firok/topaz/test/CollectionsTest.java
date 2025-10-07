@@ -1,6 +1,7 @@
 package firok.topaz.test;
 
 import firok.topaz.general.Collections;
+import firok.topaz.math.Maths;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.junit.jupiter.api.Assertions;
@@ -429,4 +430,49 @@ public class CollectionsTest
 			// 无事发生
 		}
 	}
+
+    /// 测试 shuffle 接口可以正常调用
+    @Test
+    public void testShuffleCallable()
+    {
+        var list1 = new ArrayList<Integer>();
+        list1.add(1);
+        list1.add(2);
+        list1.add(3);
+        list1.add(4);
+        list1.add(5);
+        Collections.shuffle(list1);
+//        System.out.println(list1);
+
+        var arr1 = new Integer[] { 1, 2, 3, 4, 5, };
+        Collections.shuffle(arr1);
+//        System.out.println(Arrays.toString(arr1));
+
+        var arr2 = new int[] { 1, 2, 3, 4, 5, };
+        Collections.shuffle(arr2);
+//        System.out.println(Arrays.toString(arr2));
+    }
+
+    @Test
+    public void testArrayMapping()
+    {
+        var arr1 = new int[][] {
+                new int[] { 1, 2, 3 },
+                new int[] { 4, },
+                null,
+                new int[] { 5, 6 },
+        };
+        var arr1result = (Integer[][]) Collections.mappingArrayElement(arr1, Integer.class, (Integer element) -> element * 2);
+        Assertions.assertEquals(4, arr1result.length);
+        Assertions.assertEquals(3, arr1result[0].length);
+        Assertions.assertEquals(2, arr1result[0][0]);
+        Assertions.assertEquals(4, arr1result[0][1]);
+        Assertions.assertEquals(6, arr1result[0][2]);
+        Assertions.assertEquals(1, arr1result[1].length);
+        Assertions.assertEquals(8, arr1result[1][0]);
+        Assertions.assertNull(arr1result[2]);
+        Assertions.assertEquals(2, arr1result[3].length);
+        Assertions.assertEquals(10, arr1result[3][0]);
+        Assertions.assertEquals(12, arr1result[3][1]);
+    }
 }

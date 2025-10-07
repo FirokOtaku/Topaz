@@ -41,7 +41,7 @@ public interface CodeExceptionThrower
         var code = getExceptionCode();
         var i18n = getI18N();
         var msg = i18n == null ? null : i18n.localize("error-" + code);
-        throw new CodeException(getExceptionCode(), msg, exception);
+        throw new CodeException(getExceptionCode(), exception, msg); // fixme
     }
 
     /**

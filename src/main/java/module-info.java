@@ -24,13 +24,14 @@ module firok.topaz {
 	exports firok.topaz.reflection;
 	exports firok.topaz.platform;
 	exports firok.topaz.spring;
-    exports firok.topaz.indev;
+//    exports firok.topaz.indev;
 	exports firok.topaz.database;
 	exports firok.topaz.integration.redis;
     exports firok.topaz.integration.ebean;
 
 	//	for test only
 	opens firok.topaz.resource to firok.topaz.test;
+    opens firok.topaz.indev to firok.topaz.test;
 
     uses IHashMapper;
 	provides IHashMapper

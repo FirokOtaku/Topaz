@@ -14,21 +14,42 @@ import org.jetbrains.annotations.Contract;
 public class CodeException extends RuntimeException
 {
 	public final int code;
-	public CodeException(int code)
-	{
-		super();
-		this.code = code;
-	}
-	public CodeException(int code, String msg)
-	{
-		super(msg);
-		this.code = code;
-	}
-	public CodeException(int code, String msg, Throwable exception)
-	{
-		super(msg, exception);
-		this.code = code;
-	}
+    /**
+     * 一个描述性信息, 用来导致此异常的数据
+     * */
+    public final Object source;
+    public final String message;
+//    public CodeException(int code, Object data)
+//    {
+//        super();
+//        this.code = code;
+//        this.data = data;
+//    }
+//    public CodeException(int code)
+//    {
+//        this(code, null);
+//    }
+//    public CodeException(int code, String msg, Object data)
+//    {
+//        super(msg);
+//        this.code = code;
+//        this.data = data;
+//    }
+//	public CodeException(int code, String msg)
+//	{
+//		this(code, msg, null);
+//	}
+//	public CodeException(int code, String msg, Throwable exception)
+//	{
+//		super(msg, exception);
+//		this.code = code;
+//	}
+    CodeException(int code, Object source, String message)
+    {
+        this.code = code;
+        this.source = source;
+        this.message = message;
+    }
 
 	// 为了让这个方法可以用在 if-else 里直接抛出异常而不用写别的 return 语句
 	/**
@@ -39,7 +60,7 @@ public class CodeException extends RuntimeException
 	@Contract("_ -> fail")
 	public static <TypeAny> TypeAny occur(int code)
 	{
-		throw new CodeException(code);
+		throw new CodeException(code, null, null); // fixme
 	}
 	/**
 	 * 视情况抛出一个异常
@@ -49,7 +70,7 @@ public class CodeException extends RuntimeException
 	public static void maybe(boolean expression, int code)
 	{
 		if(expression)
-			throw new CodeException(code);
+            throw new CodeException(code, null, null); // fixme
 	}
 
 	/**

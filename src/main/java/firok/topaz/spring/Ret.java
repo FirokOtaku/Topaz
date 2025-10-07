@@ -1,6 +1,7 @@
 package firok.topaz.spring;
 
 import firok.topaz.function.MayRunnable;
+import firok.topaz.function.MaySupplier;
 import firok.topaz.internal.SerializableInfo;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <TypeData> 数据类型
  * @since 2.2.0
- * @version 5.8.0
+ * @version 8.0.0
  * @author Firok
  * @implNote 你用着顺手不顺手不重要 我用着顺手
  */
@@ -71,14 +72,13 @@ public class Ret<TypeData> implements java.io.Serializable
 	/**
 	 * 基于函数式编程简化代码
 	 * @since 5.8.0
-	 * @deprecated 参数即将替换为 {@link firok.topaz.function.MaySupplier}
+     * @version 8.0.0
 	 * */
-	@Deprecated(forRemoval = true) // fixme
-	public static <TypeData> Ret<TypeData> now(Callable<TypeData> function)
+	public static <TypeData> Ret<TypeData> now(MaySupplier<TypeData> function)
 	{
 		try
 		{
-			return Ret.success(function.call());
+			return Ret.success(function.get());
 		}
 		catch (Exception any)
 		{
@@ -104,10 +104,9 @@ public class Ret<TypeData> implements java.io.Serializable
 	/**
 	 * 用于支持 Spring 异步方法
 	 * @since 5.8.0
-	 * @deprecated 参数即将替换为 {@link firok.topaz.function.MaySupplier}
+     * @version 8.0.0
 	 * */
-	@Deprecated(forRemoval = true) // fixme
-	public static <TypeData> CompletableFuture<Ret<TypeData>> later(Callable<TypeData> function)
+	public static <TypeData> CompletableFuture<Ret<TypeData>> later(MaySupplier<TypeData> function)
 	{
 		return CompletableFuture.supplyAsync(() -> Ret.now(function));
 	}
