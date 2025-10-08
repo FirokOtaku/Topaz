@@ -2,16 +2,18 @@ package firok.topaz.general;
 
 import firok.topaz.math.Maths;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-/**
- * 可以抛出异常的玩意
- * @since 7.0.0
- * @author Firok
- * @see firok.topaz.TopazExceptions 示例用法
- * */
+/// 可以抛出异常的玩意.
+/// 推荐直接让枚举类实现此接口, 然后在枚举类中编写系统中可能存在的错误类型和对应的错误码.
+///
+/// @since 7.0.0
+/// @version 8.0.0
+/// @author Firok
+/// @see firok.topaz.TopazExceptions 示例用法
 public interface CodeExceptionThrower
 {
     /**
@@ -24,41 +26,91 @@ public interface CodeExceptionThrower
      * */
     @Nullable I18N getI18N();
 
-    /**
-     * 抛出此异常. 不包含内部异常信息
-     * */
+    /// 抛出此异常. 不包含内部异常信息
     @Contract("-> fail")
     default <TypeAny> TypeAny occur()
     {
-        return occur(null);
+        var context = new CodeExceptionContext(
+                this,
+                null,
+                null,
+                null,
+                null
+        );
+        throw new CodeException(context);
     }
-    /**
-     * 抛出此异常. 包含内部异常信息
-     * */
+    /// 抛出此异常. 包含内部异常信息
     @Contract("_ -> fail")
     default <TypeAny> TypeAny occur(@Nullable Throwable exception)
     {
-        var code = getExceptionCode();
-        var i18n = getI18N();
-        var msg = i18n == null ? null : i18n.localize("error-" + code);
-        throw new CodeException(getExceptionCode(), exception, msg); // fixme
+        var context = new CodeExceptionContext(
+                this,
+                exception,
+                null,
+                null,
+                null
+        );
+        throw new CodeException(context);
+    }
+    /// 抛出此异常. 包含上下文信息
+    @Contract("_ -> fail")
+    default <TypeAny> TypeAny occur(@Nullable CodeExceptionContext context)
+    {
+        var contextNew = new CodeExceptionContext(
+                this,
+                context != null ? context.cause() : null,
+                context != null ? context.message() : null,
+                context != null ? context.source() : null,
+                context != null ? context.description() : null
+        );
+        throw new CodeException(contextNew);
     }
 
-    /**
-     * 如果表达式为真, 则抛出此 CodeException. 不包含内部异常信息
-     * */
+    /// 如果表达式为真, 则抛出此 CodeException. 不包含内部异常信息
     @Contract("true -> fail")
     default void maybe(boolean expression)
     {
-        maybe(expression, null);
+        if(expression)
+            occur();
     }
-    /**
-     * 如果表达式为真, 则抛出此 CodeException. 包含内部异常信息
-     * */
+
+    /// 如果表达式为真, 则抛出此 CodeException. 包含内部异常信息
     @Contract("true, _ -> fail")
     default void maybe(boolean expression, @Nullable Throwable exception)
     {
-        if(expression) occur(exception);
+        if(expression)
+            occur(exception);
+    }
+    /// 如果表达式为真, 则抛出此 CodeException. 包含上下文信息
+    @Contract("true, _ -> fail")
+    default void maybe(boolean expression, @Nullable CodeExceptionContext context)
+    {
+        if(expression)
+            occur(context);
+    }
+
+    /// 如果表达式为假, 则抛出此 CodeException. 不包含内部异常信息
+    /// @since 8.0.0
+    @Contract("false -> fail")
+    default void unless(boolean expression)
+    {
+        maybe(!expression);
+    }
+
+    /// 如果表达式为假, 则抛出此 CodeException. 包含内部异常信息
+    /// @since 8.0.0
+    @Contract("false, _ -> fail")
+    default void unless(boolean expression, @Nullable Throwable exception)
+    {
+        maybe(!expression, exception);
+    }
+
+    /// 如果表达式为假, 则抛出此 CodeException. 包含上下文信息
+    /// @since 8.0.0
+    @Contract("false, _ -> fail")
+    default void unless(boolean expression, @Nullable CodeExceptionContext context)
+    {
+        maybe(!expression, context);
     }
 
     /**

@@ -1,7 +1,7 @@
 package firok.topaz.indev;
 
 import firok.topaz.reflection.Reflections;
-import firok.topaz.thread.ReentrantLockCompound;
+import firok.topaz.thread.LockCompound;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -46,7 +46,7 @@ public class ShellAnnotationProcessor extends AbstractProcessor
         for (Element ele : env.getElementsAnnotatedWith(AnnotationProcessingShell.class))
         {
             AnnotationProcessingShell anno;
-            try (var ignored = new ReentrantLockCompound(LockReflect))
+            try (var ignored = new LockCompound(LockReflect))
             {
                 messager.printNote("找到注解处理器于: " + ele);
                 anno = ele.getAnnotation(AnnotationProcessingShell.class);

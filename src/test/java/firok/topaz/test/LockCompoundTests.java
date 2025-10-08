@@ -1,6 +1,6 @@
 package firok.topaz.test;
 
-import firok.topaz.thread.ReentrantLockCompound;
+import firok.topaz.thread.LockCompound;
 import firok.topaz.thread.Threads;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ReentrantLockCompoundTests
+public class LockCompoundTests
 {
     @Test
     public void test()
@@ -19,7 +19,7 @@ public class ReentrantLockCompoundTests
         var ret = new ArrayList<Integer>();
 
         Threads.start(false, () -> {
-            try(var ignored = new ReentrantLockCompound(lock1))
+            try(var ignored = new LockCompound(lock1))
             {
                 Threads.sleep(1000);
                 ret.add(1);
@@ -27,7 +27,7 @@ public class ReentrantLockCompoundTests
         });
         Threads.start(false, () -> {
             Threads.sleep(300);
-            try(var ignored = new ReentrantLockCompound(lock1))
+            try(var ignored = new LockCompound(lock1))
             {
                 Threads.sleep(300);
                 ret.add(2);
@@ -35,7 +35,7 @@ public class ReentrantLockCompoundTests
         });
         Threads.start(false, () -> {
             Threads.sleep(400);
-            try(var ignored = new ReentrantLockCompound(lock1, lock2))
+            try(var ignored = new LockCompound(lock1, lock2))
             {
                 Threads.sleep(600);
                 ret.add(3);

@@ -4,12 +4,9 @@ import firok.topaz.general.*;
 
 import java.util.Locale;
 
-/**
- * Topaz 库会抛出的所有异常类型
- *
- * @author Firok
- * @since 7.0.0
- */
+/// Topaz 库会抛出的所有异常类型
+/// @author Firok
+/// @since 7.0.0
 public enum TopazExceptions implements CodeExceptionThrower
 {
     StructureDuplicate(5201),

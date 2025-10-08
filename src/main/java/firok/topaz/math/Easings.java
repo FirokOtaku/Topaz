@@ -2,13 +2,12 @@ package firok.topaz.math;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * 渐变计算工具方法
- * @implNote 公式来源于 <a href="https://easings.net">easings.net</a>
- * @apiNote 所有的 <code>x</code> 形参都介于 0 到 1 之间
- * @since 5.2.0
- * @author Firok
- * */
+/// 渐变计算工具方法.
+/// @implNote IDEA 会提示这个类有语法错误, 实际上可以过编, 没有问题
+/// @implSpec 公式来源于 <a href="https://easings.net">easings.net</a>
+/// @apiNote 所有的 <code>x</code> 形参都介于 0 到 1 之间
+/// @since 5.2.0
+/// @author Firok
 @SuppressWarnings("SpellCheckingInspection")
 public class Easings
 {

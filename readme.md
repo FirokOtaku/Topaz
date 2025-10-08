@@ -30,10 +30,16 @@
     * 新增或重做的类和接口的注释开始采用 Markdown 语法
   * **重做二进制计算工具类**
     * 修复已知的高低字节序转换错误问题
-  * **重做 `CodeException`**
-    * 增加更多字段用于描述异常信息
+  * **重做 `CodeException` 和配套工具**
+    * 现在需要从 `CodeExceptionThrower` 抛出 `CodeException`. 不再允许自行实例化 `CodeException`
+    * 现在异常的详细信息被包含在 `CodeExceptionContext` 中
+    * 为 `CodeExceptionThrower` 增加更多工具接口
   * **调整 `Ret` 部分接口参数类型**
     * 调用者源码不需要改动, 但可能需要重新编译项目
+  * **调整部分时间运算相关工具方法的计算方式**
+  * **`ReentrantLockCompound` 已被重做为 `LockCompound`**
+    * 为已有的 `LockProxy` 增加更多支持
+    * 提供手动加锁和解锁方法
   * 新增数学计算工具方法
   * 新增打乱集合和打乱数组工具方法
   * 新增数组映射处理工具方法
