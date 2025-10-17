@@ -1,7 +1,6 @@
 package firok.topaz.test;
 
 import firok.topaz.general.Collections;
-import firok.topaz.math.Maths;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.junit.jupiter.api.Assertions;
@@ -114,7 +113,7 @@ public class CollectionsTest
 	}
 
 	@Test
-	public void testReverse()
+	public void testMakeReverse()
 	{
 		var res1 = new int[] { 5, 4, 3, 2, 1, };
 		Collections.makeReverse(res1);
@@ -135,6 +134,26 @@ public class CollectionsTest
 		Collections.makeReverse(a2);
 		Assertions.assertArrayEquals(a1, a2);
 	}
+
+    @Test
+    public void testReverseOf()
+    {
+        final int arrSize = 3;
+        var rand = new Random();
+        for(var stepTest = 0; stepTest < 20; stepTest++)
+        {
+            var arrRaw = new int[arrSize];
+            var arrReverse = new int[arrSize];
+            for(var step = 0; step < arrSize; step++)
+            {
+                var value = rand.nextInt(100);
+                arrRaw[step] = value;
+                arrReverse[arrSize - step - 1] = value;
+            }
+            var arrTest = Collections.reverseOf(arrRaw);
+            Assertions.assertArrayEquals(arrReverse, arrTest);
+        }
+    }
 
 	@Test
 	public void testSqueeze()

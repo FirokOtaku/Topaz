@@ -543,6 +543,18 @@ public final class Collections
 		return ret;
 	}
 
+    /// 就地反转
+    /// @since 8.0.0
+    public static void makeReverse(boolean[] arr)
+    {
+        int size = arr.length;
+        for (int i=0, mid=size>>1, j=size-1; i<mid; i++, j--)
+        {
+            var t = arr[i];
+            arr[i] = arr[j];
+            arr[j] = t;
+        }
+    }
 	/**
 	 * 就地翻转
 	 * */
@@ -675,6 +687,78 @@ public final class Collections
 		}
 		return ret;
 	}
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static <Type> Type[] reverseOf(Type[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static byte[] reverseOf(byte[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static short[] reverseOf(short[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static char[] reverseOf(char[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static int[] reverseOf(int[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static long[] reverseOf(long[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static float[] reverseOf(float[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static double[] reverseOf(double[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
+    /// 获得一个数组的反序数组
+    /// @since 8.0.0
+    public static boolean[] reverseOf(boolean[] arr)
+    {
+        var ret = arr.clone();
+        makeReverse(ret);
+        return ret;
+    }
 
 	/**
 	 * 使指定数组从给定位置开始排列

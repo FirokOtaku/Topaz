@@ -1,11 +1,14 @@
 package firok.topaz.test;
 
 import firok.topaz.general.Binaries;
+import firok.topaz.general.BinariesRenew;
+import firok.topaz.general.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.function.Function;
 
 public class BinariesTests
 {
@@ -16,12 +19,12 @@ public class BinariesTests
 		for(int step = 0; step < ints.length; step++)
 			bytes[step] = (byte) ints[step];
 
-		var buffer = Binaries.toHexByte(hex);
+		var buffer = BinariesRenew.toHexByte(hex);
 		Assertions.assertArrayEquals(bytes, buffer);
-		var hex2 = Binaries.toHexString(buffer);
+		var hex2 = BinariesRenew.toHexString(buffer);
 		Assertions.assertEquals(hex, hex2);
 	}
-//	@Test
+	@Test
 	void testHexConvert()
 	{
 		testHexOne("01", new int[] { 0x01 });
@@ -31,124 +34,34 @@ public class BinariesTests
 		testHexOne("A45254", new int[] { 0xA4, 0x52, 0x54 });
 	}
 
-//	@Test
+	@Test
 	void testDirectConvert()
 	{
-		var buffer = Binaries.toDirectByte("20201223");
-		System.out.println(Arrays.toString(buffer));
-		Assertions.assertEquals(2008, Binaries.toDirectString(new byte[] { 0x20, 0x08}));
+		var buffer = BinariesRenew.toDirectByte("20201223");
+		Assertions.assertArrayEquals(new byte[] { 0x20, 0x20, 0x12, 0x23 }, buffer);
+		Assertions.assertEquals("2008", BinariesRenew.toDirectString(new byte[] { 0x20, 0x08}));
 	}
 
-	void testBinOne(int raw)
+	<TypeNumber extends Number> void testBinOne(
+            TypeNumber valueRaw,
+            byte[] bufferBERaw,
+            Function<TypeNumber, byte[]> funValueToBytesLE,
+            Function<byte[], TypeNumber> funBytesToValueLE,
+            Function<TypeNumber, byte[]> funValueToBytesBE,
+            Function<byte[], TypeNumber> funBytesToValueBE
+    )
 	{
-		var value = BigInteger.valueOf(raw);
+        var bufferBE = funValueToBytesBE.apply(valueRaw);
+        Assertions.assertArrayEquals(bufferBERaw, bufferBE);
+        var valueBE = funBytesToValueBE.apply(bufferBE);
+        Assertions.assertEquals(valueRaw, valueBE);
 
-		var bufferLSB = Binaries.toBinLSBByte(value, 4);
-		var valueLSB = Binaries.toBinLSBValue(bufferLSB);
-		Assertions.assertEquals(value, valueLSB);
+        var bufferLE = funValueToBytesLE.apply(valueRaw);
+        Collections.reverseOf(bufferLE);
 
-		var bufferMSB = Binaries.toBinMSBByte(value, 4);
-		var valueMSB = Binaries.toBinMSBValue(bufferMSB);
-		Assertions.assertEquals(value, valueMSB);
-
-		if(raw != 0)
-		{
-			var str = "" + raw;
-			while(str.length() < 2) str += '0';
-
-			var bufferDS = Binaries.toDirectByte(str);
-			var valueDS = Binaries.toDirectString(bufferDS);
-
-			Assertions.assertEquals(str, valueDS);
-		}
 	}
 //	@Test
 	void testBinConvert()
 	{
-		Assertions.assertEquals(BigInteger.valueOf(154), Binaries.toBinMSBValue(new byte[] {
-				0, 0, 0, -102,
-		}));
-		Assertions.assertEquals(BigInteger.valueOf(154), Binaries.toBinLSBValue(new byte[] {
-				-102, 0, 0, 0,
-		}));
-		Assertions.assertArrayEquals(
-				new byte[] { 0, 0, 0, -102 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(154), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { -102, 0, 0, 0 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(154), 4)
-		);
-
-		Assertions.assertArrayEquals(
-				new byte[] {},
-				Binaries.toBinLSBByte(BigInteger.ZERO, 0)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x00, 0x04, 0x00, 0x00 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(1024), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x18, (byte) 0x90, 0x01, 0x00 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(102424), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { (byte) 0xBC, 0x44, 0x00, 0x00 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(17596), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x11, 0x11, 0x11, 0x11 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(286331153), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x11, 0x11 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(4369), 2)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x11, 0x00, 0x00 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(17), 3)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x67, 0x45, 0x23, 0x01 },
-				Binaries.toBinLSBByte(BigInteger.valueOf(0x01234567), 4)
-		);
-
-		Assertions.assertArrayEquals(
-				new byte[] {},
-				Binaries.toBinMSBByte(BigInteger.ZERO, 0)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x00, 0x00, 0x04, 0x00 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(1024), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x00, 0x01, (byte) 0x90, 0x18 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(102424), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x00, 0x00, 0x44, (byte) 0xBC },
-				Binaries.toBinMSBByte(BigInteger.valueOf(17596), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x11, 0x11, 0x11, 0x11 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(286331153), 4)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x11, 0x11 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(4369), 2)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x00, 0x00, 0x11 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(17), 3)
-		);
-		Assertions.assertArrayEquals(
-				new byte[] { 0x01, 0x23, 0x45, 0x67 },
-				Binaries.toBinMSBByte(BigInteger.valueOf(0x01234567), 4)
-		);
-
-		for(var step = 0; step < 100; step++)
-		{
-			testBinOne(step);
-		}
 	}
 }

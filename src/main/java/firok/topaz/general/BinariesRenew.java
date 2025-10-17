@@ -1,4 +1,4 @@
-package firok.topaz.indev;
+package firok.topaz.general;
 
 import firok.topaz.TopazExceptions;
 
