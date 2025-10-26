@@ -65,11 +65,12 @@ public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializ
     public static <TypeData> CodeRet<TypeData> fail(Exception e)
     {
         var msg = e != null ? e.getLocalizedMessage() : null;
-        var code = e instanceof CodeException ce ? ce.code : null;
+        var code = e instanceof CodeException ce ? ce.context.code() : null;
         var ret = new CodeRet<TypeData>();
-        ret.success = false;
-        ret.msg = msg;
-        ret.code = code;
+        // fixme high 重做这个类
+//        ret.success = false;
+//        ret.msg = msg;
+//        ret.code = code;
         return ret;
     }
 

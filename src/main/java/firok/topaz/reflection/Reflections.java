@@ -506,26 +506,31 @@ public final class Reflections
 	/**
 	 * 获取调用者类
 	 * @since 6.8.0
+     * @version 8.0.0
 	 * */
-	@Indev(experimental = true)
-	public static Class<?> getCallerClass() throws ClassNotFoundException
+	@SuppressWarnings("JavadocDeclaration")
+    public static Class<?> getCallerClass() throws ClassNotFoundException
 	{
 		var traces = Thread.currentThread().getStackTrace();
 		var trace = traces[3];
-		return Class.forName(trace.getClassName());
+        var callerClassName = trace.getClassName();
+		return Class.forName(callerClassName);
 	}
 
 	/**
 	 * 获取调用者方法
 	 * @since 6.8.0
+     * @version 8.0.0
 	 * */
-	@Indev(experimental = true)
-	public static Method getCallerMethod() throws ClassNotFoundException, NoSuchMethodException
+	@SuppressWarnings("JavadocDeclaration")
+    public static List<Method> getCallerMethod() throws ClassNotFoundException
 	{
 		var traces = Thread.currentThread().getStackTrace();
 		var trace = traces[3];
-		var callerClass = Class.forName(trace.getClassName());
-		return Reflections.namedMethodOf(callerClass, trace.getMethodName());
+        var callerClassName = trace.getClassName();
+        var callerMethodName = trace.getMethodName();
+		var callerClass = Class.forName(callerClassName);
+        return Reflections.findNamedMethodsFrom(callerClass, callerMethodName);
 	}
 
 	/**
