@@ -5,6 +5,7 @@ import firok.topaz.annotation.Indev;
 import firok.topaz.annotation.SupportedMaximalVersion;
 import firok.topaz.annotation.SupportedMinimalVersion;
 import firok.topaz.function.MayConsumer;
+import firok.topaz.general.CodeException;
 import firok.topaz.platform.Processes;
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.NotNull;
@@ -315,6 +316,40 @@ public final class Reflections
 			return null;
 		}
 	}
+
+    /// 通过反射创建一个指定对象的克隆对象
+    ///
+    /// @apiNote 给定的对象类必须重载实现一个可访问的 (权限控制为 public) [#clone] 方法,
+    ///          否则调用此方法将会抛出一个 [firok.topaz.general.CodeException]
+    /// @throws firok.topaz.general.CodeException  * 如果给定类没有实现或没有正确实现 [#clone] 方法 -> [TopazExceptions#ParamFormatError]
+    ///                                            * 给定类 [#clone] 方法不可访问 -> [TopazExceptions#ParamValueLogicError]
+    /// @return 只要过程中没有出现异常, 始终返回一个跟形参相同类型的对象
+    /// @since 8.0.0
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static <TypeEntity extends Cloneable> TypeEntity
+    cloneOf(TypeEntity entity)
+    throws CodeException
+    {
+        TopazExceptions.ParamValueNoneNull.ifNull(entity);
+        var clasz = entity.getClass();
+        var methodClone = declaredMethodOf(clasz, "clone");
+        TopazExceptions.ParamFormatError.ifNull(methodClone); // 找不到 clone 方法
+        TopazExceptions.ParamValueLogicError.unless(methodClone.canAccess(entity)); // 无法访问
+        try
+        {
+            return (TypeEntity) methodClone.invoke(entity);
+        }
+        catch (ClassCastException any)
+        {
+            // 给定类并没有正确重载实现 clone 方法
+            return TopazExceptions.ParamFormatError.occur();
+        }
+        catch (Exception any)
+        {
+            return null;
+        }
+    }
 
 	/**
 	 * 读取某个实体的注解值

@@ -12,6 +12,7 @@ import firok.topaz.math.Maths;
 import firok.topaz.reflection.ReflectionDirection;
 import firok.topaz.reflection.Reflections;
 import firok.topaz.thread.Threads;
+import lombok.ToString;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -244,4 +245,113 @@ public class ReflectionTests
 		Assertions.assertFalse(Reflections.isOverriden(method_TestClassC_test, method_TestClassA_test));
 
 	}
+
+    /// 要正常调用 [Reflections#cloneOf(java.lang.Cloneable)] 所需要实现的类示例
+    @ToString
+    public static class TestClone1 implements Cloneable
+    {
+        final UUID uuid = UUID.randomUUID();
+
+        long timestamp;
+        public TestClone1()
+        {
+            timestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public Object clone()
+        {
+            var ret = new TestClone1();
+            ret.timestamp = this.timestamp;
+            return ret;
+        }
+    }
+    /// 这个类将没法正常调用 [Reflections#cloneOf(java.lang.Cloneable)]
+    public static class TestClone2 implements Cloneable
+    {
+        @Override
+        protected Object clone() throws CloneNotSupportedException
+        {
+            return super.clone();
+        }
+    }
+    /// 这个类也没法正常调用
+    public static class TestClone3 implements Cloneable
+    {}
+
+    /// 这个类可以正常被克隆
+    public static class TestClone4 implements Cloneable
+    {
+        int value;
+        public TestClone4(int value)
+        {
+            this.value = value;
+        }
+
+        @Override
+        public TestClone4 clone()
+        {
+            return new TestClone4(this.value);
+        }
+    }
+    /// 这个类不能被正常克隆
+    public static class TestClone5 extends TestClone4
+    {
+        public TestClone5(int value)
+        {
+            super(value);
+        }
+    }
+
+    @SuppressWarnings("UnusedLabel")
+    @Test
+    public void testMethod_cloneOf()
+    {
+        PASS: {
+            var obj1 = new TestClone1();
+            var obj2 = Reflections.cloneOf(obj1);
+            Assertions.assertEquals(obj1.timestamp, obj2.timestamp);
+            Assertions.assertNotEquals(obj1.uuid, obj2.uuid);
+        }
+
+        SHALL_NOT_PASS: try
+        {
+            var obj1 = new TestClone2();
+            var obj2 = Reflections.cloneOf(obj1);
+        }
+        catch (CodeException code)
+        {
+            // clone 方法不可访问
+            Assertions.assertEquals(TopazExceptions.ParamValueLogicError, code.context.code());
+        }
+
+        SHALL_NOT_PASS: try
+        {
+            var obj1 = new TestClone3();
+            var obj2 = Reflections.cloneOf(obj1);
+        }
+        catch (CodeException code)
+        {
+            // 没实现 clone 方法
+            Assertions.assertEquals(TopazExceptions.ParamFormatError, code.context.code());
+        }
+
+        PASS: {
+            var obj1 = new TestClone4(1);
+            var obj2 = Reflections.cloneOf(obj1);
+            Assertions.assertEquals(obj1.value, obj2.value);
+
+            SHALL_NOT_PASS: try {
+                var obj3 = new TestClone5(2);
+                var obj4 = Reflections.cloneOf(obj3);
+                // 由于 TestClone5 并没有实现 clone 方法
+                // 在 TestClone5 的实例上调用 clone 方法实际上创建的是 TestClone4 的实例
+                // 当 cloneOf 方法完成后会由于无法转换类型而抛出异常
+            }
+            catch (CodeException code)
+            {
+                Assertions.assertEquals(TopazExceptions.ParamFormatError, code.context.code());
+            }
+        }
+    }
 }

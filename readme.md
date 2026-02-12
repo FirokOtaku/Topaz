@@ -28,8 +28,9 @@
 * **8.0.0**
   * **Java 支持版本从 Java 21 更新至 Java 25**
     * 新增或重做的类和接口的注释开始采用 Markdown 语法
-  * **重做二进制计算工具类**
+  * **重做二进制计算工具类 `Binaries`**
     * 修复已知的高低字节序转换错误问题
+    * 重新组织各种类型跟二进制数据之间的转换方法
   * **重做 `CodeException` 和配套工具**
     * 现在需要从 `CodeExceptionThrower` 抛出 `CodeException`. 不再允许自行实例化 `CodeException`
     * 现在异常的详细信息被包含在 `CodeExceptionContext` 中
@@ -40,6 +41,9 @@
   * **`ReentrantLockCompound` 已被重做为 `LockCompound`**
     * 为已有的 `LockProxy` 增加更多支持
     * 提供手动加锁和解锁方法
+  * 新增反射克隆工具方法
+  * 新增逻辑反转相关工具类和方法
+  * 新增逻辑旋转相关工具类和方法
   * 新增数学计算工具方法
   * 新增资源工具方法
   * 新增打乱集合和打乱数组工具方法
