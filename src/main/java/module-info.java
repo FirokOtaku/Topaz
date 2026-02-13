@@ -19,6 +19,7 @@ module firok.topaz {
 	exports firok.topaz.design;
     exports firok.topaz.resource;
 	exports firok.topaz.general;
+	exports firok.topaz.general.converts;
 	exports firok.topaz.thread;
 	exports firok.topaz.math;
 	exports firok.topaz.reflection;
