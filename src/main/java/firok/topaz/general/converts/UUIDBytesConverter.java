@@ -1,7 +1,7 @@
 package firok.topaz.general.converts;
 
 import firok.topaz.annotation.Indev;
-import firok.topaz.general.BinariesRenew;
+import firok.topaz.general.Binaries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -28,8 +28,8 @@ public class UUIDBytesConverter implements TypeBytesConverter<UUID>
         System.arraycopy(buffer, offset + Long.BYTES, bufferLeast, 0, Long.BYTES);
 
         return new UUID(
-                BinariesRenew.Long.fromBE(bufferMost),
-                BinariesRenew.Long.fromBE(bufferLeast)
+                Binaries.Long.fromBE(bufferMost),
+                Binaries.Long.fromBE(bufferLeast)
         );
     }
 
@@ -45,8 +45,8 @@ public class UUIDBytesConverter implements TypeBytesConverter<UUID>
         System.arraycopy(buffer, offset + Long.BYTES, bufferLeast, 0, Long.BYTES);
 
         return new UUID(
-                BinariesRenew.Long.fromBE(bufferLeast),
-                BinariesRenew.Long.fromBE(bufferMost)
+                Binaries.Long.fromBE(bufferLeast),
+                Binaries.Long.fromBE(bufferMost)
         );
     }
 
@@ -58,8 +58,8 @@ public class UUIDBytesConverter implements TypeBytesConverter<UUID>
         var bitMost = value.getMostSignificantBits();
         var bitLeast = value.getLeastSignificantBits();
 
-        var bufferMost = BinariesRenew.Long.toBE(bitMost);
-        var bufferLeast = BinariesRenew.Long.toBE(bitLeast);
+        var bufferMost = Binaries.Long.toBE(bitMost);
+        var bufferLeast = Binaries.Long.toBE(bitLeast);
 
         buffer[offset + 0] = bufferMost[0];
         buffer[offset + 1] = bufferMost[1];
@@ -88,8 +88,8 @@ public class UUIDBytesConverter implements TypeBytesConverter<UUID>
         var bitMost = value.getMostSignificantBits();
         var bitLeast = value.getLeastSignificantBits();
 
-        var bufferMost = BinariesRenew.Long.toBE(bitMost);
-        var bufferLeast = BinariesRenew.Long.toBE(bitLeast);
+        var bufferMost = Binaries.Long.toBE(bitMost);
+        var bufferLeast = Binaries.Long.toBE(bitLeast);
 
         buffer[offset + 0] = bufferLeast[0];
         buffer[offset + 1] = bufferLeast[1];

@@ -1,6 +1,6 @@
 package firok.topaz.general.converts;
 
-import firok.topaz.general.BinariesRenew;
+import firok.topaz.general.Binaries;
 import org.jetbrains.annotations.NotNull;
 
 public class FloatBytesConverter implements TypeBytesConverter<Float>
@@ -16,7 +16,7 @@ public class FloatBytesConverter implements TypeBytesConverter<Float>
     public Float fromLE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        int value = BinariesRenew.Int.fromLE(buffer);
+        int value = Binaries.Int.fromLE(buffer);
         return Float.intBitsToFloat(value);
     }
 
@@ -25,7 +25,7 @@ public class FloatBytesConverter implements TypeBytesConverter<Float>
     public Float fromBE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        int value = BinariesRenew.Int.fromBE(buffer);
+        int value = Binaries.Int.fromBE(buffer);
         return Float.intBitsToFloat(value);
     }
 
@@ -34,7 +34,7 @@ public class FloatBytesConverter implements TypeBytesConverter<Float>
     {
         checkBuffer(buffer, offset);
         var intValue = Float.floatToIntBits(value);
-        return BinariesRenew.Int.toBE(intValue, buffer, offset);
+        return Binaries.Int.toBE(intValue, buffer, offset);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class FloatBytesConverter implements TypeBytesConverter<Float>
     {
         checkBuffer(buffer, offset);
         var intValue = Float.floatToIntBits(value);
-        return BinariesRenew.Int.toLE(intValue, buffer, offset);
+        return Binaries.Int.toLE(intValue, buffer, offset);
     }
 }

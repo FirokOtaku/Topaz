@@ -1,6 +1,6 @@
 package firok.topaz.test;
 
-import firok.topaz.general.BinariesRenew;
+import firok.topaz.general.Binaries;
 import firok.topaz.general.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,9 +16,9 @@ public class BinariesTests
 		for(int step = 0; step < ints.length; step++)
 			bytes[step] = (byte) ints[step];
 
-		var buffer = BinariesRenew.toHexByte(hex);
+		var buffer = Binaries.toHexByte(hex);
 		Assertions.assertArrayEquals(bytes, buffer);
-		var hex2 = BinariesRenew.toHexString(bytes);
+		var hex2 = Binaries.toHexString(bytes);
 		Assertions.assertEquals(hex, hex2);
 	}
 	@Test
@@ -64,10 +64,10 @@ public class BinariesTests
         testBytesConvert(
                 value,
                 buffer,
-                BinariesRenew.Long::toLE,
-                BinariesRenew.Long::fromLE,
-                BinariesRenew.Long::toBE,
-                BinariesRenew.Long::fromBE
+                Binaries.Long::toLE,
+                Binaries.Long::fromLE,
+                Binaries.Long::toBE,
+                Binaries.Long::fromBE
         );
     }
     private void testIntBytesConvert(int value, byte[] buffer)
@@ -75,10 +75,10 @@ public class BinariesTests
         testBytesConvert(
                 value,
                 buffer,
-                BinariesRenew.Int::toLE,
-                BinariesRenew.Int::fromLE,
-                BinariesRenew.Int::toBE,
-                BinariesRenew.Int::fromBE
+                Binaries.Int::toLE,
+                Binaries.Int::fromLE,
+                Binaries.Int::toBE,
+                Binaries.Int::fromBE
         );
     }
     private void testShortBytesConvert(short value, byte[] buffer)
@@ -86,32 +86,32 @@ public class BinariesTests
         testBytesConvert(
                 value,
                 buffer,
-                BinariesRenew.Short::toLE,
-                BinariesRenew.Short::fromLE,
-                BinariesRenew.Short::toBE,
-                BinariesRenew.Short::fromBE
+                Binaries.Short::toLE,
+                Binaries.Short::fromLE,
+                Binaries.Short::toBE,
+                Binaries.Short::fromBE
         );
     }
     private void testFloatBytesConvert(float value, int intBits)
     {
         testBytesConvert(
                 value,
-                BinariesRenew.Int.toBE(intBits),
-                BinariesRenew.Float::toLE,
-                BinariesRenew.Float::fromLE,
-                BinariesRenew.Float::toBE,
-                BinariesRenew.Float::fromBE
+                Binaries.Int.toBE(intBits),
+                Binaries.Float::toLE,
+                Binaries.Float::fromLE,
+                Binaries.Float::toBE,
+                Binaries.Float::fromBE
         );
     }
     private void testDoubleBytesConvert(double value, long longBits)
     {
         testBytesConvert(
                 value,
-                BinariesRenew.Long.toBE(longBits),
-                BinariesRenew.Double::toLE,
-                BinariesRenew.Double::fromLE,
-                BinariesRenew.Double::toBE,
-                BinariesRenew.Double::fromBE
+                Binaries.Long.toBE(longBits),
+                Binaries.Double::toLE,
+                Binaries.Double::fromLE,
+                Binaries.Double::toBE,
+                Binaries.Double::fromBE
         );
     }
 //    private void testUUIDBytesConvert(UUID uuid)

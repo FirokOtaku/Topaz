@@ -1,6 +1,6 @@
 package firok.topaz.general.converts;
 
-import firok.topaz.general.BinariesRenew;
+import firok.topaz.general.Binaries;
 import org.jetbrains.annotations.NotNull;
 
 public class DoubleBytesConverter implements TypeBytesConverter<Double>
@@ -16,7 +16,7 @@ public class DoubleBytesConverter implements TypeBytesConverter<Double>
     public Double fromLE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        long value = BinariesRenew.Long.fromLE(buffer, offset);
+        long value = Binaries.Long.fromLE(buffer, offset);
         return Double.longBitsToDouble(value);
     }
 
@@ -25,7 +25,7 @@ public class DoubleBytesConverter implements TypeBytesConverter<Double>
     public Double fromBE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        long value = BinariesRenew.Long.fromBE(buffer, offset);
+        long value = Binaries.Long.fromBE(buffer, offset);
         return Double.longBitsToDouble(value);
     }
 
@@ -34,7 +34,7 @@ public class DoubleBytesConverter implements TypeBytesConverter<Double>
     {
         checkBuffer(buffer, offset);
         var longValue = Double.doubleToLongBits(value);
-        return BinariesRenew.Long.toBE(longValue, buffer, offset);
+        return Binaries.Long.toBE(longValue, buffer, offset);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class DoubleBytesConverter implements TypeBytesConverter<Double>
     {
         checkBuffer(buffer, offset);
         var longValue = Double.doubleToLongBits(value);
-        return BinariesRenew.Long.toLE(longValue, buffer, offset);
+        return Binaries.Long.toLE(longValue, buffer, offset);
     }
 }
