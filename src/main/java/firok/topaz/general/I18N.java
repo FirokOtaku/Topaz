@@ -37,12 +37,33 @@ public final class I18N
 		this.classRelated = classRelated;
 	}
 
+    /// 获取语言文件名
+    /// @since 8.0.0
+    public String getRelatedFilename(Locale locale)
+    {
+        return bundle + '-' + locale.toLanguageTag() + ".lang";
+    }
+
+    /// 清空对应语言的缓存
+    /// @since 8.0.0
+    public void clearCache(Locale locale)
+    {
+        mapCache.remove(getRelatedFilename(locale));
+    }
+
+    /// 清空所有语言的缓存
+    /// @since 8.0.0
+    public void clearAllCache()
+    {
+        mapCache.clear();
+    }
+
 	@Nullable
 	private String localizeInternal(Locale[] locales, String key, Object... params)
 	{
 		for(var locale : locales)
 		{
-			var filename = bundle + '-' + locale.toLanguageTag() + ".lang";
+			var filename = getRelatedFilename(locale);
 
 			var properties = mapCache.computeIfAbsent(filename, fn -> {
 				try(var from = classRelated.getResourceAsStream(filename);

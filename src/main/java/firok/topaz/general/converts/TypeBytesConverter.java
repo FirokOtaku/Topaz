@@ -15,7 +15,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/// 对于各个类型跟二进制数组之间的转换
+/// 对于各个 **定长** 类型跟二进制数组之间的转换.
+///
+/// 这个类可以用于实现数据容量固定的数据类型 (比如 [Integer], [Long], [Float] 等) 与二进制数据之间的转换和操作,
+/// 不能用于处理变长数据容量的数据类型 (比如 [String], [java.math.BigInteger], [java.math.BigDecimal] 等).
 ///
 /// @author Firok
 /// @since 8.0.0

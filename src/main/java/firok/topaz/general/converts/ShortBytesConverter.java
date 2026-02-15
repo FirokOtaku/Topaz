@@ -22,7 +22,7 @@ public class ShortBytesConverter implements TypeBytesConverter<Short>
     public @NotNull Short fromBE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        return (short) (buffer[1] | buffer[0] << 8);
+        return (short) (buffer[1 + offset] | buffer[0 + offset] << 8);
     }
 
     @Override

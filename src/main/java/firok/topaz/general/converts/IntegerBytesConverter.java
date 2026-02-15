@@ -15,20 +15,20 @@ public class IntegerBytesConverter implements TypeBytesConverter<Integer>
     public @NotNull Integer fromLE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        return ( (int) ( buffer[0] & 0xFF) ) << 0  |
-               ( (int) ( buffer[1] & 0xFF) ) << 8  |
-               ( (int) ( buffer[2] & 0xFF) ) << 16 |
-               ( (int) ( buffer[3] & 0xFF) ) << 24 ;
+        return ( (int) ( buffer[offset + 0] & 0xFF) ) << 0  |
+               ( (int) ( buffer[offset + 1] & 0xFF) ) << 8  |
+               ( (int) ( buffer[offset + 2] & 0xFF) ) << 16 |
+               ( (int) ( buffer[offset + 3] & 0xFF) ) << 24 ;
     }
 
     @Override
     public @NotNull Integer fromBE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        return ( (int) ( buffer[3] & 0xFF) ) << 0  |
-               ( (int) ( buffer[2] & 0xFF) ) << 8  |
-               ( (int) ( buffer[1] & 0xFF) ) << 16 |
-               ( (int) ( buffer[0] & 0xFF) ) << 24 ;
+        return ( (int) ( buffer[offset + 3] & 0xFF) ) << 0  |
+               ( (int) ( buffer[offset + 2] & 0xFF) ) << 8  |
+               ( (int) ( buffer[offset + 1] & 0xFF) ) << 16 |
+               ( (int) ( buffer[offset + 0] & 0xFF) ) << 24 ;
     }
 
     @Override

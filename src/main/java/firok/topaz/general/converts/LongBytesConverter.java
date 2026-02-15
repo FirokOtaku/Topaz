@@ -15,28 +15,28 @@ public class LongBytesConverter implements TypeBytesConverter<Long>
     public @NotNull Long fromLE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        return ( (long) ( buffer[0] & 0xFF) ) << 0  |
-               ( (long) ( buffer[1] & 0xFF) ) << 8  |
-               ( (long) ( buffer[2] & 0xFF) ) << 16 |
-               ( (long) ( buffer[3] & 0xFF) ) << 24 |
-               ( (long) ( buffer[4] & 0xFF) ) << 32 |
-               ( (long) ( buffer[5] & 0xFF) ) << 40 |
-               ( (long) ( buffer[6] & 0xFF) ) << 48 |
-               ( (long) ( buffer[7] & 0xFF) ) << 56 ;
+        return ( (long) ( buffer[offset + 0] & 0xFF) ) << 0  |
+               ( (long) ( buffer[offset + 1] & 0xFF) ) << 8  |
+               ( (long) ( buffer[offset + 2] & 0xFF) ) << 16 |
+               ( (long) ( buffer[offset + 3] & 0xFF) ) << 24 |
+               ( (long) ( buffer[offset + 4] & 0xFF) ) << 32 |
+               ( (long) ( buffer[offset + 5] & 0xFF) ) << 40 |
+               ( (long) ( buffer[offset + 6] & 0xFF) ) << 48 |
+               ( (long) ( buffer[offset + 7] & 0xFF) ) << 56 ;
     }
 
     @Override
     public @NotNull Long fromBE(byte[] buffer, int offset)
     {
         checkBuffer(buffer, offset);
-        return ( (long) ( buffer[7] & 0xFF) ) << 0  |
-               ( (long) ( buffer[6] & 0xFF) ) << 8  |
-               ( (long) ( buffer[5] & 0xFF) ) << 16 |
-               ( (long) ( buffer[4] & 0xFF) ) << 24 |
-               ( (long) ( buffer[3] & 0xFF) ) << 32 |
-               ( (long) ( buffer[2] & 0xFF) ) << 40 |
-               ( (long) ( buffer[1] & 0xFF) ) << 48 |
-               ( (long) ( buffer[0] & 0xFF) ) << 56 ;
+        return ( (long) ( buffer[offset + 7] & 0xFF) ) << 0  |
+               ( (long) ( buffer[offset + 6] & 0xFF) ) << 8  |
+               ( (long) ( buffer[offset + 5] & 0xFF) ) << 16 |
+               ( (long) ( buffer[offset + 4] & 0xFF) ) << 24 |
+               ( (long) ( buffer[offset + 3] & 0xFF) ) << 32 |
+               ( (long) ( buffer[offset + 2] & 0xFF) ) << 40 |
+               ( (long) ( buffer[offset + 1] & 0xFF) ) << 48 |
+               ( (long) ( buffer[offset + 0] & 0xFF) ) << 56 ;
     }
 
     @Override
