@@ -10,6 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 一些 Windows 用的代码
+ *
+ * @author Firok
+ * @version 8.0.0
  * */
 public class OnWindows
 {
@@ -85,6 +88,7 @@ public class OnWindows
             try(var ofs = new FileWriter(FileTempConvertScript, StandardCharsets.UTF_8))
             {
                 ofs.write(ScriptConvertBatToExe);
+                ofs.flush();
             }
             PathTempConvertScript = FileTempConvertScript.getCanonicalPath();
         }
@@ -112,8 +116,7 @@ public class OnWindows
                     PathTempConvertScript,
                     fileBat.getCanonicalPath(),
             };
-            var envs = new String[] {};
-            process = Runtime.getRuntime().exec(params, envs, dir);
+            process = new ProcessBuilder(params).directory(dir).start();
             return process.waitFor();
         }
         catch (IOException | InterruptedException any)
