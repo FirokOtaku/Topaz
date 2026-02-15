@@ -2,6 +2,7 @@ package firok.topaz.general.converts;
 
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings({"PointlessBitwiseExpression", "PointlessArithmeticExpression"})
 public class LongBytesConverter implements TypeBytesConverter<Long>
 {
     @Override
@@ -11,9 +12,9 @@ public class LongBytesConverter implements TypeBytesConverter<Long>
     }
 
     @Override
-    public @NotNull Long fromLE(byte[] buffer)
+    public @NotNull Long fromLE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
+        checkBuffer(buffer, offset);
         return ( (long) ( buffer[0] & 0xFF) ) << 0  |
                ( (long) ( buffer[1] & 0xFF) ) << 8  |
                ( (long) ( buffer[2] & 0xFF) ) << 16 |
@@ -25,9 +26,9 @@ public class LongBytesConverter implements TypeBytesConverter<Long>
     }
 
     @Override
-    public @NotNull Long fromBE(byte[] buffer)
+    public @NotNull Long fromBE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
+        checkBuffer(buffer, offset);
         return ( (long) ( buffer[7] & 0xFF) ) << 0  |
                ( (long) ( buffer[6] & 0xFF) ) << 8  |
                ( (long) ( buffer[5] & 0xFF) ) << 16 |
@@ -39,32 +40,32 @@ public class LongBytesConverter implements TypeBytesConverter<Long>
     }
 
     @Override
-    public byte[] toBE(@NotNull Long value)
+    public byte[] toBE(@NotNull Long value, byte[] buffer, int offset)
     {
-        return new byte[] {
-                (byte) (value >> 56 & 0xFF),
-                (byte) (value >> 48 & 0xFF),
-                (byte) (value >> 40 & 0xFF),
-                (byte) (value >> 32 & 0xFF),
-                (byte) (value >> 24 & 0xFF),
-                (byte) (value >> 16 & 0xFF),
-                (byte) (value >> 8 & 0xFF),
-                (byte) (value & 0xFF)
-        };
+        checkBuffer(buffer, offset);
+        buffer[offset + 0] = (byte) (value >> 56 & 0xFF);
+        buffer[offset + 1] = (byte) (value >> 48 & 0xFF);
+        buffer[offset + 2] = (byte) (value >> 40 & 0xFF);
+        buffer[offset + 3] = (byte) (value >> 32 & 0xFF);
+        buffer[offset + 4] = (byte) (value >> 24 & 0xFF);
+        buffer[offset + 5] = (byte) (value >> 16 & 0xFF);
+        buffer[offset + 6] = (byte) (value >> 8 & 0xFF);
+        buffer[offset + 7] = (byte) (value >> 0 & 0xFF);
+        return buffer;
     }
 
     @Override
-    public byte[] toLE(@NotNull Long value)
+    public byte[] toLE(@NotNull Long value, byte[] buffer, int offset)
     {
-        return new byte[] {
-                (byte) (value & 0xFF),
-                (byte) (value >> 8 & 0xFF),
-                (byte) (value >> 16 & 0xFF),
-                (byte) (value >> 24 & 0xFF),
-                (byte) (value >> 32 & 0xFF),
-                (byte) (value >> 40 & 0xFF),
-                (byte) (value >> 48 & 0xFF),
-                (byte) (value >> 56 & 0xFF)
-        };
+        checkBuffer(buffer, offset);
+        buffer[offset + 0] = (byte) (value >> 0 & 0xFF);
+        buffer[offset + 1] = (byte) (value >> 8 & 0xFF);
+        buffer[offset + 2] = (byte) (value >> 16 & 0xFF);
+        buffer[offset + 3] = (byte) (value >> 24 & 0xFF);
+        buffer[offset + 4] = (byte) (value >> 32 & 0xFF);
+        buffer[offset + 5] = (byte) (value >> 40 & 0xFF);
+        buffer[offset + 6] = (byte) (value >> 48 & 0xFF);
+        buffer[offset + 7] = (byte) (value >> 56 & 0xFF);
+        return buffer;
     }
 }

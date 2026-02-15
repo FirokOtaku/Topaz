@@ -29,8 +29,9 @@
   * **Java 支持版本从 Java 21 更新至 Java 25**
     * 新增或重做的类和接口的注释开始采用 Markdown 语法
   * **重做二进制计算工具类 `Binaries`**
-    * 修复已知的高低字节序转换错误问题
     * 重新组织各种类型跟二进制数据之间的转换方法
+    * 修复已知的高低字节序转换错误问题
+    * 移除部分接口
   * **重做 `CodeException` 和配套工具**
     * 现在需要从 `CodeExceptionThrower` 抛出 `CodeException`. 不再允许自行实例化 `CodeException`
     * 现在异常的详细信息被包含在 `CodeExceptionContext` 中

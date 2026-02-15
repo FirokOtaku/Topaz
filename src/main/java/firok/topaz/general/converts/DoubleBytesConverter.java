@@ -13,33 +13,35 @@ public class DoubleBytesConverter implements TypeBytesConverter<Double>
 
     @Override
     @NotNull
-    public Double fromLE(byte[] buffer)
+    public Double fromLE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
-        long value = BinariesRenew.Long.fromLE(buffer);
+        checkBuffer(buffer, offset);
+        long value = BinariesRenew.Long.fromLE(buffer, offset);
         return Double.longBitsToDouble(value);
     }
 
     @Override
     @NotNull
-    public Double fromBE(byte[] buffer)
+    public Double fromBE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
-        long value = BinariesRenew.Long.fromBE(buffer);
+        checkBuffer(buffer, offset);
+        long value = BinariesRenew.Long.fromBE(buffer, offset);
         return Double.longBitsToDouble(value);
     }
 
     @Override
-    public byte[] toBE(@NotNull Double value)
+    public byte[] toBE(@NotNull Double value, byte[] buffer, int offset)
     {
-        var intValue = Double.doubleToLongBits(value);
-        return BinariesRenew.Long.toBE(intValue);
+        checkBuffer(buffer, offset);
+        var longValue = Double.doubleToLongBits(value);
+        return BinariesRenew.Long.toBE(longValue, buffer, offset);
     }
 
     @Override
-    public byte[] toLE(@NotNull Double value)
+    public byte[] toLE(@NotNull Double value, byte[] buffer, int offset)
     {
-        var intValue = Double.doubleToLongBits(value);
-        return BinariesRenew.Long.toLE(intValue);
+        checkBuffer(buffer, offset);
+        var longValue = Double.doubleToLongBits(value);
+        return BinariesRenew.Long.toLE(longValue, buffer, offset);
     }
 }

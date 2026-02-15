@@ -13,33 +13,35 @@ public class FloatBytesConverter implements TypeBytesConverter<Float>
 
     @Override
     @NotNull
-    public Float fromLE(byte[] buffer)
+    public Float fromLE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
+        checkBuffer(buffer, offset);
         int value = BinariesRenew.Int.fromLE(buffer);
         return Float.intBitsToFloat(value);
     }
 
     @Override
     @NotNull
-    public Float fromBE(byte[] buffer)
+    public Float fromBE(byte[] buffer, int offset)
     {
-        checkBuffer(buffer);
+        checkBuffer(buffer, offset);
         int value = BinariesRenew.Int.fromBE(buffer);
         return Float.intBitsToFloat(value);
     }
 
     @Override
-    public byte[] toBE(@NotNull Float value)
+    public byte[] toBE(@NotNull Float value, byte[] buffer, int offset)
     {
+        checkBuffer(buffer, offset);
         var intValue = Float.floatToIntBits(value);
-        return BinariesRenew.Int.toBE(intValue);
+        return BinariesRenew.Int.toBE(intValue, buffer, offset);
     }
 
     @Override
-    public byte[] toLE(@NotNull Float value)
+    public byte[] toLE(@NotNull Float value, byte[] buffer, int offset)
     {
+        checkBuffer(buffer, offset);
         var intValue = Float.floatToIntBits(value);
-        return BinariesRenew.Int.toLE(intValue);
+        return BinariesRenew.Int.toLE(intValue, buffer, offset);
     }
 }

@@ -5,13 +5,12 @@ import firok.topaz.general.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
 import java.util.function.Function;
 
 public class BinariesTests
 {
 
-	void testHexOne(String hex, int[] ints)
+	void testHexStringConvertOne(String hex, int[] ints)
 	{
 		var bytes = new byte[ints.length];
 		for(int step = 0; step < ints.length; step++)
@@ -19,36 +18,22 @@ public class BinariesTests
 
 		var buffer = BinariesRenew.toHexByte(hex);
 		Assertions.assertArrayEquals(bytes, buffer);
-		var hex2 = BinariesRenew.toHexString(buffer);
+		var hex2 = BinariesRenew.toHexString(bytes);
 		Assertions.assertEquals(hex, hex2);
 	}
 	@Test
-	void testHexConvert()
+	void testHexStringConvert()
 	{
-		testHexOne("01", new int[] { 0x01 });
-		testHexOne("AA", new int[] { 0xAA });
-		testHexOne("AF", new int[] { 0xAF });
-		testHexOne("A452", new int[] { 0xA4, 0x52 });
-		testHexOne("A45254", new int[] { 0xA4, 0x52, 0x54 });
-	}
-
-    private void testDirectConvertOne(String directString, byte[] bytes)
-    {
-        var bufferFromString = BinariesRenew.toDirectByte(directString);
-        Assertions.assertArrayEquals(bytes, bufferFromString);
-
-        var stringFromBuffer = BinariesRenew.toDirectString(bufferFromString);
-        Assertions.assertEquals(directString, stringFromBuffer);
-    }
-
-	@Test
-	void testDirectConvert()
-	{
-        testDirectConvertOne("20201223", new byte[] { 0x20, 0x20, 0x12, 0x23 });
-		testDirectConvertOne("2008", new byte[] { 0x20, 0x08});
-
-        testDirectConvertOne("20AA", new byte[] { 0x20, (byte) 0xAA });
-
+		testHexStringConvertOne("01", new int[] { 0x01 });
+		testHexStringConvertOne("AA", new int[] { 0xAA });
+		testHexStringConvertOne("AF", new int[] { 0xAF });
+		testHexStringConvertOne("A452", new int[] { 0xA4, 0x52 });
+		testHexStringConvertOne("A45254", new int[] { 0xA4, 0x52, 0x54 });
+        testHexStringConvertOne("0102AB", new int[] { 0x01, 0x02, 0xAB });
+        testHexStringConvertOne("002233", new int[] { 0x00, 0x22, 0x33 });
+        testHexStringConvertOne("00000000", new int[] { 0x00, 0x00, 0x00, 0x00 });
+        testHexStringConvertOne("01020304", new int[] { 0x01, 0x02, 0x03, 0x04 });
+        testHexStringConvertOne("00", new int[] { 0x00 });
 	}
 
 	private <TypeNumber extends Number> void testBytesConvert(
