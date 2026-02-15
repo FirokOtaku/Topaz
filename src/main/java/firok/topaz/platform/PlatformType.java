@@ -11,7 +11,7 @@ import static firok.topaz.platform.PlatformType.*;
  */
 public abstract sealed class PlatformType permits Unknown, Windows, Linux, MacOS
 {
-	String OS_NAME = System.getProperty("os.name").toLowerCase();
+	final String OS_NAME = System.getProperty("os.name").toLowerCase();
 
 	private final boolean isCurrent;
 	protected PlatformType()
@@ -75,8 +75,7 @@ public abstract sealed class PlatformType permits Unknown, Windows, Linux, MacOS
 		@Override
 		protected boolean equalsCurrent()
 		{
-			// fixme low 有心情再说
-			return false;
+			return OS_NAME.contains("linux"); // OS_NAME.contains("nix") || OS_NAME.contains("nux");
 		}
 
 		@Override

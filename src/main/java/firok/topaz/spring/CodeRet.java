@@ -3,28 +3,27 @@ package firok.topaz.spring;
 import firok.topaz.function.MayRunnable;
 import firok.topaz.function.MaySupplier;
 import firok.topaz.general.CodeException;
+import firok.topaz.general.CodeExceptionContext;
 import firok.topaz.internal.SerializableInfo;
 import lombok.Data;
 
 import java.io.Serial;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * 支持状态码的返回体
- * @see Ret<TypeData>
- * @see CodeException
- * @implNote 静态方法的 {@link #code} 参数都是值类型 int, 用来提醒调用者不要忘记状态码.
- *           默认状态下的静态接口可能不符合你系统的运行逻辑, 比如你可能会想要自己实现一套静态接口, 用来提供默认状态码等.
- * @since 7.20.0
- * @author Firok
- * */
+/// 支持状态码的返回体
+/// @see Ret<TypeData>
+/// @see CodeException
+/// @implNote 静态方法的 {@link #code} 参数都是值类型 int, 用来提醒调用者不要忘记状态码.
+///           默认状态下的静态接口可能不符合你系统的运行逻辑, 比如你可能会想要自己实现一套静态接口, 用来提供默认状态码等.
+/// @since 7.20.0
+/// @version 8.0.0
+/// @author Firok
 @Data
 @SuppressWarnings("unused")
 public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializable
 {
-    @SuppressWarnings("PointlessArithmeticExpression")
     @Serial
-    private static final long serialVersionUID = SerializableInfo.SIDBase + 20000 + 0;
+    private static final long serialVersionUID = SerializableInfo.SIDBase + 20000 + 1;
 
     /**
      * 请求状态码
@@ -59,21 +58,13 @@ public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializ
         return fail(null, code);
     }
 
-    /**
-     * @apiNote 这个接口出来的 {@link CodeRet} 对象里的 {@link #code} 可能为 null
-     * */
-    public static <TypeData> CodeRet<TypeData> fail(Exception e)
-    {
-        var msg = e != null ? e.getLocalizedMessage() : null;
-        var code = e instanceof CodeException ce ? ce.context.code() : null;
-        var ret = new CodeRet<TypeData>();
-        // fixme high 重做这个类
-//        ret.success = false;
-//        ret.msg = msg;
-//        ret.code = code;
-        return ret;
-    }
-
+    /// 执行相关函数, 将执行结果封装为 [CodeRet].
+    ///
+    /// 如果函数抛出的是一个 [CodeException],
+    /// 则返回 [CodeRet] 的状态码为 [CodeException] 定义的错误码,
+    /// 忽略 codeFail 参数
+    ///
+    /// @since 8.0.0
     public static <TypeData> CodeRet<TypeData> now(MaySupplier<TypeData> function, int codeSuccess, int codeFail)
     {
         try
@@ -85,13 +76,22 @@ public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializ
             ret.code = codeSuccess;
             return ret;
         }
+        catch (CodeException ce)
+        {
+            return CodeRet.fail(ce.context.message(), ce.context.code().getExceptionCode());
+        }
         catch (Exception e)
         {
-            var ret = CodeRet.<TypeData>fail(e);
-            if(ret.code == null) ret.code = codeFail;
-            return ret;
+            return CodeRet.fail(e.getMessage(), codeFail);
         }
     }
+    /// 执行相关函数, 将执行结果封装为 [CodeRet].
+    ///
+    /// 如果函数抛出的是一个 [CodeException],
+    /// 则返回 [CodeRet] 的状态码为 [CodeException] 定义的错误码,
+    /// 忽略 codeFail 参数
+    ///
+    /// @since 8.0.0
     public static <TypeData> CodeRet<TypeData> now(MayRunnable function, int codeSuccess, int codeFail)
     {
         try
@@ -102,11 +102,13 @@ public class CodeRet<TypeData> extends Ret<TypeData> implements java.io.Serializ
             ret.code = codeSuccess;
             return ret;
         }
+        catch (CodeException ce)
+        {
+            return CodeRet.fail(ce.context.message(), ce.context.code().getExceptionCode());
+        }
         catch (Exception e)
         {
-            var ret = CodeRet.<TypeData>fail(e);
-            if(ret.code == null) ret.code = codeFail;
-            return ret;
+            return CodeRet.fail(e.getMessage(), codeFail);
         }
     }
 

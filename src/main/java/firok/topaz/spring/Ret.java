@@ -9,26 +9,23 @@ import java.io.Serial;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * 这玩意给 Spring 项目用来包装返回数据格式用的
- *
- * <code>
- *     return Ret.success();
- * </code>
- *
- * @param <TypeData> 数据类型
- * @since 2.2.0
- * @version 8.0.0
- * @author Firok
- * @implNote 你用着顺手不顺手不重要 我用着顺手
- */
+/// 这玩意给 Spring 项目用来包装返回数据格式用的
+///
+/// ```java
+/// return Ret.success();
+/// ```
+///
+/// @param <TypeData> 数据类型
+/// @since 2.2.0
+/// @version 8.0.0
+/// @author Firok
+/// @implNote 你用着顺手不顺手不重要 我用着顺手
 @Data
 @SuppressWarnings("unused")
 public class Ret<TypeData> implements java.io.Serializable
 {
-	@SuppressWarnings("PointlessArithmeticExpression")
 	@Serial
-	private static final long serialVersionUID = SerializableInfo.SIDBase + 10000 + 0;
+	private static final long serialVersionUID = SerializableInfo.SIDBase + 10000 + 1;
 
 	/**
 	 * 封装数据

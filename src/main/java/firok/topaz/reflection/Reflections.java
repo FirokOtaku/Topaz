@@ -317,6 +317,45 @@ public final class Reflections
 		}
 	}
 
+    /// 反射执行某个方法, 不抛出异常
+    ///
+    /// @return 返回方法执行结果. 如果方法执行失败则返回 null
+    /// @see Reflections#invokeFrom 不忽略内部异常的版本
+    /// @since 8.0.0
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public static <T> T invokeOf(Method method, Object target, Object... args)
+    {
+        try
+        {
+            return (T) method.invoke(target, args);
+        }
+        catch (Exception any)
+        {
+            return null;
+        }
+    }
+
+    /// 反射执行某个方法, shadow 掉原本 [Method#invoke] 方法的 throws 签名.
+    /// 当方法执行出现异常时将会抛出一个 [RuntimeException]
+    ///
+    /// @return 返回方法执行结果
+    /// @see Reflections#invokeOf 忽略内部异常的版本
+    /// @since 8.0.0
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public static <T> T invokeFrom(Method method, Object target, Object... args)
+    {
+        try
+        {
+            return (T) method.invoke(target, args);
+        }
+        catch (Exception any)
+        {
+            throw new RuntimeException(any); // 直接抛出
+        }
+    }
+
     /// 通过反射创建一个指定对象的克隆对象
     ///
     /// @apiNote 给定的对象类必须重载实现一个可访问的 (权限控制为 public) [#clone] 方法,

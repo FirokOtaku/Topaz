@@ -1,6 +1,8 @@
 package firok.topaz.spring;
 
+import firok.topaz.integration.ebean.Queries;
 import firok.topaz.internal.SerializableInfo;
+import io.ebean.PagedList;
 import lombok.Data;
 import lombok.ToString;
 
@@ -9,20 +11,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 查询分页对象
- * @param <TypeData> 记录数据类型. 需要注意的是, 为了使得 {@link Page} 对象完全可序列化, 该类型也需要是可序列化的
- * @apiNote 页码编号从 0 开始
- * @author Firok
- * @since 7.30.0
- * */
+/// 查询分页数据对象
+/// @param <TypeData> 记录数据类型. 需要注意的是, 为了使得 {@link Page} 对象完全可序列化, 该类型也需要是可序列化的
+/// @apiNote 页码编号从 0 开始
+/// @see Queries#pageOf(PagedList) EBean 相关支持
+/// @author Firok
+/// @since 7.30.0
 @Data
 @ToString
 public class Page<TypeData extends Serializable> implements Serializable
 {
-    @SuppressWarnings("PointlessArithmeticExpression")
     @Serial
-    private static final long serialVersionUID = SerializableInfo.SIDBase + 30000 + 0;
+    private static final long serialVersionUID = SerializableInfo.SIDBase + 30000 + 1;
 
     /**
      * 总页码数
