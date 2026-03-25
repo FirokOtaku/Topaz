@@ -1,15 +1,13 @@
 package firok.topaz.general;
 
+import firok.topaz.annotation.Overload;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 字符串工具类
@@ -134,6 +132,59 @@ public final class Strings
     public static boolean isNotBlank(@Nullable String value)
     {
         return value != null && !value.isBlank();
+    }
+
+    /// 将非空值转换为字符串后取 trim
+    ///
+    /// @since 8.2.0
+    public static @Nullable String trimOf(@Nullable Object value)
+    {
+        return switch (value)
+        {
+            case null -> null;
+            case String str -> str.trim();
+            default -> value.toString().trim(); // 按照 JDK 规范, toString 不应返回 null 值, 所以这里不做相关检查
+        };
+    }
+    /// 将非空值转换为字符串后取 toLowerCase
+    ///
+    /// @since 8.2.0
+    public static @Nullable String lowerCaseOf(@Nullable Object value, @NotNull Locale locale)
+    {
+        return switch (value)
+        {
+            case null -> null;
+            case String str -> str.toLowerCase(locale);
+            default -> value.toString().toLowerCase(locale); // 按照 JDK 规范, toString 不应返回 null 值, 所以这里不做相关检查
+        };
+    }
+    /// 将非空值转换为字符串后取 toLowerCase
+    ///
+    /// @since 8.2.0
+    @Overload
+    public static @Nullable String lowerCaseOf(@Nullable Object value)
+    {
+        return lowerCaseOf(value, Locale.getDefault());
+    }
+    /// 将非空值转换为字符串后取 toUpperCase
+    ///
+    /// @since 8.2.0
+    public static @Nullable String upperCaseOf(@Nullable Object value, @NotNull Locale locale)
+    {
+        return switch (value)
+        {
+            case null -> null;
+            case String str -> str.toUpperCase(locale);
+            default -> value.toString().toUpperCase(locale); // 按照 JDK 规范, toString 不应返回 null 值, 所以这里不做相关检查
+        };
+    }
+    /// 将非空值转换为字符串后取 toUpperCase
+    ///
+    /// @since 8.2.0
+    @Overload
+    public static @Nullable String upperCaseOf(@Nullable Object value)
+    {
+        return upperCaseOf(value, Locale.getDefault());
     }
 
     /**
